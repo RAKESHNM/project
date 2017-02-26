@@ -1,6 +1,9 @@
 package com.razorthink.application.utils;
-import com.razorthink.application.beans.Project;
+import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -46,4 +49,26 @@ public class ApplicationStateUtils {
         return null;
     }
 
+    public ProjectSummary projectSummary(String filePath) throws IOException, XmlPullParserException {
+        if (filePath != null) {
+            MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
+            Model model = mavenXpp3Reader.read(new FileInputStream(filePath));
+            ProjectInformation projectInformation = new ProjectInformation();
+            ProjectOrganization projectOrganization = new ProjectOrganization();
+            BuildInformation buildInformation = new BuildInformation();
+            projectInformation.setName(model.getName());
+            projectInformation.setDescription(model.getDescription());
+            projectOrganization.setUrl(model.getUrl());
+            buildInformation.setArtifactId(model.getArtifactId());
+            buildInformation.setGroupId(model.getGroupId());
+            buildInformation.setVersion(model.getVersion());
+            buildInformation.setModelVersion(model.getModelVersion());
+            ProjectSummary projectSummary = new ProjectSummary();
+            projectSummary.setBuildInformation(buildInformation);
+            projectSummary.setProjectInformation(projectInformation);
+            projectSummary.setProjectOrganization(projectOrganization);
+            return projectSummary;
+        }
+        return null;
+    }
 }
