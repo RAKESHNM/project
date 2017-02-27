@@ -7,6 +7,11 @@ public class ProjectOrganization {
     private String name;
     private String url;
 
+    public ProjectOrganization(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
     public String getName() {
         return name;
     }

@@ -9,6 +9,13 @@ public class BuildInformation {
     private String version;
     private String modelVersion;
 
+    public BuildInformation(String groupId, String artifactId, String version, String modelVersion) {
+        this.groupId = groupId;
+        this.artifactId = artifactId;
+        this.version = version;
+        this.modelVersion = modelVersion;
+    }
+
     public String getGroupId() {
         return groupId;
     }
