@@ -1,5 +1,4 @@
 package com.razorthink.application.utils;
-
 import com.razorthink.application.beans.Project;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.Before;
@@ -30,13 +29,13 @@ public class ApplicationStateUtilsTest {
     project.setGitUrl("/github.com/");
   }
 
-    @Test(expected = NullProjectException.class)
+    @Test(expected = Exception.class)
     public void storeProjectsForNullProectTest() throws Exception {
         applicationStateUtils.storeProject(null);
     }
 
     @Test
-  public void storeProjectForValidProjectTest() throws FileNotFoundException, NullProjectException {
+  public void storeProjectForValidProjectTest() throws FileNotFoundException {
        applicationStateUtils.storeProject(project);
     }
 
