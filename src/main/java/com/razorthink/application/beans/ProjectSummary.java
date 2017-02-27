@@ -12,6 +12,12 @@ public class ProjectSummary {
     private ProjectOrganization projectOrganization;
     private BuildInformation buildInformation;
 
+    public ProjectSummary(ProjectInformation projectInformation, ProjectOrganization projectOrganization, BuildInformation buildInformation) {
+        this.projectInformation = projectInformation;
+        this.projectOrganization = projectOrganization;
+        this.buildInformation = buildInformation;
+    }
+
     public ProjectInformation getProjectInformation() {
         return projectInformation;
     }
