@@ -4,6 +4,7 @@
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/utils/MethodPrinter.java
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/controllers/ProjectAnalyserController.java
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/utils/ApplicationStateUtils.java
+/home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/controllers/GitHubCkeckoutController.java
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/beans/BuildInformation.java
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/beans/ProjectInformation.java
 /home/rakesh/IdeaProjects/project/src/main/java/com/razorthink/application/controllers/sample.java

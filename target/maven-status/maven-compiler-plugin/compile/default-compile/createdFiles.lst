@@ -1,3 +1,4 @@
+com/razorthink/application/controllers/GitHubCkeckoutController.class
 com/razorthink/application/beans/Project.class
 com/razorthink/application/beans/ProjectSummary.class
 com/razorthink/application/utils/ApplicationStateUtils.class

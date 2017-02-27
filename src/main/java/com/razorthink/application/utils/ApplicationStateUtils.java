@@ -1,6 +1,7 @@
 package com.razorthink.application.utils;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.service.GithubOperations;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -23,7 +24,7 @@ public class ApplicationStateUtils {
     List<Project> availableProjects = new ArrayList<>();
 
     public void storeProject(Project project) throws FileNotFoundException {
-        if(project == null)
+        if(project != null)
         {
         if(!availableProjects.contains(project)) {
             availableProjects.add(project);
@@ -64,5 +65,11 @@ public class ApplicationStateUtils {
             ,buildInformation);
         }
         return null;
+    }
+    public List<String> listAllFiles() throws Exception {
+        List<String> fileList = new ArrayList<>();
+
+        fileList = new GithubOperations().gitListingFiles(Constants.LOCAL_DIRECTORY_PATH);
+        return fileList;
     }
 }
