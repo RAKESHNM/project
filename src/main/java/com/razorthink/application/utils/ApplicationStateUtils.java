@@ -5,7 +5,6 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import java.io.*;
 import java.io.FileNotFoundException;
@@ -24,15 +23,19 @@ public class ApplicationStateUtils {
     List<Project> availableProjects = new ArrayList<>();
 
     public void storeProject(Project project) throws FileNotFoundException {
-        System.out.println(env.getProperty(Constants.LOCAL_DIRECTORY_PATH));
-        availableProjects.add(project);
-        try {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(availableProjects);
-            }
+        if(project == null)
+        {
+        if(!availableProjects.contains(project)) {
+            availableProjects.add(project);
+            try {
+                try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(availableProjects);
+                }
 
-        } catch (Exception e) {
+            } catch (Exception e) {
+            }
+        }
         }
     }
 
@@ -53,21 +56,12 @@ public class ApplicationStateUtils {
         if (filePath != null) {
             MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
             Model model = mavenXpp3Reader.read(new FileInputStream(filePath));
-            ProjectInformation projectInformation = new ProjectInformation();
-            ProjectOrganization projectOrganization = new ProjectOrganization();
-            BuildInformation buildInformation = new BuildInformation();
-            projectInformation.setName(model.getName());
-            projectInformation.setDescription(model.getDescription());
-            projectOrganization.setUrl(model.getUrl());
-            buildInformation.setArtifactId(model.getArtifactId());
-            buildInformation.setGroupId(model.getGroupId());
-            buildInformation.setVersion(model.getVersion());
-            buildInformation.setModelVersion(model.getModelVersion());
-            ProjectSummary projectSummary = new ProjectSummary();
-            projectSummary.setBuildInformation(buildInformation);
-            projectSummary.setProjectInformation(projectInformation);
-            projectSummary.setProjectOrganization(projectOrganization);
-            return projectSummary;
+            ProjectInformation projectInformation = new ProjectInformation(model.getName(),model.getDescription());
+            ProjectOrganization projectOrganization = new ProjectOrganization(model.getName(),model.getUrl());
+            BuildInformation buildInformation = new BuildInformation(model.getGroupId(),model.getArtifactId(),
+                    model.getVersion(),model.getModelVersion());
+            return  new ProjectSummary(projectInformation,projectOrganization
+            ,buildInformation);
         }
         return null;
     }
