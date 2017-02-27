@@ -1,6 +1,7 @@
 package com.razorthink.application.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by rakesh on 25/2/17.
@@ -10,6 +11,26 @@ public class Project implements Serializable{
     private String username;
     private String password;
     private String localDirectory;
+    private String branch;
+    private String remoteRepo;
+
+    public String getBranch() {
+        return branch;
+    }
+
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getRemoteRepo() {
+        return remoteRepo;
+    }
+
+    public void setRemoteRepo(String remoteRepo) {
+        this.remoteRepo = remoteRepo;
+    }
+
     private String status;
 
     public String getStatus() {

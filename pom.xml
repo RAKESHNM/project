@@ -81,11 +81,40 @@
             <artifactId>javaparser</artifactId>
             <version>1.0.9</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.84</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.59</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.mylyn.github/org.eclipse.egit.github.core -->
+        <!-- https://mvnrepository.com/artifact/org.eclipse.mylyn.github/org.eclipse.egit.github.core -->
+        <dependency>
+            <groupId>org.eclipse.mylyn.github</groupId>
+            <artifactId>org.eclipse.egit.github.core</artifactId>
+            <version>2.1.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>3.7.0.201502260915-r</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>jgit-repository</id>
+            <url>https://repo.eclipse.org/content/groups/releases/</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -98,10 +127,21 @@
     <profile>
         <id>rakesh</id>
         <activation>
-            <activeByDefault>true</activeByDefault>
+            <activeByDefault>false</activeByDefault>
         </activation>
         <properties>
             <build.profile.id>rakesh</build.profile.id>
+            <unit-tests.skip>true</unit-tests.skip>
+            <integration-tests.skip>true</integration-tests.skip>
+        </properties>
+    </profile>
+    <profile>
+        <id>Anto</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <build.profile.id>Anto</build.profile.id>
             <unit-tests.skip>true</unit-tests.skip>
             <integration-tests.skip>true</integration-tests.skip>
         </properties>
