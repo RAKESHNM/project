@@ -1,17 +1,21 @@
-package com.razorthink.application.utils;
+package com.razorthink.application.management;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by rakesh on 27/2/17.
+ * Created by rakesh on 28/2/17.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest()
+@PrepareForTest(MethodLinePrinter.class)
 public class MethodLinePrinterTest {
 
     @InjectMocks
@@ -19,11 +23,14 @@ public class MethodLinePrinterTest {
 
     private int lines;
     private String filePath ;
+    List<String> list;
 
     @Before
     public void setUp(){
-    lines = 2;
-    filePath = "home/rakesh/Project.java";
+        list = new ArrayList<>();
+        lines = 2;
+        filePath = "/home/rakesh/Project.java";
+        list.add(filePath);
     }
 
     /**
@@ -40,7 +47,7 @@ public class MethodLinePrinterTest {
      */
     @Test
     public void noOfLinesInAMethodForValidFilePathTest() throws Exception {
-        methodLinePrinter.noOfLinesInAMethod(filePath,lines);
+        methodLinePrinter.noOfLinesInAMethod(list,2);
     }
 
 }

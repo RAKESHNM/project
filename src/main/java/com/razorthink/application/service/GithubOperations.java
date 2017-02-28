@@ -1,5 +1,6 @@
 package com.razorthink.application.service;
 
+import com.razorthink.application.utils.ApplicationStateUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -79,11 +80,11 @@ public class GithubOperations {
         String[] extensions = new String[]{"txt", "jsp", "java","py"};
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for (File file : files) {
-            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
+//            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
             fileList.add(file.getCanonicalPath());
             count++;index++;
         }
-        System.out.println("\nCount :" + count);
+//        System.out.println("\nCount :" + count);
         return fileList;
     }
 

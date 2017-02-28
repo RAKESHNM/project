@@ -1,18 +1,16 @@
-package com.razorthink.application.utils;
-
+package com.razorthink.application.management;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
-
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
-
 /**
- * Created by rakesh on 26/2/17.
+ * Created by rakesh on 27/2/17.
  */
-public class MethodPrinter {
-    public void listAllMethods(List<String> list) throws Exception {
+public class JavaDocCommentsFinder {
+    public void getJavaDocCommentedMethods(List<String> list) throws Exception {
         try {
             for(String filePath : list) {
                 // creates an input stream for the file to be parsed
@@ -36,8 +34,12 @@ public class MethodPrinter {
             /* here you can access the attributes of the method.
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
-            System.out.println(n.getName());
+            if(n.getComment() != null) {
+                System.out.println(n.getComment());
+                System.out.println(n.getName());
+            }
             super.visit(n, arg);
         }
     }
+
 }

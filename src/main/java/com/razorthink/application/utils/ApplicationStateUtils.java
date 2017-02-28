@@ -1,10 +1,6 @@
 package com.razorthink.application.utils;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
-import com.razorthink.application.service.GithubOperations;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import java.io.*;
@@ -23,23 +19,24 @@ public class ApplicationStateUtils {
 
     List<Project> availableProjects = new ArrayList<>();
 
-    public void storeProject(Project project) throws FileNotFoundException {
+    public void storeProject(Project project) throws IOException {
         if(project != null)
         {
-        if(!availableProjects.contains(project)) {
-            availableProjects.add(project);
-            try {
-                try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    objectOutputStream.writeObject(availableProjects);
-                }
+            availableProjects = loadProjects();
+            if(!availableProjects.contains(project)) {
+                availableProjects.add(project);
+                try {
+                    try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                        objectOutputStream.writeObject(availableProjects);
+                        System.out.println("Hi");
+                    }
 
-            } catch (Exception e) {
+                } catch (Exception e) {
+                }
             }
         }
-        }
     }
-
 
     public List<Project> loadProjects() throws FileNotFoundException, IOException {
         try {
@@ -51,25 +48,5 @@ public class ApplicationStateUtils {
         } catch (Exception e) {
         }
         return null;
-    }
-
-    public ProjectSummary projectSummary(String filePath) throws IOException, XmlPullParserException {
-        if (filePath != null) {
-            MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
-            Model model = mavenXpp3Reader.read(new FileInputStream(filePath));
-            ProjectInformation projectInformation = new ProjectInformation(model.getName(),model.getDescription());
-            ProjectOrganization projectOrganization = new ProjectOrganization(model.getName(),model.getUrl());
-            BuildInformation buildInformation = new BuildInformation(model.getGroupId(),model.getArtifactId(),
-                    model.getVersion(),model.getModelVersion());
-            return  new ProjectSummary(projectInformation,projectOrganization
-            ,buildInformation);
-        }
-        return null;
-    }
-    public List<String> listAllFiles() throws Exception {
-        List<String> fileList = new ArrayList<>();
-
-        fileList = new GithubOperations().gitListingFiles(Constants.LOCAL_DIRECTORY_PATH);
-        return fileList;
     }
 }
