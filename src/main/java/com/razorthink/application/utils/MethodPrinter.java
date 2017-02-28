@@ -6,21 +6,24 @@ import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
 import java.io.FileInputStream;
+import java.util.List;
 
 /**
  * Created by rakesh on 26/2/17.
  */
 public class MethodPrinter {
-    public void listAllMethods(String filePath) throws Exception {
+    public void listAllMethods(List<String> list) throws Exception {
         try {
-            // creates an input stream for the file to be parsed
-            FileInputStream in = new FileInputStream(filePath);
+            for(String filePath : list) {
+                // creates an input stream for the file to be parsed
+                FileInputStream in = new FileInputStream(filePath);
 
-            // parse it
-            CompilationUnit cu = JavaParser.parse(in);
+                // parse it
+                CompilationUnit cu = JavaParser.parse(in);
 
-            // visit and print the methods names
-            new MethodVisitor().visit(cu, null);
+                // visit and print the methods names
+                new MethodVisitor().visit(cu, null);
+            }
         }catch (Exception e){}
     }
 
