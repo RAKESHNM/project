@@ -10,7 +10,10 @@ import java.util.List;
  * Created by rakesh on 27/2/17.
  */
 public class JavaDocCommentsFinder {
-    public void getJavaDocCommentedMethods(List<String> list) throws Exception {
+
+    static List<String> listOfMethods = new ArrayList<>();
+
+    public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
         try {
             for(String filePath : list) {
                 // creates an input stream for the file to be parsed
@@ -23,6 +26,7 @@ public class JavaDocCommentsFinder {
                 new MethodVisitor().visit(cu, null);
             }
         }catch (Exception e){}
+        return listOfMethods;
     }
 
     /**
@@ -35,8 +39,9 @@ public class JavaDocCommentsFinder {
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
             if(n.getComment() != null) {
-                System.out.println(n.getComment());
-                System.out.println(n.getName());
+                //System.out.println(n.getComment());
+                //System.out.println(n.getName());
+                listOfMethods.add(n.getName());
             }
             super.visit(n, arg);
         }

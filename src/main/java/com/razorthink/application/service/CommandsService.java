@@ -1,20 +1,22 @@
 package com.razorthink.application.service;
 
+import com.razorthink.application.management.ProjectSummary;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rakesh on 28/2/17.
  */
 public interface CommandsService {
 
-     void listAllMethods(List<String> filePaths) throws Exception;
+     List<String> listAllMethods(List<String> filePaths) throws Exception;
 
-     void listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception;
+     Map<String,Integer> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception;
 
-     void getProjectSummary(String fileath) throws IOException, XmlPullParserException;
+     com.razorthink.application.beans.ProjectSummary getProjectSummary(String fileath) throws IOException, XmlPullParserException;
 
-     void getAllMethodsWithJavaDocsComment(List<String> filePaths) throws Exception;
+     List<String> getAllMethodsWithJavaDocsComment(List<String> filePaths) throws Exception;
 }

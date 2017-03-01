@@ -9,34 +9,34 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rakesh on 28/2/17.
  */
 public class CommandsServiceImpl implements CommandsService{
     @Override
-    public void listAllMethods(List<String> filePaths) throws Exception {
+    public List<String> listAllMethods(List<String> filePaths) throws Exception {
 
-        new MethodPrinter().listAllMethods(filePaths);
+        List<String> list = new MethodPrinter().listAllMethods(filePaths);
+        return list;
     }
 
     @Override
-    public void listAllMethodsOfNLines(List<String> filePaths,int lines) throws Exception {
+    public Map<String,Integer> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception {
 
-        new MethodLinePrinter().noOfLinesInAMethod(filePaths,lines);
+        return new MethodLinePrinter().noOfLinesInAMethod(filePaths,lines);
     }
 
     @Override
-    public void getProjectSummary(String filePath) throws IOException, XmlPullParserException {
-
-        new ProjectSummary().projectSummary(filePath);
-
+    public com.razorthink.application.beans.ProjectSummary getProjectSummary(String filePath) throws IOException, XmlPullParserException {
+        return new ProjectSummary().projectSummary(filePath);
     }
 
     @Override
-    public void getAllMethodsWithJavaDocsComment(List<String> filePaths) throws Exception {
+    public List<String> getAllMethodsWithJavaDocsComment(List<String> filePaths) throws Exception {
 
-        new JavaDocCommentsFinder().getJavaDocCommentedMethods(filePaths);
-
+        List<String> list =  new JavaDocCommentsFinder().getJavaDocCommentedMethods(filePaths);
+        return list;
     }
 }

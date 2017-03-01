@@ -1,15 +1,13 @@
 package com.razorthink.application.controllers;
-import com.razorthink.application.beans.Project;
+
+import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.service.GithubOperations;
-import com.razorthink.application.utils.ApplicationStateUtils;
-import com.razorthink.application.management.MethodPrinter;
+import com.razorthink.application.utils.CommandUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,70 +15,90 @@ import java.util.List;
  * Created by rakesh on 27/2/17.
  */
 @RestController
-public class GitHubCkeckoutController  {
-    Project project = new Project();
+public class GitHubCkeckoutController {
+    private Project project = new Project();
 
-    GithubOperations githubOperations = new GithubOperations();
+    private GithubOperations githubOperations = new GithubOperations();
 
-    ApplicationStateUtils applicationStateUtils = new ApplicationStateUtils();
+    private List<String> fileList = new ArrayList<String>();
 
-    public GitHubCkeckoutController() throws IOException {
+    private GitHubClient client;
+
+    /**
+     * Controller for login service
+     * @param login
+     * @return
+     * @throws InvalidCreadentialException
+     */
+    @RequestMapping(value = Constants.GITHUB_CREDENTIAL, method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
+        try{
+            project.setUsername(login.getUserName());
+            project.setPassword(login.getPassword());
+            client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
+            RepositoryService service = new RepositoryService(client);
+            return  githubOperations.gitRemoteRepository(service);
+        }
+        catch(Exception e ){throw new InvalidCreadentialException(Constants.INVALID_CREDENTIAL);}
     }
 
-    @RequestMapping(value = Constants.GITHUB_CREDENTIAL)
-    public void credentialGitHub() throws Exception {
-        System.out.println("\nGithub Credentials");
-        String Username = githubOperations.getUsername();
-        project.setUsername(Username);
-        String Password = githubOperations.getPassword();
-        project.setPassword(Password);
-    }
+    /**
+     * Controller for listing all branches for a given repository
+     * @param branch
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = Constants.LIST_BRANCH,method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> listbranch(@RequestBody Branch branch) throws Exception{
 
-    @RequestMapping(value = Constants.GITHUB_CHECKOUT_ROUTE)
-    public void checkoutGitHub() throws Exception {
-        List<String> FileList = new ArrayList<String>();
-        Project project1 = new Project();
-        GitHubClient client;
         client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
         RepositoryService service = new RepositoryService(client);
-            githubOperations.gitRemoteRepository(service);
-            String remoteRepo = githubOperations.gitRemoteRepoSelect();
-            project1.setRemoteRepo(remoteRepo);
-            String localrepopath = Constants.LOCAL_DIRECTORY_PATH + remoteRepo + "/";
-            project1.setLocalDirectory(localrepopath);
-            String REMOTE_URL = (githubOperations.gitRemote_URL(service, remoteRepo)) + ".git";
-            project1.setGitUrl(REMOTE_URL);
-            githubOperations.gitRemoteBranches(service, remoteRepo, REMOTE_URL, project.getUsername(), project.getPassword());
-            String branch = githubOperations.branch();
-            project1.setBranch(branch);
-            if(!applicationStateUtils.loadProjects().contains(project1)) {
-                applicationStateUtils.storeProject(project1);
-                githubOperations.gitCloning(REMOTE_URL, branch, localrepopath, project.getUsername(), project.getPassword());
-            }
-
-        for(Project item :applicationStateUtils.loadProjects()){
-            System.out.println(" -------------------------------");
-            System.out.println("UserName: " + project.getUsername());
-            System.out.println("ReomoteRepo: " + item.getRemoteRepo());
-            System.out.println("Branch: " + item.getBranch());
-            System.out.println("GitURL: " + item.getGitUrl());
-        }
-
-        FileList = githubOperations.gitListingFiles(localrepopath);
-//        int indexNum = githubOperations.getIndexOfFile();
-//        githubOperations.gitFetchContent(FileList.get(indexNum-1));
-            new MethodPrinter().listAllMethods(FileList);
+       return  githubOperations.gitRemoteBranches(service, branch.getRemoteRepo(),
+               (githubOperations.gitRemote_URL(service, branch.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, project.getUsername(), project.getPassword());
     }
 
-    @RequestMapping(value = Constants.LIST_AVAILABLE_PROJECTS_ROUTE)
-    public void listAvailableProjects() throws IOException {
-        List<Project> list = new ApplicationStateUtils().loadProjects();
-        for(Project item : list){
-            System.out.println(" -------------------------------");
-            System.out.println("UserName: " + item.getUsername());
-            System.out.println("ReomoteRepo: " + item.getRemoteRepo());
-            System.out.println("Branch: " + item.getBranch());
-            System.out.println("GitURL: " + item.getGitUrl());
-        }
+    /**
+     * Controller for checkout to a particular branch and clone it local repository
+     * @param checkoutProject
+     * @throws Exception
+     */
+    @RequestMapping(value = Constants.GITHUB_CHECKOUT_ROUTE,method = RequestMethod.POST)
+    @ResponseBody
+    public void checkoutGitHub(@RequestBody CheckoutProject checkoutProject)throws Exception {
+        client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
+        RepositoryService service = new RepositoryService(client);
+        project.setRemoteRepo(checkoutProject.getRemoteRepo());
+        //String localrepopath = Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + "/";
+        project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + "/");
+        //String REMOTE_URL = (githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION;
+        project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
+        project.setBranch(checkoutProject.getBranch());
+        System.out.println("Cloning  into . . .");
+        githubOperations.gitCloning((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+                Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + "/",
+                project.getUsername(), project.getPassword());
+        System.out.println("Done");
     }
+
+    /**
+     * controller for command various command services
+     * @param commandPojo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = Constants.INPUTS_FROM_USER,method = RequestMethod.POST)
+    @ResponseBody
+    public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {
+        try {
+
+            return new CommandUtils().getUserInput(commandPojo, project);
+        }catch (Exception e){}
+
+        return null;
+   }
+
+
+
 }

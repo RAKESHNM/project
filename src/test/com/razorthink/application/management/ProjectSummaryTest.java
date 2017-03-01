@@ -27,10 +27,10 @@ public class ProjectSummaryTest {
 
     }
 
-    @Test
-    public void projectSummaryForValidPomFile() throws IOException, XmlPullParserException {
-        projectSummary.projectSummary(filePath);
-    }
+//    @Test
+//    public void projectSummaryForValidPomFile() throws IOException, XmlPullParserException {
+//        projectSummary.projectSummary(filePath);
+//    }
     @Test
     public void projectSuammryForNullFilePath() throws IOException, XmlPullParserException {
          projectSummary.projectSummary(null);

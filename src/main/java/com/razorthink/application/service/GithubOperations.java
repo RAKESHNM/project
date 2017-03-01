@@ -1,12 +1,12 @@
 package com.razorthink.application.service;
 
-import com.razorthink.application.utils.ApplicationStateUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
@@ -22,12 +22,15 @@ public class GithubOperations {
     ReadFile readFile = new ReadFile();
 
     //Getting remote repositories
-    public void gitRemoteRepository(RepositoryService service) throws Exception {
+    public List<String> gitRemoteRepository(RepositoryService service) throws Exception {
+        List<String> list = new ArrayList<>();
         System.out.println("\nRemote Repository");
         System.out.println("-----------------------");
         for (Repository repo : service.getRepositories()){
             System.out.println(repo.getName());
+            list.add(repo.getName());
         }
+        return list;
     }
 
     public String gitRemote_URL(RepositoryService service,String remoteRepo) throws Exception{
@@ -43,8 +46,9 @@ public class GithubOperations {
     }
 
     //Getting branches of specific repository
-    public void gitRemoteBranches(RepositoryService service, String localrepo, String REMOTE_URL,String Username,String Password) throws Exception {
+    public List<String> gitRemoteBranches(RepositoryService service, String localrepo, String REMOTE_URL,String Username,String Password) throws Exception {
         System.out.println("\nRemote Branches");
+        List<String> list = new ArrayList<>();
         System.out.println("------------------------");
         for (Repository repo : service.getRepositories()) {
             if (repo.getName().equals(localrepo)) {
@@ -56,10 +60,14 @@ public class GithubOperations {
                         .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username,Password))
                         .call();
 
-                for (Ref ref : refs)
+                for (Ref ref : refs) {
                     System.out.println(ref.getName());
+                    list.add(ref.getName());
+                }
+                return list;
             }
         }
+        return null;
     }
 
     //Listing Files
@@ -77,15 +85,33 @@ public class GithubOperations {
         int count = 0;
         List<String> fileList = new ArrayList<String>();
         File dir = new File(localRepoPath);
-        String[] extensions = new String[]{"txt", "jsp", "java","py"};
+        String[] extensions = new String[]{"java","py"};
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for (File file : files) {
-//            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
+            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
             fileList.add(file.getCanonicalPath());
             count++;index++;
         }
-//        System.out.println("\nCount :" + count);
+        System.out.println("\nCount :" + count);
         return fileList;
+    }
+
+    public List<String> gitListPOMFiles(String localRepoPath) throws Exception {
+        int index = 1;
+//        System.out.println("\nFile path list");
+//        System.out.println("------------------------");
+        int count = 0;
+        List<String> POMList = new ArrayList<String>();
+        File dir = new File(localRepoPath);
+        String[] extensions = new String[]{"xml"};
+        List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
+        for (File file : files) {
+//            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
+            POMList.add(file.getCanonicalPath());
+            count++;index++;
+        }
+        System.out.println("\nCount :" + count);
+        return POMList;
     }
 
     //Fetching File Content
@@ -109,7 +135,17 @@ public class GithubOperations {
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username,Password))
                 .call();
     }
-
+    //get total number of commits
+    public void gitCommits(String localRepoPath) throws Exception {
+        File dir = new File(localRepoPath);
+        Git git = Git.open(dir);
+        Iterable<RevCommit> commits = git.log().call();
+        int count = 0;
+        for( RevCommit commit : commits ) {
+            count++;
+        }
+        System.out.println("Number of Commits :" + count);
+    }
     //get Github Username
     public String getUsername() {
         Scanner scanner = new Scanner(System.in);
@@ -139,6 +175,9 @@ public class GithubOperations {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nBranch : ");
         final String Branch = scanner.nextLine();
+        if(Branch==null){
+            return "master";
+        }
         return Branch;
     }
 
@@ -155,5 +194,33 @@ public class GithubOperations {
         System.out.println("\nEnter Index of file to read : ");
         final int Index = scanner.nextInt();
         return Index;
+    }
+
+    public String getCommand(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nCommand : ");
+        final String Command = scanner.nextLine();
+        return Command;
+    }
+
+    public String getSubModule(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nSubModule : ");
+        final String SubModule = scanner.nextLine();
+        return SubModule;
+    }
+
+    public String getDirectory(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nDirectory : ");
+        final String Directory = scanner.nextLine();
+        return Directory;
+    }
+
+    public String getFile(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nFile : ");
+        final String File = scanner.nextLine();
+        return File;
     }
 }
