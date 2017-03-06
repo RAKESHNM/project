@@ -37,15 +37,16 @@ public class GitHubCkeckoutController {
         try{
             project.setUsername(login.getUserName());
             project.setPassword(login.getPassword());
-//            client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
-//            RepositoryService service = new RepositoryService(client);
-//           return  githubOperations.gitRemoteRepository(service);
-            return "Success";
+            client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
+           RepositoryService service = new RepositoryService(client);
+           if( githubOperations.gitRemoteRepository(service) != null)
+               return "Success";
         }
         catch(Exception e ){
 
             throw new InvalidCreadentialException(Constants.INVALID_CREDENTIAL);
         }
+        return null;
     }
 
 

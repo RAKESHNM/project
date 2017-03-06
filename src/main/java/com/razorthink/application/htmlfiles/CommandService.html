@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This line best placed right here</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+    document.write("\<script src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'>\<\/script>");
+</script>
+<body>
+
+<h3>Command Service</h3>
+
+<input type="text" id="subModule" value="module">
+<input type="text" id="command" value="command">
+<input type="text" id="directory" value="directory">
+<input type="text" id="file" value="file">
+<input type="text" id="noOfLines" value="noOfLines">
+
+
+<button onclick="myFunction()">Result</button>
+
+<h4>List of Methods</h4>
+
+<ul id="resList"></ul>
+
+<p id="demo"></p>
+<script>
+    function myFunction()
+    {
+    var d = JSON.stringify({command:document.getElementById('command').value,
+    subModule:document.getElementById('subModule').value,
+    noOfLines:document.getElementById('noOfLines').value,
+    file:document.getElementById('file').value,
+    directory:document.getElementById('directory').value});
+    $.ajax({
+    url:"http://localhost:8080/inputs",
+    type: 'POST',
+    contentType: 'application/json',
+     crossDomain : true,
+     dataType:'json',
+    xhrFields: {
+        withCredentials: true
+    },
+    data: d,
+    success: function(res){
+        console.log((res));
+        var resLength=res.object.length, resList="";
+         var resListElement=document.getElementById("resList");
+         for(var i=0; i<resLength;i++){
+          var liElement=document.createElement("li");
+          liElement.innerText=res.object[i];
+          resListElement.appendChild(liElement);
+          }
+},
+  error: function(errorres){
+   console.log(errorres);
+  }
+});
+function myJsFunc() {
+    alert("myJsFunc");
+}
+}
+</script>
+
+</body>
+
+
+
+</html>
