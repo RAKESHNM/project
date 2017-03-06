@@ -14,7 +14,7 @@ public interface CommandsService {
 
      List<String> listAllMethods(List<String> filePaths) throws Exception;
 
-     Map<String,Integer> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception;
+     List<String> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception;
 
      com.razorthink.application.beans.ProjectSummary getProjectSummary(String fileath) throws IOException, XmlPullParserException;
 

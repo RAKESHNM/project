@@ -23,7 +23,7 @@ public class CommandsServiceImpl implements CommandsService{
     }
 
     @Override
-    public Map<String,Integer> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception {
+    public List<String> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception {
 
         return new MethodLinePrinter().noOfLinesInAMethod(filePaths,lines);
     }

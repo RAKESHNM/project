@@ -9,17 +9,27 @@ public class CommandPojo {
     private String directory;
     private String subModule;
     private String file;
+    private String  noOfLines;
+
+    public String getNoOfLines() {
+        return noOfLines;
+    }
+
+    public void setNoOfLines(String noOfLines) {
+        this.noOfLines = noOfLines;
+    }
 
     public CommandPojo(){
 
     }
 
-    public CommandPojo(String command, String module, String subModule, String file) {
+    public CommandPojo(String command, String module, String subModule, String file,String noOfLines) {
         super();
         this.command = command;
         this.directory = module;
         this.subModule = subModule;
         this.file = file;
+        this.noOfLines = noOfLines;
     }
 
     public String getCommand() {

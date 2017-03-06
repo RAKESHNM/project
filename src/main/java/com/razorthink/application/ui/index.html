@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Analyser</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:63342/project-analyser/com/razorthink/application/styles/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:63342/project-analyser/com/razorthink/application/fonts/flaticon/flaticon.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<script type="text/javascript" src="http://localhost:63342/project-analyser/com/razorthink/application/jsfiles/authentication.js"></script>
+<body>
+<div class="login-wrapper">
+    <div class="login">
+        <div class="login__image">
+            <div class="login__image__column">
+                <a href="#" class="login__image__column__icon">
+                    <img src="images/logo2.png" class="login__image__column__logo"/>
+                </a>
+            </div>
+        </div>
+        <div class="login__title">
+            <div class="login__title__text">
+                Login
+            </div>
+        </div>
+        <form>
+            <div class="login__form">
+                <div class="login__form__row">
+                    <div class="login__form__row__cell ">
+                        <input class="login__form__row__input-text"type="text" placeholder="Username"  name="username" required/>
+                        <span class="cell__tooltiptext ">Please fill this field!</span>
+                    </div>
+                </div>
+
+                <div class="login__form__row">
+                    <div class="login__form__row__cell ">
+                        <input class="login__form__row__input-text" type="password" placeholder="Password" name="password" required/>
+                        <span class="cell__tooltiptext ">Please fill this field!</span>
+                    </div>
+                </div>
+
+                <!-- <div class="login__form__row">
+                     <button class="login__form__row__buttton" type="submit"  onClick="display(this.form)">LOG IN
+                     </button></div>-->
+                <div class="login__form__row">
+                    <button type="button" class="btn btn-primary btn-block" onClick="display(this.form)">LOG IN </button>
+                </div>
+            </div>
+        </form>
+        <div class="login__warning-message clearfix">
+            <span class="flaticon-warning login__warning-message__icon fleft"></span>
+            <span class="login__warning__text fright">Entered user name or password is not valid!</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -13,13 +13,14 @@ import java.util.Map;
  */
 public class MethodLinePrinter {
 
-    static Map<String,Integer> map = new HashMap<>();
+    static List<String> listOfMethods;
 
     public static int noOfLines = 0;
 
-    public Map<String,Integer> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
+    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
 
         noOfLines = lines;
+        listOfMethods = new ArrayList<>();
 
         try {
             for (String filePath : filePaths) {
@@ -29,7 +30,7 @@ public class MethodLinePrinter {
             }
 
         } catch ( Exception e ) {}
-        return map;
+        return listOfMethods;
     }
 
     private static class MethodVisitor extends VoidVisitorAdapter<Void> {
@@ -40,7 +41,7 @@ public class MethodLinePrinter {
             if((n.getEndLine() - n.getBeginLine())>=noOfLines) {
 
                // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
-                map.put(n.getName(), (n.getEndLine() - n.getBeginLine()));
+                listOfMethods.add(n.getName());
             }
         }
     }

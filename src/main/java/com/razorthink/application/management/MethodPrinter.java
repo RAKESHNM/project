@@ -13,8 +13,9 @@ import java.util.List;
  * Created by rakesh on 26/2/17.
  */
 public class MethodPrinter {
-    static List<String> listOfMethods = new ArrayList<>();
+    static List<String> listOfMethods;
     public List<String>  listAllMethods(List<String> list) throws Exception {
+        listOfMethods = new ArrayList<>();
         try {
             for(String filePath : list) {
                 // creates an input stream for the file to be parsed

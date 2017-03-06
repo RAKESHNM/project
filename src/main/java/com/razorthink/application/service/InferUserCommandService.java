@@ -1,8 +1,7 @@
-package com.razorthink.application.utils;
+package com.razorthink.application.service;
 import com.razorthink.application.beans.CommandPojo;
 import com.razorthink.application.beans.Project;
 import com.razorthink.application.beans.Result;
-import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Scanner;
 /**
  * Created by rakesh on 1/3/17.
  */
-public class CommandUtils {
+public class InferUserCommandService {
 
 
     GithubOperations githubOperations = new GithubOperations();
@@ -19,6 +18,13 @@ public class CommandUtils {
     List<String> FileList = new ArrayList<>();
 
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
+
+        if(commandPojo.getSubModule().equals("module"))
+               commandPojo.setSubModule(null);
+        if(commandPojo.getDirectory().equals("directory"))
+             commandPojo.setDirectory(null);
+        if(commandPojo.getFile().equals("file"))
+            commandPojo.setFile(null);
 
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
@@ -30,6 +36,10 @@ public class CommandUtils {
             String pomFilePath = project.getLocalDirectory()+"pom.xml";
             result.setObject(new CommandsServiceImpl().getProjectSummary(pomFilePath));
             return result;
+            /*list.add("Artifact ID: "+projectSummary.getBuildInformation().getArtifactId());
+            list.add("Group ID: "+projectSummary.getBuildInformation().getGroupId());
+            list.add("Version: "+projectSummary.getBuildInformation().getVersion());
+            list.add("Mode Version: "+projectSummary.getBuildInformation());*/
         }
         else {
 
@@ -46,14 +56,12 @@ public class CommandUtils {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
             }
 
-            if (commandPojo.getCommand().equalsIgnoreCase("Listallmathods")) {
+            if (commandPojo.getCommand().equalsIgnoreCase("Listallmethods")) {
                 result.setObject(new CommandsServiceImpl().listAllMethods(FileList));
                 return result;
             }
             if (commandPojo.getCommand().equalsIgnoreCase("ListallMethodsOfNLines")) {
-                System.out.println("Enter number of lines that method should atleast have");
-                Scanner scanner = new Scanner(System.in);
-                int lines = scanner.nextInt();
+                int lines  = Integer.parseInt(commandPojo.getNoOfLines());
                 result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList,lines));
                 return result;
             }

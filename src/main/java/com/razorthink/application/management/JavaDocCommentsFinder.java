@@ -11,9 +11,10 @@ import java.util.List;
  */
 public class JavaDocCommentsFinder {
 
-    static List<String> listOfMethods = new ArrayList<>();
+    static List<String> listOfMethods;
 
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
+        listOfMethods = new ArrayList<>();
         try {
             for(String filePath : list) {
                 // creates an input stream for the file to be parsed
