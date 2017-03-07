@@ -19,20 +19,20 @@ public class InferUserCommandService {
 
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
-        if(commandPojo.getSubModule().equals("module"))
+        if(commandPojo.getSubModule().equals(""))
                commandPojo.setSubModule(null);
-        if(commandPojo.getDirectory().equals("directory"))
+        if(commandPojo.getDirectory().equals(""))
              commandPojo.setDirectory(null);
-        if(commandPojo.getFile().equals("file"))
+        if(commandPojo.getFile().equals(""))
             commandPojo.setFile(null);
 
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
         result.setBrach(project.getBranch());
-        if (commandPojo.getCommand().equalsIgnoreCase("getCommit")) {
-            githubOperations.gitCommits(project.getLocalDirectory());
+        if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
+            githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch());
         }
-        else if(commandPojo.getCommand().equalsIgnoreCase("getprojectsummary")){
+        else if(commandPojo.getCommand().equalsIgnoreCase("Project Summary")){
             String pomFilePath = project.getLocalDirectory()+"pom.xml";
             result.setObject(new CommandsServiceImpl().getProjectSummary(pomFilePath));
             return result;
@@ -56,16 +56,16 @@ public class InferUserCommandService {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
             }
 
-            if (commandPojo.getCommand().equalsIgnoreCase("Listallmethods")) {
+            if (commandPojo.getCommand().equalsIgnoreCase("List all methods")) {
                 result.setObject(new CommandsServiceImpl().listAllMethods(FileList));
                 return result;
             }
-            if (commandPojo.getCommand().equalsIgnoreCase("ListallMethodsOfNLines")) {
+            if (commandPojo.getCommand().equalsIgnoreCase("List all methods having lines greater than n")) {
                 int lines  = Integer.parseInt(commandPojo.getNoOfLines());
                 result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList,lines));
                 return result;
             }
-            if(commandPojo.getCommand().equalsIgnoreCase("listAllJavaDocsCommentedMethods")){
+            if(commandPojo.getCommand().equalsIgnoreCase("List all methods without javadocs")){
                 result.setObject(new CommandsServiceImpl().getAllMethodsWithJavaDocsComment(FileList));
                 return result;
             }

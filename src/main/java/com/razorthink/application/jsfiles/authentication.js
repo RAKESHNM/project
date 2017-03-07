@@ -21,7 +21,7 @@
     method: 'POST',
      success:function(data2){
      if(data2 == 'Success'){
-     location.href = "http://localhost:63342/project-analyser/com/razorthink/application/htmlfiles/CheckoutService.html";
+     location.href = "../htmlfiles/CheckoutService.html";
      }
      },
 

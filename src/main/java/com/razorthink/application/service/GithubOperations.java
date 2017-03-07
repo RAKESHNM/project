@@ -1,19 +1,18 @@
 package com.razorthink.application.service;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by antolivish on 25/2/17.
@@ -135,7 +134,6 @@ public class GithubOperations {
                 .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username,Password))
                 .call();
     }
-    //get total number of commits
     public void gitCommits(String localRepoPath) throws Exception {
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
@@ -145,6 +143,27 @@ public class GithubOperations {
             count++;
         }
         System.out.println("Number of Commits :" + count);
+    }
+    //get commit details
+    public List<String> gitCommitDetails(String localRepoPath,String branch) throws Exception{
+        List<String> commitList = new ArrayList<>();
+        org.eclipse.jgit.lib.Repository dir = new FileRepository(localRepoPath+".git");
+        Git git = new Git(dir);
+        Iterable<RevCommit> commits = git.log().add(dir.resolve(branch)).call();
+        int count = 0;
+        List<RevCommit> commitsList = Lists.newArrayList(commits.iterator());
+        for (RevCommit commit : commitsList) {
+            count++;
+            System.out.println(commit.getAuthorIdent().getName());
+           System.out.println(new Date(commit.getCommitTime() * 1000L));
+           System.out.println(commit.getFullMessage());
+            commitList.add(commit.getAuthorIdent().getName());
+            commitList.add(commit.getFullMessage());
+        }
+        System.out.println("Total commits : " +count);
+        commitList.add("\n\n Total commits : " +count);
+        git.close();
+        return commitList;
     }
     //get Github Username
     public String getUsername() {

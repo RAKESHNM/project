@@ -22,8 +22,6 @@ public class ApplicationStateUtils {
     public void storeProject(Project project) throws IOException {
         if(project != null)
         {
-            availableProjects = loadProjects();
-            if(!availableProjects.contains(project)) {
                 availableProjects.add(project);
                 try {
                     try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
@@ -34,7 +32,7 @@ public class ApplicationStateUtils {
 
                 } catch (Exception e) {
                 }
-            }
+
         }
     }
 

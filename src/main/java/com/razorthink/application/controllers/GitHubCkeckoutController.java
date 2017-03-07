@@ -4,10 +4,12 @@ import com.razorthink.application.constants.Constants;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
+import com.razorthink.application.utils.ApplicationStateUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.web.bind.annotation.*;
-
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,13 +26,18 @@ public class GitHubCkeckoutController {
 
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GitHubCkeckoutController.class);
 
+    List<Project> projectList = new ApplicationStateUtils().loadProjects();
+
+    public GitHubCkeckoutController() throws IOException {
+    }
+
     /**
      * Controller for login service
      * @param login
      * @return
      * @throws InvalidCreadentialException
      */
-    @CrossOrigin(origins = "http://localhost:63342")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.GITHUB_CREDENTIAL, method = RequestMethod.POST)
     @ResponseBody
     public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
@@ -88,7 +95,7 @@ public class GitHubCkeckoutController {
      * @param checkoutProject
      * @throws Exception
      */
-    @CrossOrigin(origins = "http://localhost:63342")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.GITHUB_CHECKOUT_ROUTE,method = RequestMethod.POST)
     @ResponseBody
     public String checkoutGitHub(@RequestBody CheckoutProject checkoutProject)throws Exception {
@@ -99,9 +106,13 @@ public class GitHubCkeckoutController {
         project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         project.setBranch(checkoutProject.getBranch());
         logger.info("Cloning  into . . .");
-        githubOperations.gitCloning((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-                Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
-                project.getUsername(), project.getPassword());
+            if(!new ApplicationStateUtils().loadProjects().contains(project)) {
+                githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
+                        project.getUsername(), project.getPassword());
+             new ApplicationStateUtils().storeProject(project);
+            }
+
         logger.info("Done");
         return "Done";
     }
@@ -112,7 +123,7 @@ public class GitHubCkeckoutController {
      * @return
      * @throws Exception
      */
-    @CrossOrigin(origins = "http://localhost:63342")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.INPUTS_FROM_USER,method = RequestMethod.POST)
     @ResponseBody
     public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {

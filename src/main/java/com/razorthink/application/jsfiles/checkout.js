@@ -94,12 +94,12 @@ d.remoteRepo = (document.getElementById("selectRepo").value);
                  "content-type": "application/json"
                  },
              data :JSON.stringify(d),
-            dataType: 'json',
             xhrFields: {
                 withCredentials: true
             },
             success: function(res){
-
+            console.log("hi");
+           location.href = "../htmlfiles/CommandService.html";
               },
 
           error: function(errorres){
