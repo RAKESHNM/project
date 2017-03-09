@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="../styles/CommandService.css">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../jsfiles/CommandService.js">
+    <script type="text/javascript" src="../jsfiles/checkout.js"></script>
+    <script type="text/javascript" src="../jsfiles/authentication.js"></script>
+    <script type="text/javascript" src="../jsfiles/Loader.js">
+    </script>
+
+</head>
+<body>
+
+<div class="mainWrapper">
+    <div class="contentWrapper">
+        <div class="header">
+        <h2>Checkout Project</h2>
+        </div>
+        <div class="fieldWrapper">
+            <span class="label">Repositories : </span>
+            <select id="selectRepo" onclick="getSelectedValue()"><option>select</option></select>
+        </div>
+        <div class="module-wrapper">
+        </div>
+        <div class="lines-wrapper">
+            <div class="fieldWrapper">
+                <span class="label">Branches : </span>
+                <select id="selectBranch"><option>select</option></select>
+            </div>
+        </div>
+        <div class="buttonWrapper">
+            <button class="button"  onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

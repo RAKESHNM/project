@@ -1,0 +1,77 @@
+*{
+	color: #32404d;
+	font-family: serif;
+}
+
+.mainWrapper{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background: #eff0f1;
+	align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.contentWrapper{
+	background: #ffffff;
+	padding: 50px 100px;
+	border: 1px solid #d2d2d2;
+	border-radius: 3px;
+}
+
+.label{
+	font-size: 25px;
+    font-weight: 500;
+    display: inline-block;
+    min-width: 240px;
+    line-height: 35px;
+}
+
+.fieldWrapper{
+	margin-bottom: 20px;
+}
+
+#selectRepo{
+	height: 35px;
+    border-radius: 3px;
+    font-size: 16px;
+    background: #efefef;
+    padding: 0 10px;
+    width: 275px;
+}
+#selectBranch{
+height: 35px;
+ width: 275px;
+ font-size:16px;
+ align-items:center;
+ border-radius:3px;
+ background:#efefef;
+-webkit-appearance: menulist;
+}
+
+.inputField{
+	height: 30px;
+    width: 275px;
+    border: 1px solid #d2d2d2;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.buttonWrapper{
+	margin-top: 20px;
+}
+
+.button{
+	background: #37a5e4;
+	margin: auto;
+    display: inherit;
+    width: 100px;
+    height: 28px;
+    border-radius: 3px;
+    color: #ffffff;
+    border: 1px solid #37a5e4;
+    font-weight: 700;
+}

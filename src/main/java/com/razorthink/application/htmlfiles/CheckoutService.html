@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="../styles/checkOutService.css"/>
+<html xmlns="http://www.w3.org/1999/html">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>This line best placed right here</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+    document.write("\<script src='//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'>\<\/script>");
+
+</script>
+    <script type="text/javascript" src="../jsfiles/checkout.js"></script>
+    <script type="text/javascript" src="../jsfiles/authentication.js"></script>
+    <script type="text/javascript" src="../jsfiles/Loader.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+    <div class="headerText">
+        <h2 class="header">Checkout Project</h2>
+
+    <div class="contentClass">
+        <div class="content">
+            <div class="contentTextWrapper">
+                <span class="contentText"> Repositories :</span>
+                <select id="selectRepo" onclick="getSelectedValue()" class="selectWrapper"><option>select
+                </option></select>
+  </div>
+
+            <div class="contentTextWrapper">
+                <span class="contentText"> Branches :</span>
+                <select id="selectBranch"  class="selectWrapper"></select>
+            </div>
+
+            <button class="button" onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
+
+        </div>
+    </div>
+</div>
+
+<!--<ul id="resList"></ul>
+<p id="demo"></p>-->
+
+
+</body>
+
+
+
+</html>
