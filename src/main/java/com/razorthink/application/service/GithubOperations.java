@@ -158,9 +158,11 @@ public class GithubOperations {
             System.out.println(commit.getAuthorIdent().getName());
            System.out.println(date.toString());
            System.out.println(commit.getFullMessage());
-            commitList.add(commit.getAuthorIdent().getName());
-            commitList.add(date.toString());
-            commitList.add(commit.getFullMessage());
+            commitList.add("Message : " + commit.getFullMessage());
+           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
+           commitList.add("\n");
+//            commitList.add(date.toString());
+
         }
         System.out.println("Total commits : " +count);
         commitList.add("\n\n Total commits : " +count);
