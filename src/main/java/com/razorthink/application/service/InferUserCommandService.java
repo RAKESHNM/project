@@ -16,7 +16,6 @@ public class InferUserCommandService {
     GithubOperations githubOperations = new GithubOperations();
 
     List<String> FileList = new ArrayList<>();
-    List<String> CommitList = new ArrayList<>();
 
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
@@ -31,8 +30,7 @@ public class InferUserCommandService {
         result.setProjectName(project.getRemoteRepo());
         result.setBrach(project.getBranch());
         if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
-            result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch()));
-            return result;
+            githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch());
         }
         else if(commandPojo.getCommand().equalsIgnoreCase("Project Summary")){
             String pomFilePath = project.getLocalDirectory()+"pom.xml";

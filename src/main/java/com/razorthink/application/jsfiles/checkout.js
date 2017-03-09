@@ -99,7 +99,7 @@ d.remoteRepo = (document.getElementById("selectRepo").value);
             },
             success: function(res){
             console.log("hi");
-           location.href = "../htmlfiles/CommandTest.html";
+           location.href = "../htmlfiles/CommandService.html";
               },
 
           error: function(errorres){
