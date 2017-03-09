@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="../styles/checkOutService.css"/>
+<link rel="stylesheet" type="text/css" href="../styles/CommandService.css"/>
 <html xmlns="http://www.w3.org/1999/html">
 <html lang="en">
 <head>
@@ -15,35 +15,32 @@
     <script type="text/javascript" src="../jsfiles/Loader.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-    <div class="headerText">
-        <h2 class="header">Checkout Project</h2>
 
-    <div class="contentClass">
-        <div class="content">
-            <div class="contentTextWrapper">
-                <span class="contentText"> Repositories :</span>
-                <select id="selectRepo" onclick="getSelectedValue()" class="selectWrapper"><option>select
-                </option></select>
-  </div>
-
-            <div class="contentTextWrapper">
-                <span class="contentText"> Branches :</span>
-                <select id="selectBranch"  class="selectWrapper"></select>
-            </div>
-
-            <button class="button" onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
-
+<div class="mainWrapper">
+    <div class="contentWrapper">
+        <div class="header">
+        <h2>Checkout Project</h2>
         </div>
-    </div>
-</div>
+        <div class="fieldWrapper">
+            <span class="label">Repositories : </span>
+            <select id="selectRepo" onclick="getSelectedValue()"><option>select</option></select>
+        </div>
+        <div class="module-wrapper">
+        </div>
+        <div class="lines-wrapper">
+            <div class="fieldWrapper">
+                <span class="label">Branches : </span>
+                <select id="selectBranch"><option>select</option></select>
+            </div>
+        </div>
+        <div class="buttonWrapper">
+            <button class="button"  onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
+        </div>
 
-<!--<ul id="resList"></ul>
-<p id="demo"></p>-->
+    </div>
+
+</div>
 
 
 </body>
-
-
-
 </html>
