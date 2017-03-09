@@ -12,12 +12,13 @@
 </script>
     <script type="text/javascript" src="../jsfiles/checkout.js"></script>
     <script type="text/javascript" src="../jsfiles/authentication.js"></script>
+    <script type="text/javascript" src="../jsfiles/Loader.js"></script>
 </head>
 <body>
     <div class="wrapper">
     <div class="headerText">
         <h2 class="header">Checkout Project</h2>
-    </div>
+
     <div class="contentClass">
         <div class="content">
             <div class="contentTextWrapper">
@@ -31,7 +32,8 @@
                 <select id="selectBranch"  class="selectWrapper"></select>
             </div>
 
-            <button class="button" onclick="gitCheckout()">Checkout</button>
+            <button class="button" onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
+
         </div>
     </div>
 </div>
