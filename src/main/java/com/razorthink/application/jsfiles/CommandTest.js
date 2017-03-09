@@ -47,7 +47,10 @@ function multiplyNode(node, count, deep, obj) {
         for (var i = 0, copy; i < obj.length; i++) {
             copy = node.cloneNode(deep);
             copy.append(obj[i]);
+            console.log(copy);
             node.parentNode.insertBefore(copy, node)
+            console.log(node);
+
         }
 //        $(".method").append(obj);
 //        $(".method").append(" ");
