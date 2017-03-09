@@ -21,7 +21,7 @@
     method: 'POST',
      success:function(data2){
      if(data2 == 'Success'){
-     location.href = "../htmlfiles/CheckoutService.html";
+     location.href = "../htmlfiles/sample.html";
      }
      },
 
