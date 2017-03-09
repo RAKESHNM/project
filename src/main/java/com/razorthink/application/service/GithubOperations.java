@@ -154,10 +154,12 @@ public class GithubOperations {
         List<RevCommit> commitsList = Lists.newArrayList(commits.iterator());
         for (RevCommit commit : commitsList) {
             count++;
+            Date date = new Date(commit.getCommitTime() * 1000L);
             System.out.println(commit.getAuthorIdent().getName());
-           System.out.println(new Date(commit.getCommitTime() * 1000L));
+           System.out.println(date.toString());
            System.out.println(commit.getFullMessage());
             commitList.add(commit.getAuthorIdent().getName());
+            commitList.add(date.toString());
             commitList.add(commit.getFullMessage());
         }
         System.out.println("Total commits : " +count);
