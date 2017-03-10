@@ -80,9 +80,9 @@ console.log(repo);
 getBranches(repo);
 console.log(document.getElementById("selectBranch").value);
 }
-
 function gitCheckout(){
-alert('Please wait . . . checking out');
+location.href = "../htmlfiles/Loader.html";
+var result = undefined;
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);
 d.remoteRepo = (document.getElementById("selectRepo").value);
@@ -122,3 +122,4 @@ myApp = myApp || (function () {
 
     };
 })();
+67

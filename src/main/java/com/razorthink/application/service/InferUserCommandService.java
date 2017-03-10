@@ -19,11 +19,11 @@ public class InferUserCommandService {
 
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
-        if(commandPojo.getSubModule().equals(""))
+        //if(commandPojo.getSubModule().equals(""))
                commandPojo.setSubModule(null);
-        if(commandPojo.getDirectory().equals(""))
+        //if(commandPojo.getDirectory().equals(""))
              commandPojo.setDirectory(null);
-        if(commandPojo.getFile().equals(""))
+        //if(commandPojo.getFile().equals(""))
             commandPojo.setFile(null);
 
         Result result = new Result();
