@@ -1,5 +1,6 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/CommitDetails.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/ApplicationStateUtils.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/LocalDirectoryCreation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/InferUserCommandService.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/controllers/sample.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/management/MethodPrinter.java
@@ -9,6 +10,7 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/exceptions/InvalidCreadentialException.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/Project.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/ReadFile.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/Directory.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/BuildInformation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/impl/CommandsServiceImpl.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/exceptions/NullFilePathsListException.java

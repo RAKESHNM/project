@@ -1,7 +1,7 @@
 ﻿function display(form){
     var inpObj = form.username.value;
     var inpObj2 = form.password.value;
-   
+
     if (inpObj == "") {
        alert("username should not be empty");
     }
@@ -11,7 +11,7 @@
     else {
     var auth = {};
     auth.userName=form.username.value;
-    auth.password=form.password.value; 
+    auth.password=form.password.value;
     $.ajax({
     url: 'http://localhost:8080/credential',
     data:JSON.stringify(auth),
@@ -19,9 +19,10 @@
     "content-type": "application/json"
     },
     method: 'POST',
+    crossDomain:true,
      success:function(data2){
      if(data2 == 'Success'){
-     location.href = "../htmlfiles/sample.html";
+     location.href = "../htmlfiles/CheckoutService.html";
      }
      },
 
@@ -30,7 +31,7 @@
 
              if(data1.statusText == "Bad Gateway"){alert("check your network connection");}
               }
-  });   
+  });
 }
 }
 

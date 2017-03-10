@@ -37,6 +37,7 @@ $(document).ready(function(){
        $(".closeIcon").click(function(){
             $(".popup").hide();
             $(".method").empty();
+            $(".linemethod").empty();
         })
 
        $(".message").append("Message To Be Displayed");
@@ -84,7 +85,27 @@ var errorres = [];
                 console.log(res);
                 result = res
                 console.log(result.object[0]);
+                if(!(data.command===("Project Summary"))&&!(data.command===("Commit Details"))){
                 multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
+                }
+                else if(!(data.command===("Commit Details"))){
+                console.log("Else condition");
+                console.log(res.object.length);
+                var wrapper = $('#wrapper'), container;
+                for (var key in res){
+//                container = $('<div id="summary" class="container"></div>');
+//                wrapper.append(container);
+//                container.append('<div class="item">' + key +'</div>');
+                console.log(key);
+//                multiplyNode(document.querySelector(".linemethod"), (key.length), true, key);
+                $(".method").append("<li>"+ key + "</li>");
+//                $(".method").empty();
+
+                }
+                }
+                else{
+                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
+                }
 //                for(var i=0; i<result.object.length;i++){
 //                $(".method").append(result.object);
 //                }
