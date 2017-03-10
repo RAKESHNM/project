@@ -37,7 +37,7 @@ public class GitHubCkeckoutController {
      * @return
      * @throws InvalidCreadentialException
      */
-   @CrossOrigin(origins = "http://localhost:63343")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.GITHUB_CREDENTIAL, method = RequestMethod.POST)
     @ResponseBody
     public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
@@ -58,7 +58,7 @@ public class GitHubCkeckoutController {
     }
 
 
-     @CrossOrigin(origins = "http://localhost:63343")
+     @CrossOrigin(origins = "http://localhost:63342")
      @RequestMapping(value = Constants.LIST_ALL_REPOSITORIES,method = RequestMethod.GET)
      @ResponseBody
      public List<String> listRepos() throws Exception {
@@ -77,7 +77,7 @@ public class GitHubCkeckoutController {
      * @return
      * @throws Exception
      */
-    @CrossOrigin(origins = "http://localhost:63343")
+    @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.LIST_BRANCH,method = RequestMethod.POST)
     @ResponseBody
     public List<String> listbranch(@RequestBody Branch branch) throws Exception{
@@ -96,7 +96,7 @@ public class GitHubCkeckoutController {
      * @param checkoutProject
      * @throws Exception
      */
-   @CrossOrigin(origins = "http://localhost:63343")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.GITHUB_CHECKOUT_ROUTE,method = RequestMethod.POST)
     @ResponseBody
     public String checkoutGitHub(@RequestBody CheckoutProject checkoutProject)throws Exception {
@@ -125,7 +125,7 @@ public class GitHubCkeckoutController {
      * @return
      * @throws Exception
      */
-   @CrossOrigin(origins = "http://localhost:63343")
+   @CrossOrigin(origins = "http://localhost:63342")
     @RequestMapping(value = Constants.INPUTS_FROM_USER,method = RequestMethod.POST)
     @ResponseBody
     public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {
