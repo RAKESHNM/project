@@ -2,6 +2,7 @@ com/razorthink/application/management/ProjectSummary.class
 com/razorthink/application/management/MethodLinePrinter$MethodVisitor.class
 com/razorthink/application/beans/Project.class
 com/razorthink/application/utils/ApplicationStateUtils.class
+com/razorthink/application/beans/MethodDeclaration.class
 com/razorthink/application/management/MethodLinePrinter$1.class
 com/razorthink/application/service/impl/CommandsServiceImpl.class
 com/razorthink/application/beans/ProjectInformation.class
@@ -19,10 +20,12 @@ com/razorthink/application/utils/ResponseEntity.class
 com/razorthink/application/exceptions/NullFilePathsListException.class
 com/razorthink/application/management/JavaDocCommentsFinder.class
 com/razorthink/application/service/GithubOperations.class
+com/razorthink/application/management/DisplayMethodContent$MethodVisitor.class
 com/razorthink/application/exceptions/InvalidCreadentialException.class
 com/razorthink/application/management/MethodLinePrinter.class
 com/razorthink/application/beans/ProjectSummary.class
 com/razorthink/application/beans/Login.class
+com/razorthink/application/management/DisplayMethodContent$1.class
 com/razorthink/application/beans/Directory.class
 com/razorthink/application/beans/ProjectOrganization.class
 com/razorthink/application/management/MethodPrinter.class
@@ -35,4 +38,5 @@ com/razorthink/application/service/InferUserCommandService.class
 com/razorthink/application/management/MethodPrinter$MethodVisitor.class
 com/razorthink/application/service/ReadFile.class
 com/razorthink/application/beans/Branch.class
+com/razorthink/application/management/DisplayMethodContent.class
 com/razorthink/application/controllers/sample.class

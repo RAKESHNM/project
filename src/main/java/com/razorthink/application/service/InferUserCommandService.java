@@ -18,7 +18,7 @@ public class InferUserCommandService {
 
     List<String> FileList = new ArrayList<>();
     List<String> CommitList = new ArrayList<>();
-
+CommandPojo commandPojo1 = new CommandPojo();
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
         if(commandPojo.getSubModule().equals(""))
@@ -48,37 +48,52 @@ public class InferUserCommandService {
 
             if (commandPojo.getSubModule() != null) {
                 if (commandPojo.getDirectory() != null) {
-                    if (commandPojo.getFile() != null)
+                    if (commandPojo.getFile() != null){
                         FileList.add(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getDirectory() + commandPojo.getFile());
+                        commandPojo1.setFileList(FileList);}
                     else
                         FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getFile());
+                        commandPojo1.setFileList(FileList);
+
                 } else {
                     FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
+                    commandPojo1.setFileList(FileList);
+
                 }
             } else {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
+                commandPojo1.setFileList(FileList);
+
             }
 
-            if (commandPojo.getCommand().equalsIgnoreCase("List all methods")) {
+            if (commandPojo.getCommand().equalsIgnoreCase("List all methods"))
+            {
                 result.setObject(new CommandsServiceImpl().listAllMethods(FileList));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
             if (commandPojo.getCommand().equalsIgnoreCase("List all methods having lines greater than n")) {
                 int lines  = Integer.parseInt(commandPojo.getNoOfLines());
                 result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList,lines));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
             if(commandPojo.getCommand().equalsIgnoreCase("List all methods without javadocs")){
                 result.setObject(new CommandsServiceImpl().getAllMethodsWithJavaDocsComment(FileList));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
         }
         return null;
     }
 
-    public void showMethodContents(String methodName) throws Exception {
+    public void showMethodContents(String methodName,Project project) throws Exception {
 
-        new DisplayMethodContent().showMethodContent(FileList,methodName);
+        System.out.println(githubOperations.gitListingFiles(project.getLocalDirectory()));
+        new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodName);
     }
 
 }

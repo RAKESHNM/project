@@ -108,8 +108,8 @@ public class GitHubCkeckoutController {
         project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         project.setBranch(checkoutProject.getBranch());
         logger.info("Cloning  into . . .");
-        new ApplicationStateUtils().storeProject(project);
-            if(new ApplicationStateUtils().loadProjects().contains(project)) {
+        //new ApplicationStateUtils().storeProject(project);
+            if(!new ApplicationStateUtils().loadProjects().contains(project)) {
                 githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
                         Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
                         project.getUsername(), project.getPassword());
@@ -143,11 +143,11 @@ public class GitHubCkeckoutController {
 
    @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
     @ResponseBody()
-    public void showMethodContents(@RequestBody String methodName){
+    public void showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
 
         try{
 
-         new InferUserCommandService().showMethodContents(methodName);
+         new InferUserCommandService().showMethodContents(methodDeclaration.getMethodName(),project);
 
         }catch (Exception e){}
         }

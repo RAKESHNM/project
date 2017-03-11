@@ -31,6 +31,13 @@ $(document).ready(function(){
             $(".popup").addClass("showClass");
                 $(".popup").show();
        })
+//       $(".method").onclick(function(){
+//            getContent();
+//       })
+       $("#selectMethod").on('click', function(d) {
+
+          getContent(d.target);
+          })
        $(".closeIcon").click(function(){
             $(".popup").hide();
             $(".wrapper").empty();
@@ -52,6 +59,32 @@ function multiplyNode(node, count, deep, obj) {
 //        $(".method").append(obj);
 //        $(".method").append(" ");
     }
+ function getContent(d){
+var txt = $(d).text();
+console.log(txt);
+var auth = {};
+   auth.methodName = txt;
+            $.ajax({
+            url:"/rest/methodcontents",
+            type: 'POST',
+             crossDomain : true,
+              headers: {
+                 "content-type": "application/json"
+                 },
+             data :JSON.stringify(auth),
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res){
+
+         },
+          error: function(errorres){
+           console.log(errorres);
+          }
+        });
+
+  }
 function getCommandService(){
 var result;
 var errorres = [];
@@ -76,9 +109,12 @@ var errorres = [];
             success: function(res){
                 console.log(res);
                 result = res
-                console.log(result.object[0]);
                 if(!(data.command===("Project Summary"))&&!(data.command===("Commit Details"))){
-                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
+                for(let i = 0;i<result.object.length;i++){
+//                console.log(result.object[i]);
+                $(".method").append("<li>"+ result.object[i]  + "</li>");
+                }
+//                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
                 }
                 else if(!(data.command===("Commit Details"))){
                 console.log("Else condition");
@@ -97,7 +133,7 @@ var errorres = [];
                              }
                       }
                       }
-                for (var key in res){
+//                for (var key in res){
 //                container = $('<div id="summary" class="container"></div>');
 //                wrapper.append(container);
 //                container.append('<div class="item">' + key +'</div>');
@@ -105,10 +141,8 @@ var errorres = [];
 //                multiplyNode(document.querySelector(".linemethod"), (key.length), true, key);
 //                $(".method").append("<li>"+ key + "</li>");
 //                $(".method").empty();
-                }
-                function getContent(){
-                console.log(document.getElementById("selectMethod").value);
-                }
+//                }
+
                 }
                 else{
                 multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
@@ -124,25 +158,25 @@ var errorres = [];
         /*return errorres;*/
 }
 
-function getContent(){
-$.ajax({
-            url:"/rest/checkout",
-            type: 'POST',
-             crossDomain : true,
-              headers: {
-                 "content-type": "application/json"
-                 },
-             data :JSON.stringify(d),
-            xhrFields: {
-                withCredentials: true
-            },
-            success: function(res){
-            console.log("hi");
-           location.href = "../htmlfiles/CommandTest.html";
-              },
-
-          error: function(errorres){
-           console.log(errorres);
-          }
-        });
-}
+//function getContent(){
+//$.ajax({
+//            url:"/rest/checkout",
+//            type: 'POST',
+//             crossDomain : true,
+//              headers: {
+//                 "content-type": "application/json"
+//                 },
+//             data :JSON.stringify(d),
+//            xhrFields: {
+//                withCredentials: true
+//            },
+//            success: function(res){
+//            console.log("hi");
+//           location.href = "../htmlfiles/CommandTest.html";
+//              },
+//
+//          error: function(errorres){
+//           console.log(errorres);
+//          }
+//        });
+//}

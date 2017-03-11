@@ -15,19 +15,23 @@ import java.util.List;
 public class MethodPrinter {
     static List<String> listOfMethods;
     public List<String>  listAllMethods(List<String> list) throws Exception {
+
         listOfMethods = new ArrayList<>();
-        try {
+        FileInputStream in;
+        CompilationUnit cu;
+
             for(String filePath : list) {
                 // creates an input stream for the file to be parsed
-                FileInputStream in = new FileInputStream(filePath);
+                in = new FileInputStream(filePath);
 
                 // parse it
-                CompilationUnit cu = JavaParser.parse(in);
+                try {
+                    cu = JavaParser.parse(in);
+                }catch (Exception e){continue;}
 
                 // visit and print the methods names
                 new MethodVisitor().visit(cu, null);
             }
-        }catch (Exception e){}
         return listOfMethods;
     }
 

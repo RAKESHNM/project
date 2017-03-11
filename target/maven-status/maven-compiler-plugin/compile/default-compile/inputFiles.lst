@@ -3,6 +3,7 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/LocalDirectoryCreation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/InferUserCommandService.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/controllers/sample.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/MethodDeclaration.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/management/MethodPrinter.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/controllers/GitHubCkeckoutController.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/management/JavaDocCommentsFinder.java
@@ -18,6 +19,7 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/ProjectInformation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/CommandsService.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/ProjectList.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/management/DisplayMethodContent.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/ResponseEntity.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/controllers/ProjectAnalyserController.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/constants/Constants.java

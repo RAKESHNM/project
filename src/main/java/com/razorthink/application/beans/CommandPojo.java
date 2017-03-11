@@ -1,5 +1,7 @@
 package com.razorthink.application.beans;
 
+import java.util.List;
+
 /**
  * Created by rakesh on 1/3/17.
  */
@@ -10,6 +12,15 @@ public class CommandPojo {
     private String subModule;
     private String file;
     private String  noOfLines;
+    private List<String> FileList;
+
+    public List<String> getFileList() {
+        return FileList;
+    }
+
+    public void setFileList(List<String> fileList) {
+        FileList = fileList;
+    }
 
     public String getNoOfLines() {
         return noOfLines;
