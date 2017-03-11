@@ -7,11 +7,11 @@ function getCommandServiceResult(){
                 data.noOfLines=document.getElementById("number").value;
 
            $.ajax({
-            url:"http://localhost:8080/inputs",
+            url:"/rest/inputs",
             type: 'POST',
              crossDomain : true,
               headers: {
-                 "content-type": "application/json"
+                 "content-type": "appl•••••••••ication/json"
                  },
              data :JSON.stringify(data),
             dataType: 'json',

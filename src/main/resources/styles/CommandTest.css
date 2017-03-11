@@ -1,63 +1,55 @@
 *{
-	color: #32404d;
-	font-family: serif;
+   color: #32404d;
+   font-family: serif;
 }
-
 .mainWrapper{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	background: #eff0f1;
-	align-items: center;
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   background: #eff0f1;
+   align-items: center;
     display: flex;
     justify-content: center;
 }
-
 .contentWrapper{
-	background: #ffffff;
-	padding: 50px 100px;
-	border: 1px solid #d2d2d2;
-	border-radius: 3px;
+   background: #ffffff;
+   padding: 50px 100px;
+   border: 1px solid #d2d2d2;
+   border-radius: 3px;
 }
-
 .label{
-	font-size: 25px;
+   font-size: 25px;
     font-weight: 500;
     display: inline-block;
     min-width: 240px;
     line-height: 35px;
 }
-
 .fieldWrapper{
-	margin-bottom: 20px;
+   margin-bottom: 20px;
 }
-
 #selectRepo{
-	height: 35px;
+   height: 35px;
     border-radius: 3px;
     font-size: 16px;
     background: #efefef;
     padding: 0 10px;
     width: 275px;
 }
-
 .inputField{
-	height: 30px;
+   height: 30px;
     width: 275px;
     border: 1px solid #d2d2d2;
     border-radius: 3px;
     font-size: 16px;
 }
-
 .buttonWrapper{
-	margin-top: 20px;
+   margin-top: 20px;
 }
-
 .button{
-	background: #37a5e4;
-	margin: auto;
+   background: #37a5e4;
+   margin: auto;
     display: inherit;
     width: 100px;
     height: 28px;
@@ -66,7 +58,6 @@
     border: 1px solid #37a5e4;
     font-weight: 700;
 }
-
 .popup{
     display: none;
     overflow: hidden;
@@ -76,21 +67,17 @@
     border: solid 1px;
     background: #e2e2e2;
 }
-
 .showClass{
     display: block;
 }
-
 .wrapperShadow{
       opacity: 0.5;
 }
-
 .popupHeader{
     content: '';
     clear: both;
     height: 50px;
 }
-
 .closeIcon{
     display: inline-block;
     width: 50px;
@@ -100,7 +87,6 @@
     line-height: 50px;
     cursor: pointer;
 }
-
 .popupHeaderText{
     float: left;
     width: calc(100% - 50px);
@@ -108,23 +94,19 @@
     line-height: 50px;
     margin: 0;
 }
-
 .popupContent{
     background: #ffffff;
     padding: 10px 20px;
     border-bottom: 1px solid #d2d2d2;
 }
-
 .popupContent:first-child{
     border-top: 1px solid #d2d2d2;
 }
-
 .message{
     font-size: 20px;
     margin-bottom: 10px;
     display: inline-block;
 }
-
 .author{
     height: 30px;
     display: inline-block;
@@ -136,7 +118,6 @@
     padding: 0 3px;
     margin-right: 20px;
 }
-
 .date{
     min-width: 200px;
     display: inline-block;
@@ -148,7 +129,6 @@
     padding: 0 3px;
     margin-right: 20px;
 }
-
 .time{
     min-width: 200px;
     display: inline-block;
@@ -160,7 +140,6 @@
     padding: 0 3px;
     margin-right: 20px;
 }
-
 .method{
     border-bottom: 1px solid #d2d2d2;
     padding-left: 66px;
@@ -169,11 +148,9 @@
     line-height: 33px;
     display: block;
 }
-
 .method:first-of-type{
     border-top: 1px solid #d2d2d2;
 }
-
 .linemethod{
     border-bottom: 1px solid #d2d2d2;
     padding-left: 66px;
@@ -182,11 +159,9 @@
     line-height: 33px;
     display: block;
 }
-
 .linemethod:first-of-type{
     border-top: 1px solid #d2d2d2;
 }
-
 .wrapper{
 width: 100%;
 height: calc(100% - 50px);

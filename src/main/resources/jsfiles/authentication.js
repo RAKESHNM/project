@@ -13,7 +13,7 @@
     auth.userName=form.username.value;
     auth.password=form.password.value;
     $.ajax({
-    url: 'http://localhost:8080/credential',
+    url: '/rest/credential',
     data:JSON.stringify(auth),
     headers: {
     "content-type": "application/json"

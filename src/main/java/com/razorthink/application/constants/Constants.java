@@ -20,4 +20,5 @@ public class Constants {
     public static final String DOT_GIT_EXTENSION = ".git";
     public static final String SLASH_EXTENSION = "/";
     public static final String LIST_ALL_REPOSITORIES = "repositories";
+    public static final String SHOW_METHOD_CONTENTS = "/methodcontents";
 }

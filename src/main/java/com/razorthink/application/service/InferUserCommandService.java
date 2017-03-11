@@ -2,6 +2,7 @@ package com.razorthink.application.service;
 import com.razorthink.application.beans.CommandPojo;
 import com.razorthink.application.beans.Project;
 import com.razorthink.application.beans.Result;
+import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,11 @@ public class InferUserCommandService {
             }
         }
         return null;
+    }
+
+    public void showMethodContents(String methodName) throws Exception {
+
+        new DisplayMethodContent().showMethodContent(FileList,methodName);
     }
 
 }

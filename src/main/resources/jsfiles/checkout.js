@@ -1,7 +1,7 @@
 
 function myFunctions(){
             $.ajax({
-            url:"http://localhost:8080/repositories",
+            url:"/rest/repositories",
             type: 'GET',
              crossDomain : true,
             dataType: 'json',
@@ -36,7 +36,7 @@ function getBranches(repo){
             var auth = {};
                 auth.remoteRepo=repo;
             $.ajax({
-            url:"http://localhost:8080/branch",
+            url:"/rest/branch",
             type: 'POST',
              crossDomain : true,
               headers: {
@@ -87,7 +87,7 @@ var d = {};
 d.branch = (document.getElementById("selectBranch").value);
 d.remoteRepo = (document.getElementById("selectRepo").value);
   $.ajax({
-            url:"http://localhost:8080/checkout",
+            url:"/rest/checkout",
             type: 'POST',
              crossDomain : true,
               headers: {
