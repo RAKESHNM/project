@@ -84,14 +84,30 @@ var errorres = [];
                 console.log("Else condition");
                 console.log(res.object.length);
                 var wrapper = $('#wrapper'), container;
+                 printValues(result);
+                 function printValues(obj) {
+                 for (var key in obj) {
+                      if (typeof obj[key] === "object") {
+//                                console.log(key ," : ");
+//                                $(".method").append("<li>"+ key +" ; " + "</li>");
+                                printValues(obj[key]);
+                      } else {
+                                $(".linemethod").append("<li>"+key + " : " +  obj[key] + "</li>");
+                                console.log(obj[key]);
+                             }
+                      }
+                      }
                 for (var key in res){
 //                container = $('<div id="summary" class="container"></div>');
 //                wrapper.append(container);
 //                container.append('<div class="item">' + key +'</div>');
-                console.log(key);
+//                console.log(key);
 //                multiplyNode(document.querySelector(".linemethod"), (key.length), true, key);
-                $(".method").append("<li>"+ key + "</li>");
+//                $(".method").append("<li>"+ key + "</li>");
 //                $(".method").empty();
+                }
+                function getContent(){
+                console.log(document.getElementById("selectMethod").value);
                 }
                 }
                 else{
@@ -106,4 +122,27 @@ var errorres = [];
             }
         });
         /*return errorres;*/
+}
+
+function getContent(){
+$.ajax({
+            url:"/rest/checkout",
+            type: 'POST',
+             crossDomain : true,
+              headers: {
+                 "content-type": "application/json"
+                 },
+             data :JSON.stringify(d),
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res){
+            console.log("hi");
+           location.href = "../htmlfiles/CommandTest.html";
+              },
+
+          error: function(errorres){
+           console.log(errorres);
+          }
+        });
 }
