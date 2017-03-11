@@ -2,6 +2,7 @@ package com.razorthink.application.controllers;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
+import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.utils.ApplicationStateUtils;
@@ -147,7 +148,7 @@ public class GitHubCkeckoutController {
 
         try{
 
-         new InferUserCommandService().showMethodContents(methodDeclaration.getMethodName(),project);
+         new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodDeclaration.getMethodName());
 
         }catch (Exception e){}
         }

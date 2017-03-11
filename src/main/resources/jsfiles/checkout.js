@@ -1,4 +1,4 @@
-
+$("#selectRepo").val($("#selectRepo option:first").val());
 function myFunctions(){
             $.ajax({
             url:"/rest/repositories",
@@ -13,7 +13,7 @@ function myFunctions(){
                 console.log(res);
                         $('#selectRepo').empty();
                         var output = [];
-
+                        output.push('<option>' + "select repository" + '</option>');
                         res.forEach(function(key){
                             output.push('<option >'+ key +'</option>');
                         })
@@ -52,7 +52,7 @@ function getBranches(repo){
                 console.log(res);
                         $('#selectBranch').empty();
                         var output = [];
-
+                        output.push('<option>' + "select branch" + '</option>');
                         res.forEach(function(key){
                             output.push('<option >'+ key +'</option>');
                         })

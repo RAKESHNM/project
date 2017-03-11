@@ -5,6 +5,7 @@ import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class DisplayMethodContent {
      List<String> listOfMethods;
 
-    private  Frame f = new Frame();
+    public static  Frame f = new Frame();
 
     private  String name;
     public void showMethodContent(List<String> filePaths, String methodName) throws Exception {
@@ -33,7 +34,7 @@ public class DisplayMethodContent {
                     cu = JavaParser.parse(in);
                 }catch (Exception e){continue;}
 
-                new DisplayMethodContent.MethodVisitor().visit(cu, null);
+                new MethodVisitor().visit(cu, null);
             }
 
     }
@@ -43,7 +44,8 @@ public class DisplayMethodContent {
         @Override
         public void visit(MethodDeclaration n, Void arg) {
 
-            if(n.getName() == name){
+            if(n.getName().equals("setLocalRepoPath")){
+                //Frame f =  new Frame();
                 TextArea textArea = new TextArea(String.valueOf(n.getBody()));
                 textArea.setBounds(10,30,1200,600);
                 f.add(textArea);
@@ -51,6 +53,7 @@ public class DisplayMethodContent {
                 f.setLayout(null);
                 f.setVisible(true);
             }
+            super.visit(n, arg);
         }
     }
 }

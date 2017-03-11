@@ -21,11 +21,18 @@ public class MethodLinePrinter {
 
         noOfLines = lines;
         listOfMethods = new ArrayList<>();
+        FileInputStream in;
+        japa.parser.ast.CompilationUnit cu;
 
         try {
             for (String filePath : filePaths) {
-                FileInputStream in = new FileInputStream(filePath);
-                japa.parser.ast.CompilationUnit cu = JavaParser.parse(in);
+                in = new FileInputStream(filePath);
+                try {
+
+                     cu = JavaParser.parse(in);
+
+                }catch (Exception e){continue;}
+
                 new MethodVisitor().visit(cu, null);
             }
 
@@ -43,6 +50,7 @@ public class MethodLinePrinter {
                // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
                 listOfMethods.add(n.getName());
             }
+            //super.visit(n, arg);
         }
     }
 }

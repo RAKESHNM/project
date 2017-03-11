@@ -12,18 +12,17 @@ import java.util.List;
 public class JavaDocCommentsFinder {
 
     static List<String> listOfMethods;
+    FileInputStream in;
+    CompilationUnit cu;
 
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
         listOfMethods = new ArrayList<>();
         try {
             for(String filePath : list) {
-                // creates an input stream for the file to be parsed
-                FileInputStream in = new FileInputStream(filePath);
-
-                // parse it
-                CompilationUnit cu = JavaParser.parse(in);
-
-                // visit and print the methods names
+                 in = new FileInputStream(filePath);
+                 try {
+                     cu = JavaParser.parse(in);
+                 }catch (Exception e){continue;}
                 new MethodVisitor().visit(cu, null);
             }
         }catch (Exception e){}
@@ -39,7 +38,7 @@ public class JavaDocCommentsFinder {
             /* here you can access the attributes of the method.
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
-            if(n.getComment() != null) {
+            if(n.getComment() == null) {
                 //System.out.println(n.getComment());
                 //System.out.println(n.getName());
                 listOfMethods.add(n.getName());
