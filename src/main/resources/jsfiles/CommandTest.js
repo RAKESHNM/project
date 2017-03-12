@@ -35,7 +35,7 @@ $(document).ready(function(){
 //            getContent();
 //       })
        $("#selectMethod").on('click', function(d) {
-
+           $(d).text();
           getContent(d.target);
           })
        $(".closeIcon").click(function(){
@@ -72,12 +72,16 @@ var auth = {};
                  "content-type": "application/json"
                  },
              data :JSON.stringify(auth),
-            dataType: 'json',
+            dataType: 'text',
             xhrFields: {
                 withCredentials: true
             },
             success: function(res){
-
+              console.log(res);
+              localStorage.setItem("res",res);
+              location.href = "../htmlfiles/loginService.html";
+              insertContents(res);
+              document.getElementById("alltext").value += res;
          },
           error: function(errorres){
            console.log(errorres);

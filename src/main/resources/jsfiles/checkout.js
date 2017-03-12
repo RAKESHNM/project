@@ -82,6 +82,8 @@ console.log(document.getElementById("selectBranch").value);
 }
 
 function gitCheckout(){
+localStorage.setItem("repository",document.getElementById("selectRepo").value);
+localStorage.setItem("branch",document.getElementById("selectBranch"));
 alert('Please wait . . . checking out');
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);

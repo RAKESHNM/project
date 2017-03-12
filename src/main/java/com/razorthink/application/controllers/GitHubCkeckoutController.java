@@ -8,6 +8,9 @@ import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.utils.ApplicationStateUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +23,10 @@ import java.util.List;
 @RestController()
 @RequestMapping("/rest")
 public class GitHubCkeckoutController {
+
+    @Autowired
+    Environment env;
+
     private Project project = new Project();
 
     private GithubOperations githubOperations = new GithubOperations();
@@ -44,7 +51,7 @@ public class GitHubCkeckoutController {
     @ResponseBody
     public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
         try{
-            System.out.println("Test");
+            System.out.println(env.getProperty("projects.local.directory"));
             project.setUsername(login.getUserName());
             project.setPassword(login.getPassword());
             client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
@@ -144,13 +151,14 @@ public class GitHubCkeckoutController {
 
    @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
     @ResponseBody()
-    public void showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
+    public String showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
 
         try{
 
-         new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodDeclaration.getMethodName());
+        return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodDeclaration.getMethodName());
 
         }catch (Exception e){}
+        return  null;
         }
 
 

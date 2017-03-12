@@ -14,13 +14,11 @@ import java.util.List;
 /**
  * Created by antolivish on 10/3/17.
  */
-public class DisplayMethodContent {
+public class DisplayMethodContent  {
      List<String> listOfMethods;
-
-    public static  Frame f = new Frame();
-
     private  String name;
-    public void showMethodContent(List<String> filePaths, String methodName) throws Exception {
+    private String returnValue = null;
+    public String showMethodContent(List<String> filePaths, String methodName) throws Exception {
 
         name = methodName;
         listOfMethods = new ArrayList<>();
@@ -36,24 +34,21 @@ public class DisplayMethodContent {
 
                 new MethodVisitor().visit(cu, null);
             }
-
+         return returnValue;
     }
 
-    private  class MethodVisitor extends VoidVisitorAdapter<Void> {
+    private  class MethodVisitor extends VoidVisitorAdapter<Void>  {
 
-        @Override
-        public void visit(MethodDeclaration n, Void arg) {
 
-            if(n.getName().equals("setLocalRepoPath")){
-                //Frame f =  new Frame();
-                TextArea textArea = new TextArea(String.valueOf(n.getBody()));
-                textArea.setBounds(10,30,1200,600);
-                f.add(textArea);
-                f.setSize(400,400);
-                f.setLayout(null);
-                f.setVisible(true);
-            }
-            super.visit(n, arg);
-        }
+           @Override
+           public void visit (MethodDeclaration n, Void arg){
+
+               if(n.getName().equals(name))
+               returnValue = String.valueOf(n.getBody());
+               super.visit(n, arg);
+           }
+
+
+
     }
 }
