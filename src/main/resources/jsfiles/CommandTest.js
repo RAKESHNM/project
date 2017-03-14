@@ -166,7 +166,12 @@ var errorres = [];
 
                 }
                 else{
-                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
+                for(let i =0;i<result.object.length;i=i+3){
+                    $(".linemethod").append(result.object[i]+"<br>");
+                    $(".linemethod").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
+                    $(".linemethod").append("<br>");
+                }
+//                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
                 }
 //                for(var i=0; i<result.object.length;i++){
 //                $(".method").append(result.object);
