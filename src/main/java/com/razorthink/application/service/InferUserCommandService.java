@@ -33,6 +33,7 @@ CommandPojo commandPojo1 = new CommandPojo();
         result.setBranch(project.getBranch());
         if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
             result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch()));
+//              result.setObject(githubOperations.getCommitsFromFile(project.getLocalDirectory(),"src/main/java/com/razorthink/application/service/GithubOperations.java"));
             return result;
         }
         else if(commandPojo.getCommand().equalsIgnoreCase("Project Summary")){
