@@ -77,21 +77,40 @@ public class GithubOperations {
      * @return
      * @throws Exception
      */
-    public List<String> gitListingFiles(String localRepoPath) throws Exception {
+    public List<List<String>> gitListingFiles(String localRepoPath) throws Exception {
         int index = 1;
         System.out.println("\nFile path list");
         System.out.println("------------------------");
-        int count = 0;
-        List<String> fileList = new ArrayList<String>();
+        List<String> javaFiles = new ArrayList<>();
+        List<String> htmlFiles = new ArrayList<>();
+        List<String> cssFiles = new ArrayList<>();
+        List<String> jsFiles = new ArrayList<>();
+         int count = 0;
+        List<List<String>> fileList = new ArrayList();
         File dir = new File(localRepoPath);
-        String[] extensions = new String[]{"java","py"};
+        String[] extensions = new String[]{"java","py","html","css","js"};
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for (File file : files) {
             System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
-            fileList.add(file.getCanonicalPath());
+            if(file.getName().substring(file.getName().lastIndexOf(".")+1).equals("java"))
+            javaFiles.add(file.getCanonicalPath());
+            if(file.getName().substring(file.getName().lastIndexOf(".")+1).equals("html"))
+                htmlFiles.add(file.getCanonicalPath());
+            if(file.getName().substring(file.getName().lastIndexOf(".")+1).equals("js"))
+                jsFiles.add(file.getCanonicalPath());
+            if(file.getName().substring(file.getName().lastIndexOf(".")+1).equals("css"))
+                cssFiles.add(file.getCanonicalPath());
+
             count++;index++;
         }
+        fileList.add(javaFiles);
+        fileList.add(jsFiles);
+        fileList.add(cssFiles);
+        fileList.add(htmlFiles);
         System.out.println("\nCount :" + count);
+        System.out.println(fileList.get(0));
+        System.out.println(fileList.get(1));
+        System.out.println(fileList.get(2));
         return fileList;
     }
 

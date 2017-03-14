@@ -17,6 +17,8 @@ public class MethodLinePrinter {
 
     public static int noOfLines = 0;
 
+    public static String returnFilePath;
+
     public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
 
         noOfLines = lines;
@@ -26,6 +28,7 @@ public class MethodLinePrinter {
 
         try {
             for (String filePath : filePaths) {
+                returnFilePath = filePath;
                 in = new FileInputStream(filePath);
                 try {
 
@@ -48,7 +51,9 @@ public class MethodLinePrinter {
             if((n.getEndLine() - n.getBeginLine())>=noOfLines) {
 
                // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
-                listOfMethods.add(n.getName());
+                listOfMethods.add(n.getName() );
+                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()));
+                listOfMethods.add(returnFilePath);
             }
             //super.visit(n, arg);
         }

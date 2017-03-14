@@ -130,10 +130,12 @@ var errorres = [];
             success: function(res){
                 console.log(res);
                 result = res
+
                 if(!(data.command===("Project Summary"))&&!(data.command===("Commit Details"))){
                 for(let i = 0;i<result.object.length;i++){
 //                console.log(result.object[i]);
                 $(".method").append("<li>"+ result.object[i]  + "</li>");
+
                 }
 //                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
                 }
