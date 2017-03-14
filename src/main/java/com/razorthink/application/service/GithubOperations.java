@@ -183,9 +183,7 @@ public class GithubOperations {
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
             System.out.println(commit.getFullMessage().length());
-            commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
 //           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
-           commitList.add("\n");
 //            commitList.add(date.toString());
 
         }

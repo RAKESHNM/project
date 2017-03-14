@@ -13,6 +13,15 @@ public class CommandPojo {
     private String file;
     private String  noOfLines;
     private List<String> FileList;
+    private String filesize;
+
+    public String getFilesize() {
+        return filesize;
+    }
+
+    public void setFilesize(String filesize) {
+        this.filesize = filesize;
+    }
 
     public List<String> getFileList() {
         return FileList;
@@ -34,13 +43,14 @@ public class CommandPojo {
 
     }
 
-    public CommandPojo(String command, String module, String subModule, String file,String noOfLines) {
+    public CommandPojo(String command, String module, String subModule, String file,String noOfLines,String filesize) {
         super();
         this.command = command;
         this.directory = module;
         this.subModule = subModule;
         this.file = file;
         this.noOfLines = noOfLines;
+        this.filesize = filesize;
     }
 
     public String getCommand() {

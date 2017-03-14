@@ -38,7 +38,7 @@ public class JavaDocCommentsFinder {
             /* here you can access the attributes of the method.
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
-            if(n.getComment() == null) {
+            if(n.getComment() == null && n.getJavaDoc()== null) {
                 //System.out.println(n.getComment());
                 //System.out.println(n.getName());
                 listOfMethods.add(n.getName());

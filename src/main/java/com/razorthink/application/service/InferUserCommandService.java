@@ -32,6 +32,8 @@ CommandPojo commandPojo1 = new CommandPojo();
             commandPojo.setFile(null);
         if(commandPojo.getNoOfLines().equals(""))
             commandPojo.setNoOfLines("0");
+        if(commandPojo.getFilesize().equals(""))
+            commandPojo.setFilesize("0");
 
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
@@ -72,13 +74,13 @@ CommandPojo commandPojo1 = new CommandPojo();
 
             }
 
-            if (commandPojo.getCommand().equalsIgnoreCase("//List all methods"))
-            {
-                result.setObject(new CommandsServiceImpl().listAllMethods(FileList.get(0)));
-                commandPojo1.setFileList(FileList.get(0));
-
-                return result;
-            }
+//            if (commandPojo.getCommand().equalsIgnoreCase("//List all methods"))
+//            {
+//                result.setObject(new CommandsServiceImpl().listAllMethods(FileList.get(0)));
+//                commandPojo1.setFileList(FileList.get(0));
+//
+//                return result;
+//            }
             if (commandPojo.getCommand().equalsIgnoreCase("List all methods having lines greater than n")) {
                 int lines  = Integer.parseInt(commandPojo.getNoOfLines());
                 result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList.get(0),lines));
@@ -92,23 +94,26 @@ CommandPojo commandPojo1 = new CommandPojo();
 
                 return result;
             }
-            if(commandPojo.getCommand().equalsIgnoreCase("List all methods")){
+            if(commandPojo.getCommand().equalsIgnoreCase("List all files")){
                 List<List<String>> resultList = new ArrayList<>();
-                List<String> subList = new ArrayList<>();
-                int size  = Integer.parseInt(commandPojo.getNoOfLines());
+
+                double size  = Integer.parseInt(commandPojo.getFilesize());
                 for(List<String> files : FileList){
 
+                    List<String> subList = new ArrayList<>();
                     for(int i = 0; i < files.size(); i++){
 
                         File file = new File(files.get(i));
-                        if( file.length()/1024 > size) {
+                        if( (file.length()/1024) >= size) {
                             subList.add(file.getName());
                             subList.add(String.valueOf(file.length())+"Kb");
                             subList.add(files.get(i));
                         }
-                        resultList.add(subList);
+
                     }
+                    resultList.add(subList);
                 }
+
                 result.setObject(resultList);
                return result;
             }
