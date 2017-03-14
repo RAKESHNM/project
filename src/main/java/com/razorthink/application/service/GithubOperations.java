@@ -6,12 +6,14 @@ import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -178,9 +180,9 @@ public class GithubOperations {
            System.out.println(date.toString());
            System.out.println(commit.getFullMessage());
             commitList.add(commit.getFullMessage());
-            System.out.println(commit.getFullMessage().length());
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
+            System.out.println(commit.getFullMessage().length());
 //           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
 //            commitList.add(date.toString());
 
@@ -266,5 +268,23 @@ public class GithubOperations {
         System.out.println("\nFile : ");
         final String File = scanner.nextLine();
         return File;
+    }
+
+    public List<String> getCommitsFromFile(String localRepoPath,String filepath) throws Exception{
+        List<String> list = new ArrayList<>();
+        File dir = new File(localRepoPath);
+        Git git = Git.open(dir);
+        Iterable<RevCommit> commits = git.log().addPath(filepath).call();
+        int count = 0;
+        for( RevCommit commit : commits ) {
+//            System.out.println(commit.getAuthorIdent().getName());
+//            System.out.println(commit.getFullMessage());
+            Date date = new Date(commit.getCommitTime() * 1000L);
+            list.add(commit.getAuthorIdent().getName());
+            list.add(commit.getName());
+            list.add(date.toString());
+        }
+        System.out.println("Number of Commits :" + count);
+        return list;
     }
 }
