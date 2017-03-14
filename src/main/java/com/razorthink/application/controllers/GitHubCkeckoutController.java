@@ -116,13 +116,13 @@ public class GitHubCkeckoutController {
         project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         project.setBranch(checkoutProject.getBranch());
         logger.info("Cloning  into . . .");
-//        new ApplicationStateUtils().storeProject(project);
-            if(!new ApplicationStateUtils().loadProjects().contains(project)) {
+     //new ApplicationStateUtils().storeProject(project);
+       //    if(!new ApplicationStateUtils().loadProjects().contains(project)) {
                 githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
                         Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
                         project.getUsername(), project.getPassword());
              new ApplicationStateUtils().storeProject(project);
-            }
+         //   }
 
         logger.info("Done");
         return "Done";
@@ -155,7 +155,7 @@ public class GitHubCkeckoutController {
 
         try{
 
-        return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodDeclaration.getMethodName());
+        return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName());
 
         }catch (Exception e){}
         return  null;

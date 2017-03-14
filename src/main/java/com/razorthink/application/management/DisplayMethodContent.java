@@ -50,8 +50,5 @@ public class DisplayMethodContent  {
                            n.getParameters() + "\n" + "\n"+" Method Logic: " + "\n" + n.getBody();
                super.visit(n, arg);
            }
-
-
-
     }
 }

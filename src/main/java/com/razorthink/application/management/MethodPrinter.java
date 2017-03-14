@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MethodPrinter {
     static List<String> listOfMethods;
+    static String filePathReturn;
     public List<String>  listAllMethods(List<String> list) throws Exception {
 
         listOfMethods = new ArrayList<>();
@@ -21,6 +22,8 @@ public class MethodPrinter {
         CompilationUnit cu;
 
             for(String filePath : list) {
+
+                filePathReturn = filePath;
                 // creates an input stream for the file to be parsed
                 in = new FileInputStream(filePath);
 
@@ -49,6 +52,7 @@ public class MethodPrinter {
              CompilationUnit, including inner class methods */
             //System.out.println(n.getName());
             listOfMethods.add(n.getName());
+            listOfMethods.add(filePathReturn);
             super.visit(n, arg);
         }
     }
