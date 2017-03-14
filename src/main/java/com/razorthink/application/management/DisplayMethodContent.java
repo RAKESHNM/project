@@ -44,7 +44,10 @@ public class DisplayMethodContent  {
            public void visit (MethodDeclaration n, Void arg){
 
                if(n.getName().equals(name))
-               returnValue = String.valueOf(n.getBody());
+               //returnValue = String.valueOf(n.getBody());
+                   returnValue = "JavaDocs: "+ n.getComment()+ "\n" +
+                           "Method Name: "+ n.getName()+ "\n" + "\n" + "Parameters: " +
+                           n.getParameters() + "\n" + "\n"+" Method Logic: " + "\n" + n.getBody();
                super.visit(n, arg);
            }
 

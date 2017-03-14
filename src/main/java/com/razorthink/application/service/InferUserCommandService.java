@@ -30,7 +30,7 @@ CommandPojo commandPojo1 = new CommandPojo();
 
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
-        result.setBrach(project.getBranch());
+        result.setBranch(project.getBranch());
         if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
             result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch()));
             return result;

@@ -5,34 +5,34 @@ package com.razorthink.application.beans;
  */
 public class Result {
 
-    private String projectName;
-    private String brach;
+    private String ProjectName;
+    private String branch;
     private Object object;
 
     public Result(){
 
     }
 
-    public Result(String projectName, String brach, Object object) {
-        this.projectName = projectName;
-        this.brach = brach;
+    public Result(String ProjectName, String branch, Object object) {
+        this.ProjectName = ProjectName;
+        this.branch = branch;
         this.object = object;
     }
 
     public String getProjectName() {
-        return projectName;
+        return ProjectName;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setProjectName(String ProjectName) {
+        this.ProjectName = ProjectName;
     }
 
-    public String getBrach() {
-        return brach;
+    public String getBranch() {
+        return branch;
     }
 
-    public void setBrach(String brach) {
-        this.brach = brach;
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public Object getObject() {
