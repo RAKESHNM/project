@@ -2,6 +2,7 @@ package com.razorthink.application.service;
 import com.razorthink.application.beans.CommandPojo;
 import com.razorthink.application.beans.Project;
 import com.razorthink.application.beans.Result;
+import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,8 @@ public class InferUserCommandService {
     GithubOperations githubOperations = new GithubOperations();
 
     List<String> FileList = new ArrayList<>();
-
+    List<String> CommitList = new ArrayList<>();
+CommandPojo commandPojo1 = new CommandPojo();
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
         if(commandPojo.getSubModule().equals(""))
@@ -28,9 +30,10 @@ public class InferUserCommandService {
 
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
-        result.setBrach(project.getBranch());
+        result.setBranch(project.getBranch());
         if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
-            githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch());
+            result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch()));
+            return result;
         }
         else if(commandPojo.getCommand().equalsIgnoreCase("Project Summary")){
             String pomFilePath = project.getLocalDirectory()+"pom.xml";
@@ -45,32 +48,52 @@ public class InferUserCommandService {
 
             if (commandPojo.getSubModule() != null) {
                 if (commandPojo.getDirectory() != null) {
-                    if (commandPojo.getFile() != null)
+                    if (commandPojo.getFile() != null){
                         FileList.add(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getDirectory() + commandPojo.getFile());
+                        commandPojo1.setFileList(FileList);}
                     else
                         FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getFile());
+                        commandPojo1.setFileList(FileList);
+
                 } else {
                     FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
+                    commandPojo1.setFileList(FileList);
+
                 }
             } else {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
+                commandPojo1.setFileList(FileList);
+
             }
 
-            if (commandPojo.getCommand().equalsIgnoreCase("List all methods")) {
+            if (commandPojo.getCommand().equalsIgnoreCase("List all methods"))
+            {
                 result.setObject(new CommandsServiceImpl().listAllMethods(FileList));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
             if (commandPojo.getCommand().equalsIgnoreCase("List all methods having lines greater than n")) {
                 int lines  = Integer.parseInt(commandPojo.getNoOfLines());
                 result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList,lines));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
             if(commandPojo.getCommand().equalsIgnoreCase("List all methods without javadocs")){
                 result.setObject(new CommandsServiceImpl().getAllMethodsWithJavaDocsComment(FileList));
+                commandPojo1.setFileList(FileList);
+
                 return result;
             }
         }
         return null;
+    }
+
+    public void showMethodContents(String methodName,Project project) throws Exception {
+
+        System.out.println(githubOperations.gitListingFiles(project.getLocalDirectory()));
+        new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()),methodName);
     }
 
 }

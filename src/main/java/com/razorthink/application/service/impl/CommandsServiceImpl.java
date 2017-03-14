@@ -1,10 +1,8 @@
 package com.razorthink.application.service.impl;
 
-import com.razorthink.application.management.JavaDocCommentsFinder;
-import com.razorthink.application.management.MethodLinePrinter;
-import com.razorthink.application.management.MethodPrinter;
-import com.razorthink.application.management.ProjectSummary;
+import com.razorthink.application.management.*;
 import com.razorthink.application.service.CommandsService;
+import com.razorthink.application.service.GithubOperations;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.IOException;
@@ -18,10 +16,8 @@ public class CommandsServiceImpl implements CommandsService{
     @Override
     public List<String> listAllMethods(List<String> filePaths) throws Exception {
 
-        List<String> list = new MethodPrinter().listAllMethods(filePaths);
-        return list;
+        return new MethodPrinter().listAllMethods(filePaths);
     }
-
     @Override
     public List<String> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception {
 
@@ -39,4 +35,7 @@ public class CommandsServiceImpl implements CommandsService{
         List<String> list =  new JavaDocCommentsFinder().getJavaDocCommentedMethods(filePaths);
         return list;
     }
+
+
+
 }
