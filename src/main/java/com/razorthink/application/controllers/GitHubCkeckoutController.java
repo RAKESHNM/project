@@ -5,6 +5,7 @@ import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
+import com.razorthink.application.service.ReadFile;
 import com.razorthink.application.utils.ApplicationStateUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,13 +116,13 @@ public class GitHubCkeckoutController {
         RepositoryService service = new RepositoryService(client);
         project.setRemoteRepo(checkoutProject.getRemoteRepo());
         project.setBranch(checkoutProject.getBranch());
-        project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + "_" + checkoutProject.getBranch() + Constants.SLASH_EXTENSION);
+        project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + System.getProperty(File.separator));
         project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         logger.info("Cloning  into . . .");
      //new ApplicationStateUtils().storeProject(project);
        //    if(!new ApplicationStateUtils().loadProjects().contains(project)) {
                 githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo()+"_"+checkoutProject.getBranch() + Constants.SLASH_EXTENSION,
+                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + System.getProperty(File.separator),
                         project.getUsername(), project.getPassword());
              new ApplicationStateUtils().storeProject(project);
          //   }
