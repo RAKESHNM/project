@@ -163,8 +163,35 @@
 .linemethod:first-of-type{
     border-top: 1px solid #d2d2d2;
 }
+.linemethod1{
+    border-bottom: 1px solid #d2d2d2;
+    padding: 0 50px;
+    font-size: 20px;
+    height: 33px;
+    line-height: 33px;
+    display: block;
+}
+.linemethod1:first-of-type{
+    border-top: 1px solid #d2d2d2;
+}
 .wrapper{
 width: 100%;
 height: calc(100% - 50px);
 overflow: auto;
+}
+.hoverinfo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 28px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.hoverinfo p {
+  display: none;
+  color: #000000;
+}
+.hoverinfo:hover p {
+  background-color: rgba(255, 255, 255, 0.7);
+  display: block;
 }

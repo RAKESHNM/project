@@ -157,9 +157,20 @@ public class GitHubCkeckoutController {
 
         return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName());
 
-        }catch (Exception e){}
-        return  null;
-        }
+    }catch (Exception e){}
+    return  null;
+  }
+
+
+  @RequestMapping(value = Constants.SHOW_FILE_CONTENTS,method = RequestMethod.POST)
+  @ResponseBody()
+  public String showFileContents(@RequestBody String filename){
+    try{
+         return new ReadFile().extractingFilepath(project.getLocalDirectory(),filename);
+    }
+    catch (Exception e){}
+    return null;
+  }
 
 
 
