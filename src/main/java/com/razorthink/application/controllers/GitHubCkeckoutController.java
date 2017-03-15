@@ -112,14 +112,14 @@ public class GitHubCkeckoutController {
         client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
         RepositoryService service = new RepositoryService(client);
         project.setRemoteRepo(checkoutProject.getRemoteRepo());
-        project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION);
-        project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         project.setBranch(checkoutProject.getBranch());
+        project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + "_" + checkoutProject.getBranch() + Constants.SLASH_EXTENSION);
+        project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
         logger.info("Cloning  into . . .");
      //new ApplicationStateUtils().storeProject(project);
        //    if(!new ApplicationStateUtils().loadProjects().contains(project)) {
                 githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
+                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo()+"_"+checkoutProject.getBranch() + Constants.SLASH_EXTENSION,
                         project.getUsername(), project.getPassword());
              new ApplicationStateUtils().storeProject(project);
          //   }
