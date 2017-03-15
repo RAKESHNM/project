@@ -44,12 +44,15 @@ $(document).ready(function(){
 //            getContent();
 //       })
        $("#selectMethod").on('click', function(d) {
+
                  console.log(d.target);
                  var txt = $(d.target).text();
                  console.log(txt);
                  if(txt.indexOf('.') != -1){
                     console.log("File");
                     getFileContent(d.target);
+//                      getCommit(d.target);
+
                  }
                  else
                     getContent(d.target);
@@ -264,10 +267,66 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res",res);
+              $.ajax({
+                          url:"/rest/commit",
+                          type: 'POST',
+                           crossDomain : true,
+                            headers: {
+                               "content-type": "application/json"
+                               },
+                           data :JSON.stringify(auth.methodName),
+                          dataType: 'text',
+                          xhrFields: {
+                              withCredentials: true
+                          },
+                          success: function(res){
+                            console.log(res);
+                            localStorage.setItem("res1",res);
+                            location.href = "../htmlfiles/loginService.html";
+                            insertContents(res);
+
+                            document.getElementById("commitText").value += res;
+
+                       },
+                        error: function(errorres){
+                         console.log(errorres);
+                        }
+                      });
+              location.href = "../htmlfiles/loginService.html";
+
+
+         },
+          error: function(errorres){
+           console.log(errorres);
+          }
+        });
+}
+function getCommit(d){
+var txt = $(d).text();
+console.log(txt);
+var auth = {};
+console.log("Test");
+   auth.methodName = txt;
+   console.log(auth.methodName);
+            $.ajax({
+            url:"/rest/commit",
+            type: 'POST',
+             crossDomain : true,
+              headers: {
+                 "content-type": "application/json"
+                 },
+             data :JSON.stringify(auth.methodName),
+            dataType: 'text',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res){
+              console.log(res);
+              localStorage.setItem("res1",res);
               location.href = "../htmlfiles/loginService.html";
               insertContents(res);
 
-              document.getElementById("alltext").value += res;
+              document.getElementById("commitText").value += res;
               $(".closeIcon1").click(function(){
                           getCommandService();
 

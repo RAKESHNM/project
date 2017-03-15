@@ -13,6 +13,27 @@ import java.util.List;
  */
 public class ReadFile {
     private String filecontent;
+    public String getFilepath(String localRepoPath, String filename) throws Exception {
+        filename = filename.substring(1, filename.length()-1);
+        GithubOperations githubOperations = new GithubOperations();
+        List<List<String>> Filelist = new ArrayList<>();
+        Filelist = githubOperations.gitListingFiles(localRepoPath);
+        for(int i=0;i<Filelist.size();i++){
+            for(String list : Filelist.get(i)){
+                Path p = Paths.get(list);
+                String file = p.getFileName().toString();
+                if(file.equals(filename)){
+//                    System.out.println(file +"       " + filename);
+//                    System.out.println("----------------------------");
+//                    System.out.println("----------------------------");
+//                    System.out.println(filecontent);
+                    return list;
+                }
+
+            }
+        }
+        return null;
+    }
     public String extractingFilepath(String localRepoPath, String filename) throws Exception {
         filename = filename.substring(1, filename.length()-1);
         GithubOperations githubOperations = new GithubOperations();
@@ -23,11 +44,7 @@ public class ReadFile {
                 Path p = Paths.get(list);
                 String file = p.getFileName().toString();
                 if(file.equals(filename)){
-                    System.out.println(file +"       " + filename);
-                    System.out.println("----------------------------");
-                    filecontent = new ReadFile().readFile(list);
-                    System.out.println("----------------------------");
-                    System.out.println(filecontent);
+                    String filecontent = new ReadFile().readFile(list);
                     return filecontent;
                 }
 

@@ -270,7 +270,10 @@ public class GithubOperations {
         return File;
     }
 
-    public List<String> getCommitsFromFile(String localRepoPath,String filepath) throws Exception{
+    public List<String> getCommitsFromFile(String localRepoPath,String filename) throws Exception{
+
+        String filepath = new ReadFile().getFilepath(localRepoPath,filename);
+        filepath = filepath.replace(localRepoPath,"");
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
@@ -280,9 +283,7 @@ public class GithubOperations {
 //            System.out.println(commit.getAuthorIdent().getName());
 //            System.out.println(commit.getFullMessage());
             Date date = new Date(commit.getCommitTime() * 1000L);
-            list.add(commit.getAuthorIdent().getName());
-            list.add(commit.getName());
-            list.add(date.toString());
+            list.add(commit.getFullMessage()+" "+commit.getAuthorIdent().getName()+" committed on " + date.toString()+"\r\n");
         }
         System.out.println("Number of Commits :" + count);
         return list;

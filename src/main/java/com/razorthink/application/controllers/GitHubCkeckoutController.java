@@ -173,6 +173,16 @@ public class GitHubCkeckoutController {
     return null;
   }
 
+  @RequestMapping(value = Constants.SHOW_COMMIT_DETAILS,method = RequestMethod.POST)
+  @ResponseBody()
+  public List<String> showCommits(@RequestBody String filepath){
+    try{
+      return new GithubOperations().getCommitsFromFile(project.getLocalDirectory(),filepath);
+    }
+    catch (Exception e){}
+    return null;
+  }
+
 
 
 }
