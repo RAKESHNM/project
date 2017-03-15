@@ -44,13 +44,31 @@ $(document).ready(function(){
 //            getContent();
 //       })
        $("#selectMethod").on('click', function(d) {
-           $(d).text();
-          getContent(d.target);
-          })
+
+                 console.log(d.target);
+                 var txt = $(d.target).text();
+                 console.log(txt);
+                 if(txt.indexOf('.') != -1){
+                    console.log("File");
+                    getFileContent(d.target);
+//                      getCommit(d.target);
+
+                 }
+                 else
+                    getContent(d.target);
+                 })
        $(".closeIcon").click(function(){
             $(".popup").hide();
             $(".wrapper").empty();
-            $(".wrapper").append('<div class="linemethod"></div><div id="summary"></div><a href="" class="method"></a>');
+            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
+
+
+
+
+
+
+
+
 //            $(".method").empty();
 //            $(".linemethod").empty();
         })
@@ -77,9 +95,12 @@ function multiplyNode(node, count, deep, obj) {
 //        $(".method").append(" ");
     }
  function getContent(d){
+
+// console.log(d);
 var txt = $(d).text();
 console.log(txt);
 var auth = {};
+console.log("Test");
    auth.methodName = txt;
             $.ajax({
             url:"/rest/methodcontents",
@@ -139,8 +160,22 @@ var errorres = [];
             success: function(res){
 //                console.log(res);
                 result = res
+                if(data.command===("List all methods having lines greater than n")){
+                                    console.log(result);
+                                    for(let i =0;i<result.object.length;i=i+3){
+                                                        console.log(result.object[i]);
+                                                         $(".method").append("<li>"+result.object[i]+"</li>");
+                                                         $(".linemethod1").append("(" + result.object[i+1]+")<br>");
+                                                    }
 
-                if(!(data.command===("Project Summary"))&&!(data.command===("Commit Details"))){
+                }
+                else if(data.command===("List all methods without javadocs")){
+                    for(let i =0;i<result.object.length;i++){
+                          console.log(result.object);
+                          $(".method").append("<li>"+result.object[i]+"</li>");
+                    }
+                }
+                else if(data.command===("List all files")){
                 console.log(result.object);
 //                for(var i = 0;i<result.object.length;i++){
 //                for(var j=0;i<result.object[i].length;j++){
@@ -149,17 +184,19 @@ var errorres = [];
 //                console.log("rsult.object[i].length",result.object[i].length);
 //                $(".method").append("<li>"+ result.object[i].[j]  + "</li>");
 //}
-                for(var i = 0; i < result.object.length; i++){
-                    for(var j = 0; j < result.object[i].length; j=j+3){
-                    $(".method").append(result.object[i][j]+"   (" + result.object[i][j+1]+")<br>");
-//                        console.log(result.object[i][j]);
-                    }
-                }
+//                $(".linemethod1").append("<br>");
+                    for(var i = 0; i < result.object.length; i++){
+                        for(var j = 0; j < result.object[i].length; j=j+3){
+                            $(".method").append("<li>"+result.object[i][j]+"</li>");
+                            $(".linemethod1").append("(" + result.object[i][j+1]+")<br>");
+//                          console.log(result.object[i][j]);
+                        }
+                     }
 
 
 //                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
                 }
-                else if(!(data.command===("Commit Details"))){
+                else if(data.command===("Project Summary")){
                 console.log("Else condition");
                 console.log(res.object.length);
                 var wrapper = $('#wrapper'), container;
@@ -177,8 +214,8 @@ var errorres = [];
                              }
                       }
                       }
-//                for (var key in res){
-//                container = $('<div id="summary" class="container"></div>');
+
+//                for (var key in res){//                container = $('<div id="summary" class="container"></div>');
 //                wrapper.append(container);
 //                container.append('<div class="item">' + key +'</div>');
 //                console.log(key);
@@ -205,6 +242,103 @@ var errorres = [];
             }
         });
         /*return errorres;*/
+}
+
+function getFileContent(d){
+var txt = $(d).text();
+console.log(txt);
+var auth = {};
+console.log("Test");
+   auth.methodName = txt;
+   console.log(auth.methodName);
+   console.log(auth.methodcontents);
+            $.ajax({
+            url:"/rest/filecontents",
+            type: 'POST',
+             crossDomain : true,
+              headers: {
+                 "content-type": "application/json"
+                 },
+             data :JSON.stringify(auth.methodName),
+            dataType: 'text',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res){
+              console.log(res);
+              localStorage.setItem("res",res);
+              $.ajax({
+                          url:"/rest/commit",
+                          type: 'POST',
+                           crossDomain : true,
+                            headers: {
+                               "content-type": "application/json"
+                               },
+                           data :JSON.stringify(auth.methodName),
+                          dataType: 'text',
+                          xhrFields: {
+                              withCredentials: true
+                          },
+                          success: function(res){
+                            console.log(res);
+                            localStorage.setItem("res1",res);
+                            location.href = "../htmlfiles/loginService.html";
+                            insertContents(res);
+
+                            document.getElementById("commitText").value += res;
+
+                       },
+                        error: function(errorres){
+                         console.log(errorres);
+                        }
+                      });
+              location.href = "../htmlfiles/loginService.html";
+
+
+         },
+          error: function(errorres){
+           console.log(errorres);
+          }
+        });
+}
+function getCommit(d){
+var txt = $(d).text();
+console.log(txt);
+var auth = {};
+console.log("Test");
+   auth.methodName = txt;
+   console.log(auth.methodName);
+            $.ajax({
+            url:"/rest/commit",
+            type: 'POST',
+             crossDomain : true,
+              headers: {
+                 "content-type": "application/json"
+                 },
+             data :JSON.stringify(auth.methodName),
+            dataType: 'text',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(res){
+              console.log(res);
+              localStorage.setItem("res1",res);
+              location.href = "../htmlfiles/loginService.html";
+              insertContents(res);
+
+              document.getElementById("commitText").value += res;
+              $(".closeIcon1").click(function(){
+                          getCommandService();
+
+                          $(".popup").addClass("showClass");
+                              $(".popup").show();
+                              })
+
+         },
+          error: function(errorres){
+           console.log(errorres);
+          }
+        });
 }
 
 //function getContent(){

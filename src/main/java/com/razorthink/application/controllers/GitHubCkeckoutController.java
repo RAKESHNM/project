@@ -7,12 +7,16 @@ import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.service.ReadFile;
 import com.razorthink.application.utils.ApplicationStateUtils;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,28 +117,80 @@ public class GitHubCkeckoutController {
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    project.setLocalDirectory(Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION);
+    int idx = checkoutProject.getBranch().lastIndexOf("/");
+    if(idx>0){
+      project.setBranch(checkoutProject.getBranch().substring(idx+1));
+      System.out.println(project.getBranch());
+    }
+    else{
+      project.setBranch(checkoutProject.getBranch());
+    }
+    project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
-    project.setBranch(checkoutProject.getBranch());
-    logger.info("Cloning  into . . .");
+
+
+    File dir = new File(project.getLocalDirectory());
+    if (dir.exists()) {
+      System.out.println("Exist");
+//      int dialogButton = JOptionPane.YES_NO_OPTION;
+//      int dialogResult = JOptionPane.showConfirmDialog(null, "Project Exist, do you want to clone the project again ?", "Title on Box", dialogButton);
+//      if(dialogResult == 0) {
+//        System.out.println("Yes option");
+//      } else {
+//        System.out.println("No Option");
+//      }
+      return "failed";
+    }
+    else {
+//    project.setBranch(checkoutProject.getBranch());
+      logger.info("Cloning  into . . .");
 //     new ApplicationStateUtils().storeProject(project);
 //           if(new ApplicationStateUtils().loadProjects().contains(project)) {
-//                githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-//                        Constants.LOCAL_DIRECTORY_PATH + checkoutProject.getRemoteRepo() + Constants.SLASH_EXTENSION,
-//                        project.getUsername(), project.getPassword());
+      githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+              project.getLocalDirectory(),
+              project.getUsername(), project.getPassword());
 //             new ApplicationStateUtils().storeProject(project);
 //            }
 
-    logger.info("Done");
+      logger.info("Done");
+    }
     return "Done";
   }
 
-  /**
-   * controller for command various command services
-   * @param commandPojo
-   * @return
-   * @throws Exception
-   */
+  @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
+  @ResponseBody
+  public String clone(@RequestBody CheckoutProject checkoutProject)throws Exception {
+    client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
+    RepositoryService service = new RepositoryService(client);
+    project.setRemoteRepo(checkoutProject.getRemoteRepo());
+    int idx = checkoutProject.getBranch().lastIndexOf("/");
+    if (idx > 0) {
+      project.setBranch(checkoutProject.getBranch().substring(idx + 1));
+      System.out.println(project.getBranch());
+    } else {
+      project.setBranch(checkoutProject.getBranch());
+    }
+    project.setLocalDirectory(checkoutProject.getDir() + File.separator + project.getRemoteRepo() + "_" + project.getBranch() + File.separator);
+    project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
+    File dir = new File(project.getLocalDirectory());
+    if (dir.exists()) {
+      System.out.println("Exist");
+      FileUtils.forceDelete(dir);
+    }
+      logger.info("Cloning  into . . .");
+      githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+              project.getLocalDirectory(),
+              project.getUsername(), project.getPassword());
+      logger.info("Done");
+    return "Done";
+  }
+
+    /**
+     * controller for command various command services
+     * @param commandPojo
+     * @return
+     * @throws Exception
+     */
 //   @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.INPUTS_FROM_USER,method = RequestMethod.POST)
   @ResponseBody
@@ -175,9 +231,9 @@ public class GitHubCkeckoutController {
 
   @RequestMapping(value = Constants.SHOW_COMMIT_DETAILS,method = RequestMethod.POST)
   @ResponseBody()
-  public List<String> showCommits(@RequestBody String filepath){
+  public List<String> showCommits(@RequestBody String filename){
     try{
-      return new GithubOperations().getCommitsFromFile(project.getLocalDirectory(),filepath);
+      return new GithubOperations().getCommitsFromFile(project.getLocalDirectory(),filename);
     }
     catch (Exception e){}
     return null;

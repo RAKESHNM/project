@@ -1,4 +1,5 @@
 package com.razorthink.application.service;
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -72,6 +73,17 @@ public class ReadFile {
 
     public static void main(String[] args) throws Exception{
         ReadFile readFile = new ReadFile();
-        readFile.readFile("/home/antolivish/StoreProjectsSampleProject/src/main/java/com/razorthink/countFiles/GithubOperations.java");
+        String fileName = "/ref/head/master";
+        int idx = fileName.replaceAll("//", "/").lastIndexOf("/");
+
+
+//        if(idx>0){
+//            System.out.println(fileName.substring(idx+1));
+//        }
+//        else{
+//            System.out.println(fileName);
+//        }
+//        System.out.println(File.separator);
+//        readFile.readFile("/home/antolivish/StoreProjectsSampleProject/src/main/java/com/razorthink/countFiles/GithubOperations.java");
     }
 }

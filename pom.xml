@@ -115,6 +115,13 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>3.7.0.201502260915-r</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.swinglabs/swingx -->
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
 
 
     </dependencies>
