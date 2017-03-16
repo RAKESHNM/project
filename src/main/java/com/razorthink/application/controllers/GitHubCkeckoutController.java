@@ -115,9 +115,14 @@ public class GitHubCkeckoutController {
   @RequestMapping(value = Constants.GITHUB_CHECKOUT_ROUTE,method = RequestMethod.POST)
   @ResponseBody
   public String checkoutGitHub(@RequestBody CheckoutProject checkoutProject)throws Exception {
+
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
+    if(checkoutProject.getDir()==""){
+      System.out.println(System.getProperty("user.home"));
+      checkoutProject.setDir(System.getProperty("user.home"));
+    }
     int idx = checkoutProject.getBranch().lastIndexOf("/");
     if(idx>0){
       project.setBranch(checkoutProject.getBranch().substring(idx+1));
@@ -128,31 +133,16 @@ public class GitHubCkeckoutController {
     }
     project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
-
-
     File dir = new File(project.getLocalDirectory());
     if (dir.exists()) {
       System.out.println("Exist");
-//      int dialogButton = JOptionPane.YES_NO_OPTION;
-//      int dialogResult = JOptionPane.showConfirmDialog(null, "Project Exist, do you want to clone the project again ?", "Title on Box", dialogButton);
-//      if(dialogResult == 0) {
-//        System.out.println("Yes option");
-//      } else {
-//        System.out.println("No Option");
-//      }
       return "failed";
     }
     else {
-//    project.setBranch(checkoutProject.getBranch());
       logger.info("Cloning  into . . .");
-//     new ApplicationStateUtils().storeProject(project);
-//           if(new ApplicationStateUtils().loadProjects().contains(project)) {
       githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
               project.getLocalDirectory(),
               project.getUsername(), project.getPassword());
-//             new ApplicationStateUtils().storeProject(project);
-//            }
-
       logger.info("Done");
     }
     return "Done";
@@ -171,6 +161,10 @@ public class GitHubCkeckoutController {
     } else {
       project.setBranch(checkoutProject.getBranch());
     }
+      if(checkoutProject.getDir()==""){
+          System.out.println(System.getProperty("user.home"));
+          checkoutProject.setDir(System.getProperty("user.home"));
+      }
     project.setLocalDirectory(checkoutProject.getDir() + File.separator + project.getRemoteRepo() + "_" + project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
     File dir = new File(project.getLocalDirectory());
