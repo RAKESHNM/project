@@ -60,7 +60,6 @@ public class GitHubCkeckoutController extends AbstractContrller {
   @ResponseBody
   public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
     try{
-      System.out.println(env.getProperty("projects.local.directory"));
       Project project = new Project();
       project.setUsername(login.getUserName());
       project.setPassword(login.getPassword());
