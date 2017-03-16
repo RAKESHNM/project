@@ -185,10 +185,8 @@ public class GithubOperations {
             System.out.println(commit.getFullMessage().length());
 //           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
 //            commitList.add(date.toString());
-
         }
         System.out.println("Total commits : " +count);
-        commitList.add("\n\n Total commits : " +count);
         git.close();
         return commitList;
     }
