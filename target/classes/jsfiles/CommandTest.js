@@ -17,6 +17,7 @@ $(document).ready(function(){
       if((document.getElementById("selectCommand").value == options[0])||(document.getElementById("selectCommand").value == options[1])){
                  $(".module-wrapper").hide();
                  $(".lines-wrapper").hide();
+                 $(".size-wrapper").hide();
              }
        else if(document.getElementById("selectCommand").value == options[3]){
                  $(".module-wrapper").show();
@@ -40,9 +41,6 @@ $(document).ready(function(){
             $(".popup").addClass("showClass");
                 $(".popup").show();
        })
-//       $(".method").onclick(function(){
-//            getContent();
-//       })
        $("#selectMethod").on('click', function(d) {
 
                  console.log(d.target);
@@ -59,8 +57,14 @@ $(document).ready(function(){
                  })
        $(".closeIcon").click(function(){
             $(".popup").hide();
-            $(".wrapper").empty();
-            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
+            $(".linemethod").empty();
+            $(".method").empty();
+//            history.go(-1);
+//            $(".wrapper").empty();
+//            $(".wrapper").append('<div id="summary"></div><a id="selectMethod" href="#"  class="method"></a><div class="linemethod"></div>');
+
+
+//            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
 
 
 
@@ -117,17 +121,32 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res",res);
+              $.ajax({
+                                        url:"/rest/methodcommit",
+                                        type: 'POST',
+                                         crossDomain : true,
+                                          headers: {
+                                             "content-type": "application/json"
+                                             },
+                                         data :JSON.stringify(auth.methodName),
+                                        dataType: 'json',
+                                        xhrFields: {
+                                            withCredentials: true
+                                        },
+                                        success: function(res){
+                                          console.log(res);
+                                          localStorage.setItem("res1",res);
+                                          location.href = "../htmlfiles/loginService.html";
+                                          insertContents(res);
+
+                                          document.getElementById("commitText").value += res;
+
+                                     },
+                                      error: function(errorres){
+                                       console.log(errorres);
+                                      }
+                                    });
               location.href = "../htmlfiles/loginService.html";
-              insertContents(res);
-
-              document.getElementById("alltext").value += res;
-              $(".closeIcon1").click(function(){
-                          getCommandService();
-
-                          $(".popup").addClass("showClass");
-                              $(".popup").show();
-                              })
-
          },
           error: function(errorres){
            console.log(errorres);
@@ -165,7 +184,7 @@ var errorres = [];
                                     for(let i =0;i<result.object.length;i=i+3){
                                                         console.log(result.object[i]);
                                                          $(".method").append("<li>"+result.object[i]+"</li>");
-                                                         $(".linemethod1").append("(" + result.object[i+1]+")<br>");
+                                                         $(".linemethod").append("(" + result.object[i+1]+")<br>");
                                                     }
 
                 }
@@ -187,8 +206,8 @@ var errorres = [];
 //                $(".linemethod1").append("<br>");
                     for(var i = 0; i < result.object.length; i++){
                         for(var j = 0; j < result.object[i].length; j=j+3){
-                            $(".method").append("<li>"+result.object[i][j]+"</li>");
-                            $(".linemethod1").append("(" + result.object[i][j+1]+")<br>");
+                            $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
+                            $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
 //                          console.log(result.object[i][j]);
                         }
                      }
@@ -275,13 +294,13 @@ console.log("Test");
                                "content-type": "application/json"
                                },
                            data :JSON.stringify(auth.methodName),
-                          dataType: 'text',
+                          dataType: 'json',
                           xhrFields: {
                               withCredentials: true
                           },
-                          success: function(res){
-                            console.log(res);
-                            localStorage.setItem("res1",res);
+                          success: function(res1){
+                            console.log(res1);
+                                localStorage.setItem("res1",res1);
                             location.href = "../htmlfiles/loginService.html";
                             insertContents(res);
 

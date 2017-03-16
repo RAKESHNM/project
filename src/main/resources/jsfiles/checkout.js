@@ -88,6 +88,7 @@ console.log(document.getElementById("selectBranch").value);
 
 function gitCheckout(){
 /*alert('Please wait . . . checking out');*/
+document.getElementById('checkoutbutton').disabled=true;
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);
 d.remoteRepo = (document.getElementById("selectRepo").value);
@@ -136,6 +137,7 @@ d.dir = (document.getElementById("dir").value);
 
           error: function(errorres){
            console.log(errorres);
+           document.getElementById('checkoutbutton').disabled=false;
           }
         });
 
