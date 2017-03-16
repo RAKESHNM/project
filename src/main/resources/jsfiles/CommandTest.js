@@ -296,7 +296,6 @@ console.log("Test");
                           },
                           success: function(res1){
                             console.log(res1);
-                            alert("yes");
                             localStorage.setItem("res1",res1);
                             location.href = "../htmlfiles/loginService.html";
                             insertContents(res);
