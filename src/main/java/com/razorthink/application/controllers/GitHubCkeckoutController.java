@@ -200,6 +200,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
   @ResponseBody
   public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {
 
+      
+
     try {
       Project project = getProject();
 
