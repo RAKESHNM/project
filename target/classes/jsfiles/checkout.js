@@ -86,6 +86,7 @@ function gitCheckout(){
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);
 d.remoteRepo = (document.getElementById("selectRepo").value);
+d.dir = (document.getElementById("dir").value);
   $.ajax({
             url:"/rest/checkout",
             type: 'POST',
@@ -98,8 +99,37 @@ d.remoteRepo = (document.getElementById("selectRepo").value);
                 withCredentials: true
             },
             success: function(res){
+            console.log(res);
+            if(res==="failed"){
+                var temp = confirm("Repository already exist, do you want to clone again ?")
+                if(temp == true){
+                    $.ajax({
+                                url:"/rest/clone",
+                                type: 'POST',
+                                 crossDomain : true,
+                                  headers: {
+                                     "content-type": "application/json"
+                                     },
+                                 data :JSON.stringify(d),
+                                xhrFields: {
+                                    withCredentials: true
+                                },
+                                success: function(res){
+                                    location.href = "../htmlfiles/CommandTest.html";
+                                }
+                                }
+                                error: function(errorres){
+                                           console.log(errorres);
+                                          }
+                }
+                else{
+                    location.href = "../htmlfiles/CommandTest.html";
+                }
+            }
+            else{
             console.log("hi");
            location.href = "../htmlfiles/CommandTest.html";
+           }
               },
 
           error: function(errorres){

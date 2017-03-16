@@ -7,14 +7,24 @@ public class CheckoutProject {
 
     private String remoteRepo;
     private String branch;
+    private String dir;
 
     public CheckoutProject(){
 
     }
 
-    public CheckoutProject(String remoteRepo, String branch) {
+    public CheckoutProject(String remoteRepo, String branch, String dir) {
         this.remoteRepo = remoteRepo;
         this.branch = branch;
+        this.dir = dir;
+    }
+
+    public String getDir() {
+        return dir;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
     }
 
     public String getRemoteRepo() {
