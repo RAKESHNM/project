@@ -1,5 +1,4 @@
 package com.razorthink.application.service;
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -86,3 +85,5 @@ public class ReadFile {
 //        System.out.println(File.separator);
 //        readFile.readFile("/home/antolivish/StoreProjectsSampleProject/src/main/java/com/razorthink/countFiles/GithubOperations.java");
     }
+
+}

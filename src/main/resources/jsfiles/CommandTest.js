@@ -294,9 +294,10 @@ console.log("Test");
                           xhrFields: {
                               withCredentials: true
                           },
-                          success: function(res){
-                            console.log(res);
-                            localStorage.setItem("res1",res);
+                          success: function(res1){
+                            console.log(res1);
+                            alert("yes");
+                            localStorage.setItem("res1",res1);
                             location.href = "../htmlfiles/loginService.html";
                             insertContents(res);
 
