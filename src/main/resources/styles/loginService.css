@@ -12,4 +12,15 @@ body{
 div{
         padding-left: 20px;
 }
+.label{
+position:absolute;
+bottom:185px;
+}
+
+.child{
+position:absolute;
+height:125px;
+bottom:50px;
+width:225px;
+}
 

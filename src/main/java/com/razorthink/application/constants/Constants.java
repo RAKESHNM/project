@@ -22,4 +22,6 @@ public class Constants {
     public static final String LIST_ALL_REPOSITORIES = "repositories";
     public static final String SHOW_METHOD_CONTENTS = "/methodcontents";
     public static final String SHOW_FILE_CONTENTS = "/filecontents";
+    public static final String SHOW_COMMIT_DETAILS = "/commit";
+    public static final String CLONE = "/clone";
 }

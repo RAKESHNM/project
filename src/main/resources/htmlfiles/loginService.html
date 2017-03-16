@@ -20,13 +20,25 @@
 </head>
 <body>
 
-<textarea id="alltext" cols="100"></textarea>
+<textarea id="alltext" cols="90"></textarea>
+<textarea id="commitText" cols="40">Commit Details</textarea>
+<div class="parent">
+    <div>
+        <span class="label">Post Feedback</span>
+    </div>
+    <div>
+        <textarea class="child"></textarea>
+    </div>
+</div>
 
 <script>
  var x = localStorage.getItem("res");
  console.log(x);
      document.getElementById("alltext").value+=x;
 
+var y = localStorage.getItem("res1");
+ console.log(y);
+     document.getElementById("commitText").value+=;
 </script>
 <div>
     <a href="##" onClick="history.go(-1); return false;">GoBack</a>

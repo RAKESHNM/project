@@ -24,7 +24,7 @@ public class ApplicationStateUtils {
         {
                 availableProjects.add(project);
                 try {
-                    try (FileOutputStream fileOutputStream = new FileOutputStream(Constants.LOCAL_DIRECTORY_PATH)) {
+                    try (FileOutputStream fileOutputStream = new FileOutputStream(project.getLocalDirectory())) {
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                         objectOutputStream.writeObject(availableProjects);
                         System.out.println("Hi");
