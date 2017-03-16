@@ -275,7 +275,7 @@ console.log("Test");
                                "content-type": "application/json"
                                },
                            data :JSON.stringify(auth.methodName),
-                          dataType: 'text',
+                          dataType: 'json',
                           xhrFields: {
                               withCredentials: true
                           },
