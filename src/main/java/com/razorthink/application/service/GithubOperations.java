@@ -283,7 +283,7 @@ public class GithubOperations {
 //            System.out.println(commit.getAuthorIdent().getName());
 //            System.out.println(commit.getFullMessage());
             Date date = new Date(commit.getCommitTime() * 1000L);
-            list.add(commit.getFullMessage()+" "+commit.getAuthorIdent().getName()+" committed on " + date.toString()+"\r\n");
+            list.add((commit.getFullMessage()+" "+commit.getAuthorIdent().getName()+" committed on " + date.toString()+"\n"));
         }
         System.out.println("Number of Commits :" + count);
         return list;

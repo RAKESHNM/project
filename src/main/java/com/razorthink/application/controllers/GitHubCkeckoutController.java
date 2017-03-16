@@ -3,11 +3,11 @@ import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.management.DisplayMethodContent;
+import com.razorthink.application.management.MethodFilePath;
 import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.service.ReadFile;
 import com.razorthink.application.utils.ApplicationStateUtils;
-import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,6 +234,16 @@ public class GitHubCkeckoutController {
   public List<String> showCommits(@RequestBody String filename){
     try{
       return new GithubOperations().getCommitsFromFile(project.getLocalDirectory(),filename);
+    }
+    catch (Exception e){}
+    return null;
+  }
+
+  @RequestMapping(value = Constants.SHOW_METHOD_COMMIT,method = RequestMethod.POST)
+  @ResponseBody()
+  public String showMethodCommmits(@RequestBody String methodName){
+    try{
+      return new MethodFilePath().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
     }
     catch (Exception e){}
     return null;

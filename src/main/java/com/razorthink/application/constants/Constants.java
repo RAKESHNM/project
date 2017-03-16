@@ -4,7 +4,7 @@ package com.razorthink.application.constants;
  * Created by rakesh on 25/2/17.
  */
 public class Constants {
-    public static final String LOCAL_DIRECTORY_PATH = "/home/antolivish/StoreProjects";
+    public static final String LOCAL_DIRECTORY_PATH = "/home/rakesh/StoreProjects";
     public static final String CONTROLLER_ROUTE = "/";
     public static final String NULL_PROJECT_PROP = "project properties should not be null";
     public static final String GITHUB_CREDENTIAL = "/credential";
@@ -23,5 +23,6 @@ public class Constants {
     public static final String SHOW_METHOD_CONTENTS = "/methodcontents";
     public static final String SHOW_FILE_CONTENTS = "/filecontents";
     public static final String SHOW_COMMIT_DETAILS = "/commit";
+    public static final String SHOW_METHOD_COMMIT = "/methodCommit";
     public static final String CLONE = "/clone";
 }

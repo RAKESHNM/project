@@ -117,17 +117,32 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res",res);
+              $.ajax({
+                                        url:"/rest/methodcommit",
+                                        type: 'POST',
+                                         crossDomain : true,
+                                          headers: {
+                                             "content-type": "application/json"
+                                             },
+                                         data :JSON.stringify(auth.methodName),
+                                        dataType: 'json',
+                                        xhrFields: {
+                                            withCredentials: true
+                                        },
+                                        success: function(res){
+                                          console.log(res);
+                                          localStorage.setItem("res1",res);
+                                          location.href = "../htmlfiles/loginService.html";
+                                          insertContents(res);
+
+                                          document.getElementById("commitText").value += res;
+
+                                     },
+                                      error: function(errorres){
+                                       console.log(errorres);
+                                      }
+                                    });
               location.href = "../htmlfiles/loginService.html";
-              insertContents(res);
-
-              document.getElementById("alltext").value += res;
-              $(".closeIcon1").click(function(){
-                          getCommandService();
-
-                          $(".popup").addClass("showClass");
-                              $(".popup").show();
-                              })
-
          },
           error: function(errorres){
            console.log(errorres);
@@ -279,9 +294,10 @@ console.log("Test");
                           xhrFields: {
                               withCredentials: true
                           },
-                          success: function(res){
-                            console.log(res);
-                            localStorage.setItem("res1",res);
+                          success: function(res1){
+                            console.log(res1);
+                            alert("yes");
+                            localStorage.setItem("res1",res1);
                             location.href = "../htmlfiles/loginService.html";
                             insertContents(res);
 
