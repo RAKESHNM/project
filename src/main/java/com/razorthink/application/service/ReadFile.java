@@ -70,8 +70,4 @@ public class ReadFile {
         }
     }
 
-    public static void main(String[] args) throws Exception{
-        ReadFile readFile = new ReadFile();
-        readFile.readFile("/home/antolivish/StoreProjectsSampleProject/src/main/java/com/razorthink/countFiles/GithubOperations.java");
-    }
 }
