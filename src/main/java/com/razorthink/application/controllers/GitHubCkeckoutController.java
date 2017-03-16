@@ -14,8 +14,10 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -28,12 +30,12 @@ import java.util.List;
  */
 @RestController()
 @RequestMapping("/rest")
-public class GitHubCkeckoutController {
+public class GitHubCkeckoutController extends AbstractContrller {
 
   @Autowired
   Environment env;
 
-  private Project project = new Project();
+  //private Project project = new Project();
 
   private GithubOperations githubOperations = new GithubOperations();
 
@@ -42,6 +44,7 @@ public class GitHubCkeckoutController {
   private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GitHubCkeckoutController.class);
 
   List<Project> projectList = new ApplicationStateUtils().loadProjects();
+
 
   public GitHubCkeckoutController() throws IOException {
   }
@@ -58,15 +61,18 @@ public class GitHubCkeckoutController {
   public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
     try{
       System.out.println(env.getProperty("projects.local.directory"));
+      Project project = new Project();
       project.setUsername(login.getUserName());
       project.setPassword(login.getPassword());
       client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
       RepositoryService service = new RepositoryService(client);
-      if( githubOperations.gitRemoteRepository(service) != null)
+      if( githubOperations.gitRemoteRepository(service) != null){
+        request.getSession().setAttribute("user-det",project);
+        //request.getSession().setAttribute("pass",login.getPassword());
         return "Success";
+      }
     }
     catch(Exception e ){
-
       throw new InvalidCreadentialException(Constants.INVALID_CREDENTIAL);
     }
     return null;
@@ -77,6 +83,7 @@ public class GitHubCkeckoutController {
   @RequestMapping(value = Constants.LIST_ALL_REPOSITORIES,method = RequestMethod.GET)
   @ResponseBody
   public List<String> listRepos() throws Exception {
+    Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
     try {
@@ -97,6 +104,7 @@ public class GitHubCkeckoutController {
   @ResponseBody
   public List<String> listbranch(@RequestBody Branch branch) throws Exception{
     try {
+      Project project = getProject();
       client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
       RepositoryService service = new RepositoryService(client);
       return githubOperations.gitRemoteBranches(service, branch.getRemoteRepo(),
@@ -116,6 +124,7 @@ public class GitHubCkeckoutController {
   @ResponseBody
   public String checkoutGitHub(@RequestBody CheckoutProject checkoutProject)throws Exception {
 
+    Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
@@ -151,6 +160,7 @@ public class GitHubCkeckoutController {
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
   @ResponseBody
   public String clone(@RequestBody CheckoutProject checkoutProject)throws Exception {
+    Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
     RepositoryService service = new RepositoryService(client);
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
@@ -192,6 +202,7 @@ public class GitHubCkeckoutController {
   public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {
 
     try {
+      Project project = getProject();
 
       return new InferUserCommandService().getUserInput(commandPojo, project);
 
@@ -206,7 +217,7 @@ public class GitHubCkeckoutController {
   public String showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
 
     try{
-
+      Project project = getProject();
       return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName());
 
     }catch (Exception e){}
@@ -218,6 +229,7 @@ public class GitHubCkeckoutController {
   @ResponseBody()
   public String showFileContents(@RequestBody String filename){
     try{
+      Project project = getProject();
          return new ReadFile().extractingFilepath(project.getLocalDirectory(),filename);
     }
     catch (Exception e){}
@@ -228,6 +240,7 @@ public class GitHubCkeckoutController {
   @ResponseBody()
   public List<String> showCommits(@RequestBody String filename){
     try{
+      Project project = getProject();
       return new GithubOperations().getCommitsFromFile(project.getLocalDirectory(),filename);
     }
     catch (Exception e){}
@@ -238,6 +251,7 @@ public class GitHubCkeckoutController {
   @ResponseBody()
   public String showMethodCommmits(@RequestBody String methodName){
     try{
+      Project project = getProject();
       return new MethodFilePath().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
     }
     catch (Exception e){}
