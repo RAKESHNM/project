@@ -117,17 +117,32 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res",res);
+              $.ajax({
+                                        url:"/rest/methodcommit",
+                                        type: 'POST',
+                                         crossDomain : true,
+                                          headers: {
+                                             "content-type": "application/json"
+                                             },
+                                         data :JSON.stringify(auth.methodName),
+                                        dataType: 'json',
+                                        xhrFields: {
+                                            withCredentials: true
+                                        },
+                                        success: function(res){
+                                          console.log(res);
+                                          localStorage.setItem("res1",res);
+                                          location.href = "../htmlfiles/loginService.html";
+                                          insertContents(res);
+
+                                          document.getElementById("commitText").value += res;
+
+                                     },
+                                      error: function(errorres){
+                                       console.log(errorres);
+                                      }
+                                    });
               location.href = "../htmlfiles/loginService.html";
-              insertContents(res);
-
-              document.getElementById("alltext").value += res;
-              $(".closeIcon1").click(function(){
-                          getCommandService();
-
-                          $(".popup").addClass("showClass");
-                              $(".popup").show();
-                              })
-
          },
           error: function(errorres){
            console.log(errorres);
