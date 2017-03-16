@@ -1,4 +1,5 @@
 function myFunctions(){
+ $('#selectBranch').html('');
             $.ajax({
             url:"/rest/repositories",
             type: 'GET',
@@ -12,7 +13,8 @@ function myFunctions(){
                 console.log(res);
                         $('#selectRepo').empty();
                         var output = [];
-
+                        var select = 'Select Repository';
+                        output.push('<option >'+ select +'</option>');
                         res.forEach(function(key){
                             output.push('<option >'+ key +'</option>');
                         })
@@ -51,7 +53,8 @@ function getBranches(repo){
                 console.log(res);
                         $('#selectBranch').empty();
                         var output = [];
-
+                        var select = 'Select Branch';
+                         output.push('<option >'+ select +'</option>');
                         res.forEach(function(key){
                             output.push('<option >'+ key +'</option>');
                         })
@@ -70,12 +73,14 @@ function getBranches(repo){
 
         }
 $(document).ready(function(){
-     myFunctions();
+ myFunctions();
+ $("#selectBranch").empty();
      console.log("Call func");
 });
 function getSelectedValue(){
 var repo = (document.getElementById("selectRepo").value);
 console.log(repo);
+$("#selectBranch").empty();
 getBranches(repo);
 console.log(document.getElementById("selectBranch").value);
 }
@@ -100,8 +105,8 @@ d.dir = (document.getElementById("dir").value);
             },
             success: function(res){
             console.log(res);
-            if(res==="failed"){
-                var temp = confirm("Repository already exist, do you want to clone again ?")
+            if(res  !== null){
+                var temp = confirm("Repository already exist under  \n" + res + " \n do you want to clone again ?")
                 if(temp == true){
                     $.ajax({
                                 url:"/rest/clone",
