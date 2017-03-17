@@ -106,8 +106,14 @@ CommandPojo commandPojo1 = new CommandPojo();
                         File file = new File(files.get(i));
                         if( (file.length()/1024) >= size) {
                             subList.add(file.getName());
-                            subList.add(String.valueOf(file.length()/1000)+"Kb");
-                            subList.add(files.get(i));
+                            if(file.length() < 1024)
+                                subList.add((double)(file.length())+"bytes");
+                            if(file.length() > 1024  && file.length()<1048576)
+                                subList.add(String.valueOf(Math.round(((double) (file.length()) / 1024 * 100.0)) / 100.0).concat("KB"));
+                                //subList.add( (double) (file.length()/1024)+"KB");
+                                if(file.length() > 1048576)
+                                subList.add((file.length()/(1024*1024))+"MB");
+                                subList.add(files.get(i));
                         }
 
                     }

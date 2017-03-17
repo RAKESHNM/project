@@ -64,9 +64,7 @@
     width: 87%;
     height: 60%;
     position: absolute;
-    border: 1px solid #d2d2d2;
     background: #e2e2e2;
-    border-radius: 3px;
 }
 .showClass{
     display: block;
@@ -74,19 +72,26 @@
 .wrapperShadow{
       opacity: 0.5;
 }
-.popupHeader{
+.popupHeaderpage{
+    content: '';
+    clear: both;
+}
+.popupHeaderpageMain{
     content: '';
     clear: both;
     height: 50px;
 }
 .closeIcon{
-    display: inline-block;
-    width: 50px;
-    height: 100%;
-    float: right;
-    text-align: center;
-    line-height: 50px;
-    cursor: pointer;
+display: inline-block;
+                        width: 50px;
+                        /* height: 100%; */
+                        float: right;
+                        text-align: center;
+                        line-height: 50px;
+                        cursor: pointer;
+                        position: fixed;
+                        right: 30px;
+                        top: 150px;
 }
 .popupHeaderText{
     float: left;
@@ -98,10 +103,8 @@
 .popupContent{
     background: #ffffff;
     padding: 10px 20px;
-    border-bottom: 1px solid #d2d2d2;
 }
 .popupContent:first-child{
-    border-top: 1px solid #d2d2d2;
 }
 .message{
     font-size: 20px;
@@ -142,7 +145,7 @@
     margin-right: 20px;
 }
 .method{
-    border-bottom: 1px solid #d2d2d2;
+    padding-left: 300px;
     padding: 0 50px;
     font-size: 20px;
     height: 33px;
@@ -150,10 +153,9 @@
     display: inline-block;
 }
 .method:first-of-type{
-    border-top: 1px solid #d2d2d2;
 }
 .linemethod{
-    border-bottom: 1px solid #d2d2d2;
+    padding-left: 300px;
     padding: 0 50px;
     font-size: 20px;
     height: 33px;
@@ -162,22 +164,34 @@
 
 }
 .linemethod:first-of-type{
-    border-top: 1px solid #d2d2d2;
 }
-.linemethod1{
-    border-bottom: 1px solid #d2d2d2;
+.linemethod2{
+    padding-left: 300px;
     padding: 0 50px;
     font-size: 20px;
     height: 33px;
     line-height: 33px;
+    display: inline-block;
+
+}
+.linemethod2:first-of-type{
+}
+.linemethod1{
+padding: 0 50px;
+    font-size: 20px;
+    /* height: 33px; */
+    line-height: 33px;
     display: block;
+    text-align: center;
+    position: relative;
+    max-height: 500px;
+    overflow: auto;
 }
 .linemethod1:first-of-type{
-    border-top: 1px solid #d2d2d2;
 }
 .wrapper{
 width: 100%;
-height: calc(100% - 50px);
+height:100%;
 overflow: auto;
 }
 .hoverinfo {
