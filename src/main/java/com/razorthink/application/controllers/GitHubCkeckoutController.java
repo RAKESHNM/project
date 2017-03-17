@@ -144,7 +144,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     File dir = new File(project.getLocalDirectory());
     if (dir.exists()) {
       System.out.println("Exist");
-      return "failed";
+      return project.getLocalDirectory();
     }
     else {
       logger.info("Cloning  into . . .");

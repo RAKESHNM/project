@@ -1,5 +1,4 @@
 function myFunctions(){
- $('#selectBranch').html('');
             $.ajax({
             url:"/rest/repositories",
             type: 'GET',
@@ -51,7 +50,7 @@ function getBranches(repo){
             success: function(res){
 
                 console.log(res);
-                        $('#selectBranch').empty();
+                        //$('#selectBranch').empty();
                         var output = [];
                         var select = 'Select Branch';
                          output.push('<option >'+ select +'</option>');
@@ -81,6 +80,10 @@ function getSelectedValue(){
 var repo = (document.getElementById("selectRepo").value);
 console.log(repo);
 $("#selectBranch").empty();
+$('#selectBranch').append($('<option>', {
+    value: 1,
+    text: 'Loading . . .'
+}));
 getBranches(repo);
 console.log(document.getElementById("selectBranch").value);
 }
