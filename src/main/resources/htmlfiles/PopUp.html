@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" type="text/css" href="../styles/CommandTest.css"/>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../jsfiles/popup.js"></script>
 </head>
 <body>
-<div class="popup">
-    <div class="popupHeader">
-        <h2 class="popupHeaderText"> Code Analyser</h2>
-        <span class="flaticon-error closeIcon">X</span>
-    </div>
+
     <!--  <div class="popupContent">
          <span class="message"> </span>
          <div class="contentText">
@@ -18,10 +15,31 @@
              <span class="time"> author</span>
          </div>
      </div> -->
+<div class="mainWrapper">
+
     <div class="wrapper">
-        <div class="linemethod"></div>
+        <div class="popuppage">
+            <div class="popupHeaderpage">
+                <h1 align="center" class="popupHeaderTextpageMain"> Code Analyser</h1>
+                <h2 align="center" class="popupHeaderTextpage"> </h2>
+            </div>
+        </div>
         <div id="summary"></div>
         <a id="selectMethod" href="#"  class="method"></a>
+        <div class="linemethod"></div>
+        <div class="linemethod2"></div>
+        <div class="linemethod1"> <span class="flaticon-error closeIcon">Back</span></div>
+        <!--<table style='margin-left: auto; margin-right: auto'>-->
+        <!--<tr class="tableRow">-->
+        <!--<td class="tableColumn">-->
+        <!--<a id="selectMethod" href="#"  class="method"></a>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<div class="linemethod1"></div>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</table>-->
+
     </div>
     <!--<div class="linewrapper">-->
     <!--<div class="linemethod"></div>-->
