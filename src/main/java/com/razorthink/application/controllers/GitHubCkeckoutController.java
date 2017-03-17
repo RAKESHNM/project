@@ -153,7 +153,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
               project.getUsername(), project.getPassword());
       logger.info("Done");
     }
-    return "Done";
+    return "true";
   }
 
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)

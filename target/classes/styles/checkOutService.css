@@ -80,17 +80,3 @@ line-height: 28px;
 
 .button{
 }
-
-button.checkout{
-position:absolute;
-left:1110px;
-top:15px;
-width:100px;
-height:28px;
-background:#37a5e4;
-margin:auto;
-display:inherit;
-border-radius:3px;
-color:#ffffff;
-border:1px solid #3737a5e4;
-}

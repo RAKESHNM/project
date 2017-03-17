@@ -21,16 +21,34 @@ $(document).ready(function(){
              }
        else if(document.getElementById("selectCommand").value == options[3]){
                  $(".module-wrapper").show();
+                 $("#label1").show();
+                 $("#label2").hide();
+                 $("#label3").hide();
+                 $("#module").show();
+                 $("#directory").hide();
+                 $("#file").hide();
                  $(".lines-wrapper").show();
                  $(".size-wrapper").hide();
              }
         else if(document.getElementById("selectCommand").value == options[2]){
                 $(".module-wrapper").show();
+                $("#module").show();
+                $("#label1").show();
+                                 $("#label2").hide();
+                                 $("#label3").hide();
+                                 $("#directory").hide();
+                                 $("#file").hide();
                 $(".size-wrapper").show();
                 $(".lines-wrapper").hide();
             }
         else {
                $(".module-wrapper").show();
+                $("#module").show();
+                $("#label1").show();
+                                 $("#label2").hide();
+                                 $("#label3").hide();
+                                 $("#directory").hide();
+                                 $("#file").hide();
                $(".lines-wrapper").hide();
                $(".size-wrapper").hide();
            }
@@ -58,6 +76,7 @@ $(document).ready(function(){
        $(".closeIcon").click(function(){
             $(".popup").hide();
             $(".linemethod").empty();
+            $(".linemethod1").empty()
             $(".method").empty();
 //            history.go(-1);
 //            $(".wrapper").empty();
@@ -228,7 +247,7 @@ var errorres = [];
                                 printValues(obj[key]);
                       }
                       else {
-                                $(".linemethod").append("<li>"+key + " : " +  obj[key] + "</li>");
+                                $(".linemethod1").append("<li>"+key + " : " +  obj[key] + "</li>");
                                 console.log(obj[key]);
                              }
                       }
@@ -246,9 +265,9 @@ var errorres = [];
                 }
                 else{
                 for(let i =0;i<result.object.length;i=i+3){
-                    $(".linemethod").append(result.object[i]+"<br>");
-                    $(".linemethod").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
-                    $(".linemethod").append("<br>");
+                    $(".linemethod1").append(result.object[i]+"<br>");
+                    $(".linemethod1").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
+                    $(".linemethod1").append("<br>");
                 }
 //                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
                 }
