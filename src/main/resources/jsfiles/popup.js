@@ -19,40 +19,19 @@ console.log("ready", data)
                         getContent(d.target);
                      })
            $(".closeIcon").click(function(){
-    //            $(".popup").hide();
                 location.href = "../htmlfiles/CommandTest.html";
                 $(".popupHeaderTextpage").empty();
                 $(".linemethod").empty();
                 $(".linemethod2").empty()
                 $(".method").empty();
-    //            history.go(-1);
-    //            $(".wrapper").empty();
-    //            $(".wrapper").append('<div id="summary"></div><a id="selectMethod" href="#"  class="method"></a><div class="linemethod"></div>');
 
-
-    //            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
-
-
-
-
-
-
-    //        <a href="##" onClick="history.go(-1); return false;">GoBack</a>
-
-    //            $(".method").empty();
-    //            $(".linemethod").empty();
             })
             $(".closeIcon1").click(function(){
                 location.href = "../htmlfiles/CommandTest.html";
                 getCommandService(data);
-
-    //            $(".popup").addClass("showClass");
-    //                $(".popup").show();
                     })
 
            $(".message").append("Message To Be Displayed");
-
-    //    getCommandService();
     });
 
 

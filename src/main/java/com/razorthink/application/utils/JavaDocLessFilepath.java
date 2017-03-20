@@ -8,32 +8,23 @@ import java.io.IOException;
 /**
  * Created by antolivish on 20/3/17.
  */
-public class TestClass {
-    public static void main(String[] args) throws Exception {
-        String path = "/home/antolivish/BackUp/UIGithub/project/";
-        File currentDir = new File(path); // current directory
-        displayDirectoryContents(currentDir);
-
-    }
-
-public static void displayDirectoryContents(File dir) throws IOException {
-
-        try {
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                if (!(file.getName().substring(file.getName().lastIndexOf(File.separator) + 1).equals("beans")) && !(file.getName().substring(file.getName().lastIndexOf(File.separator) + 1).equals("repository")) && !(file.getName().substring(file.getName().lastIndexOf(File.separator) + 1).equals("constants")))
-                {
-                    System.out.println(file.getName().substring(file.getName().lastIndexOf(File.separator) + 1));
-                    System.out.println("directory:" + file.getCanonicalPath());
-                displayDirectoryContents(file);
-            }
-            } else {
-                System.out.println("file:" + file.getCanonicalPath());
-            }
+public class JavaDocLessFilepath {
+//    public static void main(String[] args) throws Exception {
+//        String path = "/home/antolivish/BackUp/UIGithub/bean/project/";
+//        String specific = "/bean/";
+//        if((searchStr(path,Constants.BEAN))||(searchStr(path,Constants.REPOSITORY))||(searchStr(path,Constants.CONSTANTS))){
+//            System.out.println("true");
+//            System.out.println(path.toLowerCase());
+//        }
+//        else{
+//            System.out.println("false");
+//        }
+//    }
+    public static boolean searchStr(String search, String what) {
+        if(!search.replaceAll(what,"_").equals(search)) {
+            return true;
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+        return false;
     }
-}
+
 }

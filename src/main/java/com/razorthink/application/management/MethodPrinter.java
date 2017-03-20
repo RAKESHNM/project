@@ -51,7 +51,7 @@ public class MethodPrinter {
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
             //System.out.println(n.getName());
-            listOfMethods.add(n.getName());
+            listOfMethods.add("<b>"+n.getName()+"</b> ");
             listOfMethods.add(filePathReturn);
             super.visit(n, arg);
         }
