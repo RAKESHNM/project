@@ -162,6 +162,7 @@ display: inline-block;
     line-height: 33px;
     display: inline-block;
 
+
 }
 .linemethod:first-of-type{
 }
@@ -209,4 +210,18 @@ overflow: auto;
 .hoverinfo:hover p {
   background-color: rgba(255, 255, 255, 0.7);
   display: block;
+}
+.hoverText{
+background:black;
+color:white;
+width:auto;
+height:30px;
+padding-left:auto;
+display:inline-block;
+text-align:justify;
+content:"";
+ position:relative;
+   bottom:-50px;
+   left:550px;
+   text-align:center;
 }

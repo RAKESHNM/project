@@ -1,6 +1,7 @@
 package com.razorthink.application.service;
 
 import com.google.common.collect.Lists;
+import com.razorthink.application.beans.CheckoutProject;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -321,5 +322,12 @@ public class GithubOperations {
     }
     public void slackMessage(){
 
+    }
+
+    public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {
+        if(!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()))
+            return true;
+        else
+            return false;
     }
 }
