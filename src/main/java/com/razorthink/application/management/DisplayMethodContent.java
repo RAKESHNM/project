@@ -6,6 +6,7 @@ import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
 import javax.swing.*;
+import javax.swing.text.html.HTML;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -18,14 +19,20 @@ public class DisplayMethodContent  {
      List<String> listOfMethods;
     private  String name;
     private String returnValue = null;
-    public String showMethodContent(List<String> filePaths, String methodName) throws Exception {
+    private String currentFilePath;
+    private String classMethodFilePath;
+    public String showMethodContent(List<String> filePaths, String methodName,String methodFilePath) throws Exception {
 
+        classMethodFilePath = methodFilePath;
         name = methodName;
         listOfMethods = new ArrayList<>();
         FileInputStream in;
         CompilationUnit cu;
 
             for (String filePath : filePaths) {
+
+                currentFilePath = filePath;
+
                  in = new FileInputStream(filePath);
 
                 try {
@@ -43,7 +50,7 @@ public class DisplayMethodContent  {
            @Override
            public void visit (MethodDeclaration n, Void arg){
 
-               if(n.getName().equals(name))
+               if(n.getName().equals(name) && currentFilePath.equals(classMethodFilePath))
                //returnValue = String.valueOf(n.getBody());
                    returnValue = "JavaDocs: "+ n.getComment()+ "\n" +
                            "Method Name: "+ n.getName()+ "\n" + "\n" + "Parameters: " +

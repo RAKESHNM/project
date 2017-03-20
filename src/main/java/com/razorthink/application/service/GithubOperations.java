@@ -319,4 +319,7 @@ public class GithubOperations {
         System.out.println("Number of Commits :" + count);
         return list;
     }
+    public void slackMessage(){
+
+    }
 }

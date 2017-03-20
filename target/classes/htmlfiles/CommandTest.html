@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="../styles/CommandTest.css"/>
-<link rel="stylesheet" type="text/css" href="font/flaticons/flaticon.css"/>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="../jsfiles/CommandTest.js">
@@ -19,15 +18,17 @@
         </div>
         <div class="module-wrapper">
             <div class="fieldWrapper">
-                <span class="label"> Module : </span>
-                <input type="text" id="module" class="inputField">
+                <span id= "label1" class="label"> Module : </span>
+                <select id="module"></select>
+                <!--<select id="module" class="inputField"><option>Loading . . .</option></select>-->
+                <!--<input type="text" id="module" class="inputField">-->
             </div>
             <div class="fieldWrapper">
-                <span class="label"> Directory : </span>
+                <span id= "label2" class="label"> Directory : </span>
                 <input type="text" id="directory" class="inputField">
             </div>
             <div class="fieldWrapper">
-                <span class="label"> File : </span>
+                <span id= "label3" class="label"> File : </span>
                 <input type="text" id="file" class="inputField">
             </div>
         </div>
@@ -45,42 +46,44 @@
         </div>
 
         <div class="buttonWrapper">
-            <button class="button">Submit</button>
+            <button id="popUpButton" class="button">Submit</button>
         </div>
     </div>
-    <div class="popup">
-        <div class="popupHeader">
-            <h2 class="popupHeaderText"> Code Analyser</h2>
-            <span class="flaticon-error closeIcon">X</span>
-        </div>
-        <!--  <div class="popupContent">
-             <span class="message"> </span>
-             <div class="contentText">
-                 <span class="author"> author</span>
-                 <span class="date"> author</span>
-                 <span class="time"> author</span>
-             </div>
-         </div> -->
-
-        <div class="wrapper">
-            <div id="summary"></div>
-            <div class="linemethod"></div>
-            <table style='margin-left: auto; margin-right: auto'>
-                <tr>
-                    <td>
-                        <a id="selectMethod" href="#"  class="method"></a>
-                    </td>
-                    <td>
-                        <div class="linemethod1"></div>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-        <!--<div class="linewrapper">-->
-        <!--<div class="linemethod"></div>-->
+    <!--<div class="popup">-->
+        <!--<div class="popupHeader">-->
+            <!--<h2 class="popupHeaderText"> Code Analyser</h2>-->
+            <!--<span class="flaticon-error closeIcon">X</span>-->
         <!--</div>-->
-    </div>
+        <!--&lt;!&ndash;  <div class="popupContent">-->
+             <!--<span class="message"> </span>-->
+             <!--<div class="contentText">-->
+                 <!--<span class="author"> author</span>-->
+                 <!--<span class="date"> author</span>-->
+                 <!--<span class="time"> author</span>-->
+             <!--</div>-->
+         <!--</div> &ndash;&gt;-->
+
+        <!--<div class="wrapper">-->
+            <!--<div id="summary"></div>-->
+            <!--<a id="selectMethod" href="#"  class="method"></a>-->
+            <!--<div class="linemethod"></div>-->
+            <!--<div class="linemethod1"></div>-->
+            <!--&lt;!&ndash;<table style='margin-left: auto; margin-right: auto'>&ndash;&gt;-->
+                <!--&lt;!&ndash;<tr class="tableRow">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<td class="tableColumn">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a id="selectMethod" href="#"  class="method"></a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="linemethod1"></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+            <!--&lt;!&ndash;</table>&ndash;&gt;-->
+
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="linewrapper">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="linemethod"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</div>-->
 </div>
 </body>
 </html>

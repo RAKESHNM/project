@@ -77,6 +77,7 @@ console.log(txt);
 var auth = {};
 console.log("Test");
    auth.methodName = txt;
+   auth.filePath = localStorage.getItem(txt);
             $.ajax({
             url:"/rest/methodcontents",
             type: 'POST',
@@ -151,9 +152,16 @@ var errorres = [];
                                                         console.log(result.object[i]);
                                                          $(".method").append("<li>"+result.object[i]+"</li>");
                                                          $(".linemethod").append("(" + result.object[i+1]+")<br>");
-                                                    }
+                                                         localStorage.setItem(result.object[i],result.object[i+2]);
 
-                }
+                                               }
+                                                $( "li" ).hover(
+                                                         function() {
+                                                         $( this ).val( "Rakesh" );
+                                                       }, function() {
+                                             $( this ).find( "span:last" ).remove();
+                                    } );
+}
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
                     for(let i =0;i<result.object.length;i++){
@@ -176,6 +184,7 @@ var errorres = [];
                         for(var j = 0; j < result.object[i].length; j=j+3){
                             $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
                             $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
+                            localStorage.setItem(result.object[i][j],result.object[i][j+2]);
 //                          console.log(result.object[i][j]);
                         }
                      }
@@ -330,3 +339,33 @@ console.log("Test");
           }
         });
 }
+
+/*function showFilePathPath(text){
+$(function(){
+
+    $('#selectMethod').mouseenter(function(d){
+    var hover = $(d.target).text();
+        alert(hover);
+    });
+
+});
+    document.getElementById("text").innerHTML=text;
+}
+function hide(){
+    document.getElementById("text").innerHTML="";
+}*/
+
+$(function(){
+
+    $('#selectMethod').mouseenter(function(d){
+    var hover = $(d.target).text();
+    document.getElementById("text").innerHTML=localStorage.getItem(hover);
+        //alert(hover);
+    });
+
+
+
+});
+function hide(){
+        document.getElementById("text").innerHTML="";
+    }
