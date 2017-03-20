@@ -219,7 +219,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
     try{
       Project project = getProject();
-      return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName());
+      return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName()
+              ,methodDeclaration.getFilePath());
 
     }catch (Exception e){}
     return  null;

@@ -7,12 +7,23 @@ public class MethodDeclaration {
 
     private String methodName;
 
+    private String filePath;
+
+
     public MethodDeclaration(){
 
     }
 
     public MethodDeclaration(String methodName) {
         this.methodName = methodName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getMethodName() {

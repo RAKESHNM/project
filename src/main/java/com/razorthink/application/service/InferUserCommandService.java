@@ -130,7 +130,7 @@ CommandPojo commandPojo1 = new CommandPojo();
     public void showMethodContents(String methodName,Project project) throws Exception {
 
         System.out.println(githubOperations.gitListingFiles(project.getLocalDirectory()));
-        new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
+       // new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
     }
 
 
