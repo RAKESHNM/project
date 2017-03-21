@@ -1,6 +1,7 @@
 package com.razorthink.application.service;
 
 import com.google.common.collect.Lists;
+import com.razorthink.application.beans.CheckoutProject;
 import com.razorthink.application.constants.Constants;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
@@ -138,12 +139,6 @@ public class GithubOperations {
         System.out.println(fileList.get(0));
         System.out.println(fileList.get(1));
         System.out.println(fileList.get(2));
-        return fileList;
-    }
-
-    public List<String> ListingJavaDocsLessFilepath(String localRepoPath) throws Exception{
-        List<String> fileList = new ArrayList<>();
-
         return fileList;
     }
 
@@ -332,6 +327,8 @@ public class GithubOperations {
         int count = 0;
         for( RevCommit commit : commits )
         {
+            //            System.out.println(commit.getAuthorIdent().getName());
+            //            System.out.println(commit.getFullMessage());
             Date date = new Date(commit.getCommitTime() * 1000L);
             list.add((commit.getFullMessage() + " " + commit.getAuthorIdent().getName() + " committed on "
                     + date.toString() + "\n"));
@@ -341,5 +338,12 @@ public class GithubOperations {
     }
     public void slackMessage(){
 
+    }
+
+    public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {
+        if(!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()))
+            return true;
+        else
+            return false;
     }
 }

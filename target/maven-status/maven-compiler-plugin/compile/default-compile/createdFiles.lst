@@ -34,14 +34,15 @@ com/razorthink/application/beans/Directory.class
 com/razorthink/application/beans/ProjectOrganization.class
 com/razorthink/application/management/MethodPrinter.class
 com/razorthink/application/beans/CommandPojo.class
+com/razorthink/application/beans/MethodInfo.class
 com/razorthink/application/utils/LocalDirectoryCreation.class
 com/razorthink/application/service/CommandsService.class
 com/razorthink/application/beans/CommitDetails.class
 com/razorthink/application/management/MethodPrinter$1.class
 com/razorthink/application/service/InferUserCommandService.class
 com/razorthink/application/management/MethodFilePath$1.class
+com/razorthink/application/utils/JavaDocLessFilepath.class
 com/razorthink/application/management/MethodPrinter$MethodVisitor.class
 com/razorthink/application/service/ReadFile.class
 com/razorthink/application/beans/Branch.class
 com/razorthink/application/management/DisplayMethodContent.class
-com/razorthink/application/controllers/sample.class

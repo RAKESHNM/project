@@ -1,0 +1,16 @@
+#wrapper {
+    width: 500px;
+    border: 1px solid black;
+    overflow: auto;
+}
+#first {
+    float: left;
+    width: 300px;
+    border: 1px solid red;
+    overflow:auto;
+    height:600px;
+}
+#second {
+    border: 1px solid green;
+    margin: 0 0 0 302px;
+}

@@ -1,5 +1,6 @@
 package com.razorthink.application.management;
 
+import com.razorthink.application.beans.MethodInfo;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.MethodDeclaration;
@@ -18,10 +19,10 @@ import java.util.List;
 public class DisplayMethodContent  {
      List<String> listOfMethods;
     private  String name;
-    private String returnValue = null;
+    private MethodInfo returnValue = new MethodInfo();
     private String currentFilePath;
     private String classMethodFilePath;
-    public String showMethodContent(List<String> filePaths, String methodName,String methodFilePath) throws Exception {
+    public MethodInfo showMethodContent(List<String> filePaths, String methodName,String methodFilePath) throws Exception {
 
         classMethodFilePath = methodFilePath;
         name = methodName;
@@ -50,11 +51,16 @@ public class DisplayMethodContent  {
            @Override
            public void visit (MethodDeclaration n, Void arg){
 
-               if(n.getName().equals(name) && currentFilePath.equals(classMethodFilePath))
+               if(n.getName().equals(name) && currentFilePath.equals(classMethodFilePath)){
+                   returnValue.setComments(String.valueOf(n.getComment()));
+                   returnValue.setLogic(String.valueOf(n.getBody()));
+                   returnValue.setName(n.getName());
+                   returnValue.setParameters(String.valueOf(n.getParameters()));
+               }
                //returnValue = String.valueOf(n.getBody());
-                   returnValue = "JavaDocs: "+ n.getComment()+ "\n" +
+                  /* returnValue = "JavaDocs: "+ n.getComment()+ "\n" +
                            "Method Name: "+ n.getName()+ "\n" + "\n" + "Parameters: " +
-                           n.getParameters() + "\n" + "\n"+" Method Logic: " + "\n" + n.getBody();
+                           n.getParameters() + "\n" + "\n"+" Method Logic: " + "\n" + n.getBody();*/
                super.visit(n, arg);
            }
     }

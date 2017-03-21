@@ -2,7 +2,6 @@ package com.razorthink.application.controllers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.env.Environment;
 
 /**
  * Created by rakesh on 26/2/17.

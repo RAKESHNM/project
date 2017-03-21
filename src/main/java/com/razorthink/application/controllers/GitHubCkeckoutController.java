@@ -126,6 +126,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
+    if(new GithubOperations().validateRepo(service,checkoutProject))
+      return "false";
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
     if(checkoutProject.getDir()==""){
       System.out.println(System.getProperty("user.home"));
@@ -214,7 +216,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
   @ResponseBody()
-  public String showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
+  public MethodInfo showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
 
     try{
       Project project = getProject();
