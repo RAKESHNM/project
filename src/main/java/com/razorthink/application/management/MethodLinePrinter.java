@@ -52,7 +52,7 @@ public class MethodLinePrinter {
 
                // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
                 listOfMethods.add(n.getName() );
-                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()));
+                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()+1));
                 listOfMethods.add(returnFilePath);
             }
             //super.visit(n, arg);

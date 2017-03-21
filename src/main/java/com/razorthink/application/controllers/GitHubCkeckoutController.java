@@ -12,16 +12,11 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -216,7 +211,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
   @ResponseBody()
-  public MethodInfo showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
+  public String showMethodContents(@RequestBody MethodDeclaration methodDeclaration){
 
     try{
       Project project = getProject();

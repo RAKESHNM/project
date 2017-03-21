@@ -34,9 +34,6 @@ console.log("ready", data)
            $(".message").append("Message To Be Displayed");
     });
 
-
-
-
 function multiplyNode(node, count, deep, obj) {
         for (var i = 0, copy; i < obj.length; i++) {
             copy = node.cloneNode(deep);
@@ -45,11 +42,9 @@ function multiplyNode(node, count, deep, obj) {
             node.parentNode.insertBefore(copy, node)
             console.log(node);
         }
-//        $(".method").append(obj);
-//        $(".method").append(" ");
     }
- function getContent(d){
 
+ function getContent(d){
 // console.log(d);
 var txt = $(d).text();
 console.log(txt);
@@ -70,8 +65,9 @@ console.log("Test");
                 withCredentials: true
             },
             success: function(res){
+                console.log("First");
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                                         url:"/rest/methodcommit",
                                         type: 'POST',
@@ -86,8 +82,8 @@ console.log("Test");
                                         },
                                         success: function(res){
                                           console.log(res);
-                                          localStorage.setItem("res1",res);
-                                          location.href = "../htmlfiles/loginService.html";
+                                          localStorage.setItem("commit",res);
+                                          location.href = "../htmlfiles/Contents.html";
                                           insertContents(res);
 
                                           document.getElementById("commitText").value += res;
@@ -97,7 +93,7 @@ console.log("Test");
                                        console.log(errorres);
                                       }
                                     });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
          },
           error: function(errorres){
            console.log(errorres);
@@ -143,7 +139,7 @@ var errorres = [];
 }
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
-                    for(let i =0;i<result.object.length;i++){
+                    for(var i =0;i<result.object.length;i++){
                           console.log(result.object);
                           $(".method").append("<li>"+result.object[i]+"</li>");
                     }
@@ -244,7 +240,7 @@ console.log("Test");
             },
             success: function(res){
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                           url:"/rest/commit",
                           type: 'POST',
@@ -259,8 +255,8 @@ console.log("Test");
                           },
                           success: function(res1){
                             console.log(res1);
-                                localStorage.setItem("res1",res1);
-                            location.href = "../htmlfiles/loginService.html";
+                                localStorage.setItem("commit",res1);
+                            location.href = "../htmlfiles/Contents.html";
                             insertContents(res);
 
                             document.getElementById("commitText").value += res;
@@ -270,7 +266,7 @@ console.log("Test");
                          console.log(errorres);
                         }
                       });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
 
 
          },
@@ -301,7 +297,7 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res1",res);
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
               insertContents(res);
 
               document.getElementById("commitText").value += res;

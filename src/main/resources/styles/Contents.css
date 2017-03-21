@@ -1,16 +1,23 @@
 #wrapper {
-    width: 500px;
+     width: 1005px;
+         margin: 0 auto;
+}
+#contents, #commits {
     border: 1px solid black;
-    overflow: auto;
-}
-#first {
     float: left;
-    width: 300px;
-    border: 1px solid red;
-    overflow:auto;
-    height:600px;
+    min-height: 600px;
+    color: black;
 }
-#second {
-    border: 1px solid green;
-    margin: 0 0 0 302px;
+#contents {
+      width: 750px;
+
+        background-color: white;
+        max-height: 600px;
+            overflow: auto;
+}
+#commits {
+   width: 250px;
+          background-color: white;
+          max-height: 600px;
+              overflow: auto;
 }
