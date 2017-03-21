@@ -1,5 +1,7 @@
 package com.razorthink.application.management;
 
+import com.razorthink.application.constants.HtmlConstants;
+import com.razorthink.application.constants.ValidNames;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.MethodDeclaration;
@@ -48,12 +50,10 @@ public class DisplayMethodContent  {
            public void visit (MethodDeclaration n, Void arg){
 
                if(n.getName().equals(name) && currentFilePath.equals(classMethodFilePath)){
-                   returnValue = "<b> JavaDocs: </b>"+ n.getComment()+ "<br><br>" +
-                           "<b> Method Name: </b>"+ n.getName()+ "<br><br>" + "<b> Parameters: </b>" +
-                           n.getParameters() + "<br><br>"+ "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
+                   returnValue = HtmlConstants.BOLD_BEGIN + ValidNames.JAVADOC + HtmlConstants.BOLD_END + n.getComment()+ HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK +
+                           HtmlConstants.BOLD_BEGIN + ValidNames.METHOD_NAME + HtmlConstants.BOLD_END + n.getName()+ HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + ValidNames.PARAMETERS + HtmlConstants.BOLD_END +
+                           n.getParameters() + HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + ValidNames.METHOD_LOGIC + HtmlConstants.BOLD_END+ HtmlConstants.LINE_BREAK + HtmlConstants.PRE_BEGIN + n.getBody() + HtmlConstants.PRE_END;
                }
-               //returnValue = String.valueOf(n.getBody());
-
                super.visit(n, arg);
            }
     }

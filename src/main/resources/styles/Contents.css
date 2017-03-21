@@ -21,3 +21,15 @@
           max-height: 600px;
               overflow: auto;
 }
+.contentback {
+     padding: 0px 50px;
+    font-size: 20px;
+    /* height: 33px; */
+    line-height: 33px;
+    display: block;
+    text-align: center;
+    position: relative;
+    max-height: 500px;
+    overflow: auto;
+    padding-left: 1000px;
+}

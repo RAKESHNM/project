@@ -9,6 +9,7 @@ public class Constants {
     public static final String NULL_PROJECT_PROP = "project properties should not be null";
     public static final String GITHUB_CREDENTIAL = "/credential";
     public static final String GITHUB_CHECKOUT_ROUTE = "/checkout";
+    public static final String LOG_OUT = "/logout";
   //  public static final String LIST_AVAILABLE_PROJECTS_ROUTE = "/projects";
     public static final String LIST_ALL_METHODS="/methods";
     public static final String LIST_ALL_FILES="allfiles";

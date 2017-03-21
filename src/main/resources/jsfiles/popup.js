@@ -1,11 +1,12 @@
 
 $(document).ready(function(){
+
 var data = JSON.parse(localStorage.getItem('data'));
 console.log("ready", data)
     var header = "header";
      getCommandService(data);
      $("#selectMethod").on('click', function(d) {
-
+                             $(".loader").addClass("showClass");
                      console.log(d.target);
                      var txt = $(d.target).text();
                      console.log(txt);
@@ -230,17 +231,13 @@ var errorres = [];
                     $(".linemethod2").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
                     $(".linemethod2").append("<br>");
                 }
-//                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
                 }
-//                for(var i=0; i<result.object.length;i++){
-//                $(".method").append(result.object);
-//                }
+
             },
             error: function(errorres){
                 console.log(errorres);
             }
         });
-        /*return errorres;*/
 }
 
 function getFileContent(d){
@@ -339,21 +336,6 @@ console.log("Test");
           }
         });
 }
-
-/*function showFilePathPath(text){
-$(function(){
-
-    $('#selectMethod').mouseenter(function(d){
-    var hover = $(d.target).text();
-        alert(hover);
-    });
-
-});
-    document.getElementById("text").innerHTML=text;
-}
-function hide(){
-    document.getElementById("text").innerHTML="";
-}*/
 
 $(function(){
 

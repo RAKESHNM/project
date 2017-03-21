@@ -1,6 +1,7 @@
 package com.razorthink.application.controllers;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.constants.ValidNames;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.management.MethodFilePath;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
       if( githubOperations.gitRemoteRepository(service) != null){
         request.getSession().setAttribute("user-det",project);
         //request.getSession().setAttribute("pass",login.getPassword());
-        return "Success";
+        return ValidNames.SUCCESS;
       }
     }
     catch(Exception e ){
@@ -124,11 +126,10 @@ public class GitHubCkeckoutController extends AbstractContrller {
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
     if(new GithubOperations().validateRepo(service,checkoutProject) )
-      return "false";
+      return ValidNames.FALSE;
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    if(checkoutProject.getDir() == ""){
-      System.out.println(System.getProperty("user.home"));
-      checkoutProject.setDir(System.getProperty("user.home"));
+    if(checkoutProject.getBranch().equals("Select Branch")){
+      checkoutProject.setBranch(Constants.MASTER_BRANCH);
     }
     int idx = checkoutProject.getBranch().lastIndexOf("/");
     if(idx>0){
@@ -152,7 +153,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
               project.getUsername(), project.getPassword());
       logger.info("Done");
     }
-    return "true";
+    return ValidNames.TRUE;
   }
 
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
@@ -176,7 +177,6 @@ public class GitHubCkeckoutController extends AbstractContrller {
     project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
     File dir = new File(project.getLocalDirectory());
     if (dir.exists()) {
-      System.out.println("Exist");
       FileUtils.forceDelete(dir);
     }
       logger.info("Cloning  into . . .");
@@ -210,6 +210,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
     return null;
   }
 
+  @RequestMapping(value = Constants.LOG_OUT,method = RequestMethod.POST)
+  @ResponseBody()
+  public void logout(){
+    request.getSession().setAttribute("user-det",null);
+  }
 
   @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
   @ResponseBody()

@@ -57,6 +57,7 @@ $(document).ready(function(){
            }
       });
        $("#popUpButton").click(function(){
+                                $(".loader").addClass("showClass");
                        data.command=document.getElementById("selectCommand").value;
                 data.directory=document.getElementById("directory").value;
                 data.subModule=document.getElementById("module").value;
