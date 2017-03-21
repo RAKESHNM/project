@@ -45,6 +45,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<Project> projectList = new ApplicationStateUtils().loadProjects();
 
+  List<String>  branches = new ArrayList<>();
+
 
   public GitHubCkeckoutController() throws IOException {
   }
@@ -126,10 +128,10 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    if(new GithubOperations().validateRepo(service,checkoutProject))
+    if(new GithubOperations().validateRepo(service,checkoutProject) )
       return "false";
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    if(checkoutProject.getDir()==""){
+    if(checkoutProject.getDir() == ""){
       System.out.println(System.getProperty("user.home"));
       checkoutProject.setDir(System.getProperty("user.home"));
     }

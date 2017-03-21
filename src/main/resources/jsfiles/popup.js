@@ -164,9 +164,10 @@ var errorres = [];
 }
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
-                    for(let i =0;i<result.object.length;i++){
+                    for(let i =0;i<result.object.length;i=i+2){
                           console.log(result.object);
                           $(".method").append("<li>"+result.object[i]+"</li>");
+                          localStorage.setItem(result.object[i],result.object[i+1]);
                     }
                 }
                 else if(data.command===("List all files")){
