@@ -19,20 +19,44 @@ console.log("ready", data)
                         getContent(d.target);
                      })
            $(".closeIcon").click(function(){
+    //            $(".popup").hide();
                 location.href = "../htmlfiles/CommandTest.html";
                 $(".popupHeaderTextpage").empty();
                 $(".linemethod").empty();
                 $(".linemethod2").empty()
                 $(".method").empty();
+    //            history.go(-1);
+    //            $(".wrapper").empty();
+    //            $(".wrapper").append('<div id="summary"></div><a id="selectMethod" href="#"  class="method"></a><div class="linemethod"></div>');
 
+
+    //            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
+
+
+
+
+
+
+    //        <a href="##" onClick="history.go(-1); return false;">GoBack</a>
+
+    //            $(".method").empty();
+    //            $(".linemethod").empty();
             })
             $(".closeIcon1").click(function(){
                 location.href = "../htmlfiles/CommandTest.html";
                 getCommandService(data);
+
+    //            $(".popup").addClass("showClass");
+    //                $(".popup").show();
                     })
 
            $(".message").append("Message To Be Displayed");
+
+    //    getCommandService();
     });
+
+
+
 
 function multiplyNode(node, count, deep, obj) {
         for (var i = 0, copy; i < obj.length; i++) {
@@ -43,8 +67,8 @@ function multiplyNode(node, count, deep, obj) {
             console.log(node);
         }
     }
-
  function getContent(d){
+
 // console.log(d);
 var txt = $(d).text();
 console.log(txt);
@@ -139,9 +163,10 @@ var errorres = [];
 }
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
-                    for(var i =0;i<result.object.length;i++){
+                    for(let i =0;i<result.object.length;i=i+2){
                           console.log(result.object);
                           $(".method").append("<li>"+result.object[i]+"</li>");
+                          localStorage.setItem(result.object[i],result.object[i+1]);
                     }
                 }
                 else if(data.command===("List all files")){
