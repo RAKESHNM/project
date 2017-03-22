@@ -2,6 +2,7 @@ package com.razorthink.application.service;
 
 import com.google.common.collect.Lists;
 import com.razorthink.application.beans.CheckoutProject;
+import com.razorthink.application.constants.Constants;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -76,6 +77,21 @@ public class GithubOperations {
             }
         }
         return null;
+    }
+
+    public List<String> getModules(String path){
+        List<String> list = new ArrayList<>();
+        File file = new File(path);
+        String[] names = file.list();
+
+        for(String name : names)
+        {
+            if ((new File(path + name).isDirectory()) && (!name.equals(Constants.DOT_GIT_EXTENSION)))
+            {
+                list.add(name);
+            }
+        }
+      return list;
     }
 
     //Listing Files

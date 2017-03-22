@@ -92,6 +92,8 @@ display: inline-block;
                         position: fixed;
                         right: 30px;
                         top: 150px;
+                             border-bottom:0px solid #444;
+
 }
 .popupHeaderText{
     float: left;

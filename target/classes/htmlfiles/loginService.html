@@ -20,8 +20,8 @@
 </head>
 <body>
 
-<textarea id="alltext" cols="90"></textarea>
-<textarea id="commitText" cols="40">Commit Details</textarea>
+<textarea id="alltext" cols="70"></textarea>
+<textarea id="commitText" cols="40"></textarea>
 <div class="parent">
     <div>
         <span class="label">Post Feedback</span>
@@ -34,13 +34,13 @@
 <script>
  var x = localStorage.getItem("res");
  console.log(x);
-     document.getElementById("alltext").value+=x;
+ for(var key in x){
+     document.getElementById("alltext").value+=x[key];
+     }
 
 var y = localStorage.getItem("res1");
  console.log(y);
- for(var i=0;i<y.length;i++){
-     document.getElementById("commitText").value+=y[i];
-     };
+     document.getElementById("commitText").value+=y;
 </script>
 <div>
     <a href="##" onClick="history.go(-1); return false;">GoBack</a>

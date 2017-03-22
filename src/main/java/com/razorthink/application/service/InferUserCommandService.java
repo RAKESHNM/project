@@ -2,6 +2,7 @@ package com.razorthink.application.service;
 import com.razorthink.application.beans.CommandPojo;
 import com.razorthink.application.beans.Project;
 import com.razorthink.application.beans.Result;
+import com.razorthink.application.constants.Constants;
 import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
 
@@ -21,10 +22,10 @@ public class InferUserCommandService {
 
     List<List<String>> FileList = new ArrayList<>();
     List<String> CommitList = new ArrayList<>();
-CommandPojo commandPojo1 = new CommandPojo();
+    CommandPojo commandPojo1 = new CommandPojo();
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
 
-        if(commandPojo.getSubModule().equals(""))
+        if(commandPojo.getSubModule().equals(Constants.SELECT_MODULE))
                commandPojo.setSubModule(null);
         if(commandPojo.getDirectory().equals(""))
              commandPojo.setDirectory(null);
@@ -40,17 +41,12 @@ CommandPojo commandPojo1 = new CommandPojo();
         result.setBranch(project.getBranch());
         if (commandPojo.getCommand().equalsIgnoreCase("Commit Details")) {
             result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(),project.getBranch()));
-//              result.setObject(githubOperations.getCommitsFromFile(project.getLocalDirectory(),"src/main/java/com/razorthink/application/service/GithubOperations.java"));
             return result;
         }
         else if(commandPojo.getCommand().equalsIgnoreCase("Project Summary")){
             String pomFilePath = project.getLocalDirectory()+"pom.xml";
             result.setObject(new CommandsServiceImpl().getProjectSummary(pomFilePath));
             return result;
-            /*list.add("Artifact ID: "+projectSummary.getBuildInformation().getArtifactId());
-            list.add("Group ID: "+projectSummary.getBuildInformation().getGroupId());
-            list.add("Version: "+projectSummary.getBuildInformation().getVersion());
-            list.add("Mode Version: "+projectSummary.getBuildInformation());*/
         }
         else {
 
@@ -89,8 +85,23 @@ CommandPojo commandPojo1 = new CommandPojo();
                 return result;
             }
             if(commandPojo.getCommand().equalsIgnoreCase("List all methods without javadocs")){
-                result.setObject(new CommandsServiceImpl().getAllMethodsWithJavaDocsComment(FileList.get(0)));
-                commandPojo1.setFileList(FileList.get(0));
+                List<String> list = new ArrayList<>();
+                String[] filter = {Constants.BEAN,Constants.BEANS,Constants.REPOSITORY,Constants.REPOSITORIES};
+                for(String temp : FileList.get(0)){
+                    int count = 0;
+                    for(int i =0;i<filter.length;i++){
+                        if(searchStr(temp.toLowerCase(),filter[i])) {
+                            count++;
+                        }
+                        if(count==filter.length){
+                            list.add(temp);
+                            System.out.println(temp);
+                        }
+                    }
+
+                }
+                result.setObject(new CommandsServiceImpl().getAllMethodsWithJavaDocsComment(list));
+                commandPojo1.setFileList(list);
 
                 return result;
             }
@@ -132,6 +143,11 @@ CommandPojo commandPojo1 = new CommandPojo();
         System.out.println(githubOperations.gitListingFiles(project.getLocalDirectory()));
        // new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
     }
-
+    public boolean searchStr(String search, String what) {
+        if(search.replaceAll(what,"_").equals(search)) {
+            return true;
+        }
+        return false;
+    }
 
 }

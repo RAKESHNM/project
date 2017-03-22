@@ -25,4 +25,12 @@ public class Constants {
     public static final String SHOW_COMMIT_DETAILS = "/commit";
     public static final String SHOW_METHOD_COMMIT = "/methodCommit";
     public static final String CLONE = "/clone";
+    public static final String GET_MODULE="/getmodule";
+    public static final String SELECT_MODULE = "Select Module";
+    public static final String MASTER_BRANCH = "refs/heads/master";
+    public static final String BEAN = "bean";
+    public static final String BEANS = "beans";
+    public static final String REPOSITORIES = "repositories";
+    public static final String REPOSITORY = "repository";
+    public static final String CONSTANTS = "constants";
 }

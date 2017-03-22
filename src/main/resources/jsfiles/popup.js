@@ -19,44 +19,20 @@ console.log("ready", data)
                         getContent(d.target);
                      })
            $(".closeIcon").click(function(){
-    //            $(".popup").hide();
                 location.href = "../htmlfiles/CommandTest.html";
                 $(".popupHeaderTextpage").empty();
                 $(".linemethod").empty();
                 $(".linemethod2").empty()
                 $(".method").empty();
-    //            history.go(-1);
-    //            $(".wrapper").empty();
-    //            $(".wrapper").append('<div id="summary"></div><a id="selectMethod" href="#"  class="method"></a><div class="linemethod"></div>');
 
-
-    //            $(".wrapper").append('<div id="summary"></div><div class="linemethod"></div><table style=margin-left: auto; margin-right: auto><tr><td><a id="selectMethod" href="#"  class="method"></a></td><td><div class="linemethod1"></div></td></tr></table></div>');
-
-
-
-
-
-
-    //        <a href="##" onClick="history.go(-1); return false;">GoBack</a>
-
-    //            $(".method").empty();
-    //            $(".linemethod").empty();
             })
             $(".closeIcon1").click(function(){
                 location.href = "../htmlfiles/CommandTest.html";
                 getCommandService(data);
-
-    //            $(".popup").addClass("showClass");
-    //                $(".popup").show();
                     })
 
            $(".message").append("Message To Be Displayed");
-
-    //    getCommandService();
     });
-
-
-
 
 function multiplyNode(node, count, deep, obj) {
         for (var i = 0, copy; i < obj.length; i++) {
@@ -66,11 +42,9 @@ function multiplyNode(node, count, deep, obj) {
             node.parentNode.insertBefore(copy, node)
             console.log(node);
         }
-//        $(".method").append(obj);
-//        $(".method").append(" ");
     }
- function getContent(d){
 
+ function getContent(d){
 // console.log(d);
 var txt = $(d).text();
 console.log(txt);
@@ -91,8 +65,9 @@ console.log("Test");
                 withCredentials: true
             },
             success: function(res){
+                console.log("First");
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                                         url:"/rest/methodcommit",
                                         type: 'POST',
@@ -107,8 +82,8 @@ console.log("Test");
                                         },
                                         success: function(res){
                                           console.log(res);
-                                          localStorage.setItem("res1",res);
-                                          location.href = "../htmlfiles/loginService.html";
+                                          localStorage.setItem("commit",res);
+                                          location.href = "../htmlfiles/Contents.html";
                                           insertContents(res);
 
                                           document.getElementById("commitText").value += res;
@@ -118,7 +93,7 @@ console.log("Test");
                                        console.log(errorres);
                                       }
                                     });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
          },
           error: function(errorres){
            console.log(errorres);
@@ -266,7 +241,7 @@ console.log("Test");
             },
             success: function(res){
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                           url:"/rest/commit",
                           type: 'POST',
@@ -281,8 +256,8 @@ console.log("Test");
                           },
                           success: function(res1){
                             console.log(res1);
-                                localStorage.setItem("res1",res1);
-                            location.href = "../htmlfiles/loginService.html";
+                                localStorage.setItem("commit",res1);
+                            location.href = "../htmlfiles/Contents.html";
                             insertContents(res);
 
                             document.getElementById("commitText").value += res;
@@ -292,7 +267,7 @@ console.log("Test");
                          console.log(errorres);
                         }
                       });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
 
 
          },
@@ -323,7 +298,7 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res1",res);
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
               insertContents(res);
 
               document.getElementById("commitText").value += res;
