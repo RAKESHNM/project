@@ -14,12 +14,14 @@ import java.util.List;
  */
 public class JavaDocCommentsFinder {
 
+    public static int id = 0;
     static List<String> listOfMethods;
     FileInputStream in;
     CompilationUnit cu;
    public static String currentFilePath;
 
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
+        id = 0;
         listOfMethods = new ArrayList<>();
         try
         {
@@ -65,13 +67,15 @@ public class JavaDocCommentsFinder {
                         //listOfMethods.add(n.getName());
                 }
                 if(count == 0) {
-                    listOfMethods.add(n.getName());
-                    listOfMethods.add(currentFilePath);
+                    listOfMethods.add(id + " " + n.getName());
+                    listOfMethods.add(currentFilePath + "+" + n.getParameters());
+                    id++;
                 }
                 //System.out.println(n.getComment());
                 //System.out.println(n.getName());
 
             }
+
             super.visit(n, arg);
         }
     }

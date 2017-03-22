@@ -18,8 +18,10 @@ public class DisplayMethodContent  {
     private String returnValue = null;
     private String currentFilePath;
     private String classMethodFilePath;
-    public String showMethodContent(List<String> filePaths, String methodName, String methodFilePath) throws Exception {
+    public static int id = 0;
 
+    public String showMethodContent(List<String> filePaths, String methodName, String methodFilePath) throws Exception {
+        id = 0;
         classMethodFilePath = methodFilePath;
         name = methodName;
         listOfMethods = new ArrayList<>();
@@ -47,11 +49,21 @@ public class DisplayMethodContent  {
            @Override
            public void visit (MethodDeclaration n, Void arg){
 
-               if(n.getName().equals(name) && currentFilePath.equals(classMethodFilePath)){
-                   returnValue = "<b> JavaDocs: </b>"+ n.getComment()+ "<br><br>" +
-                           "<b> Method Name: </b>"+ n.getName()+ "<br><br>" + "<b> Parameters: </b>" +
-                           n.getParameters() + "<br><br>"+ "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
+               if( n.getName().equals(name.substring(name.indexOf(' ')+1)) ){
+                   if(n.getParameters() != null) {
+                       if ((currentFilePath + "+" + n.getParameters()).equals(classMethodFilePath))
+                           returnValue = "<b> JavaDocs: </b>" + n.getComment() + "<br><br>" +
+                                   "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<b> Parameters: </b>" +
+                                   n.getParameters() + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
+                   }
+                   if(n.getParameters() == null){
+                       if((currentFilePath + "+" + "none").equals(classMethodFilePath))
+                           returnValue = "<b> JavaDocs: </b>" + n.getComment() + "<br><br>" +
+                                   "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<b> Parameters: </b>" +
+                                   n.getParameters() + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
+                   }
                }
+               id++;
                //returnValue = String.valueOf(n.getBody());
 
                super.visit(n, arg);
