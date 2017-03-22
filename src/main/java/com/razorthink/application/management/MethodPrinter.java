@@ -45,13 +45,15 @@ public class MethodPrinter {
      * Simple visitor implementation for visiting MethodDeclaration nodes.
      */
     private static class MethodVisitor extends VoidVisitorAdapter<Void> {
+        static int i = 0;
         @Override
         public void visit(MethodDeclaration n, Void arg) {
             /* here you can access the attributes of the method.
              this method will be called for all methods in this
              CompilationUnit, including inner class methods */
             //System.out.println(n.getName());
-            listOfMethods.add("<b>"+n.getName()+"</b> ");
+            listOfMethods.add("<b>"+i+". "+n.getName()+"</b> ");
+            i++;
             listOfMethods.add(filePathReturn);
             super.visit(n, arg);
         }

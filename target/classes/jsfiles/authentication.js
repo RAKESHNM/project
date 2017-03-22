@@ -40,6 +40,7 @@
               }
 //                   location.href = "../htmlfiles/CheckoutService.html";
   });
+  $(".loader").addClass("showClass");
 }
 }
 

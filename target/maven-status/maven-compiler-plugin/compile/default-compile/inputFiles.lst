@@ -1,3 +1,4 @@
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/constants/HtmlConstants.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/CommitDetails.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/ApplicationStateUtils.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/LocalDirectoryCreation.java
@@ -19,6 +20,7 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/BuildInformation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/impl/CommandsServiceImpl.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/exceptions/NullFilePathsListException.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/constants/ValidNames.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/CheckoutProject.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/ProjectInformation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/CommandsService.java

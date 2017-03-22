@@ -81,20 +81,6 @@
     clear: both;
     height: 50px;
 }
-.closeIcon{
-display: inline-block;
-                        width: 50px;
-                        /* height: 100%; */
-                        float: right;
-                        text-align: center;
-                        line-height: 50px;
-                        cursor: pointer;
-                        position: fixed;
-                        right: 30px;
-                        top: 150px;
-                             border-bottom:0px solid #444;
-
-}
 .popupHeaderText{
     float: left;
     width: calc(100% - 50px);

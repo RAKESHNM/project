@@ -64,6 +64,7 @@ $(document).ready(function(){
                 data.file=document.getElementById("file").value;
                 data.noOfLines=document.getElementById("number").value;
                 data.filesize=document.getElementById("size").value;
+                window.localStorage.clear();
                 localStorage.setItem('data', JSON.stringify(data));
            location.href = "../htmlfiles/PopUp.html";
        })

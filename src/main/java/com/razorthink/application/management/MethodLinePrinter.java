@@ -19,8 +19,10 @@ public class MethodLinePrinter {
 
     public static String returnFilePath;
 
-    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
+    public static int id = 0;
 
+    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
+        id = 0;
         noOfLines = lines;
         listOfMethods = new ArrayList<>();
         FileInputStream in;
@@ -50,11 +52,17 @@ public class MethodLinePrinter {
 
             if((n.getEndLine() - n.getBeginLine())>=noOfLines) {
 
-                listOfMethods.add(n.getName() );
-                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()+1));
-                listOfMethods.add(returnFilePath);
+               // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
+                listOfMethods.add(id + " " + n.getName() );
+                id++;
+                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()));
+                if(n.getParameters() == null || n.getParameters().isEmpty()  )
+                    listOfMethods.add(returnFilePath + "+" + "none" );
+                else
+                    listOfMethods.add(returnFilePath + "+" + n.getParameters().toString());
+
             }
-            //super.visit(n, arg);
+            super.visit(n, arg);
         }
     }
 }

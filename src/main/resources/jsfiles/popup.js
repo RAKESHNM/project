@@ -76,6 +76,8 @@ console.log(txt);
 var auth = {};
 console.log("Test");
    auth.methodName = txt;
+   console.log(txt);
+   console.log(localStorage.getItem(txt));
    auth.filePath = localStorage.getItem(txt);
             $.ajax({
             url:"/rest/methodcontents",
@@ -150,7 +152,7 @@ var errorres = [];
                                     console.log(result);
                                     for(let i =0;i<result.object.length;i=i+3){
                                                         console.log(result.object[i]);
-                                                         $(".method").append("<li>"+result.object[i]+"</li>");
+                                                         $(".method").append("<li>" + result.object[i]+"</li>");
                                                          $(".linemethod").append("(" + result.object[i+1]+")<br>");
                                                          localStorage.setItem(result.object[i],result.object[i+2]);
 
@@ -166,7 +168,7 @@ var errorres = [];
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
                     for(let i =0;i<result.object.length;i=i+2){
                           console.log(result.object);
-                          $(".method").append("<li>"+result.object[i]+"</li>");
+                          $(".method").append("<li>" + result.object[i]+"</li>");
                           localStorage.setItem(result.object[i],result.object[i+1]);
                     }
                 }
@@ -341,6 +343,12 @@ $(function(){
 
     $('#selectMethod').mouseenter(function(d){
     var hover = $(d.target).text();
+    var path = localStorage.getItem(hover);
+    if(path.indexOf('+') != -1){
+    path = path.substring(0,path.indexOf('+'));
+    document.getElementById("text").innerHTML=path;
+    }
+    else
     document.getElementById("text").innerHTML=localStorage.getItem(hover);
         //alert(hover);
     });

@@ -28,6 +28,7 @@ com/razorthink/application/management/MethodLinePrinter.class
 com/razorthink/application/controllers/AbstractContrller.class
 com/razorthink/application/beans/ProjectSummary.class
 com/razorthink/application/management/MethodFilePath$getFilePath.class
+com/razorthink/application/constants/ValidNames.class
 com/razorthink/application/beans/Login.class
 com/razorthink/application/management/DisplayMethodContent$1.class
 com/razorthink/application/beans/Directory.class
@@ -35,6 +36,7 @@ com/razorthink/application/beans/ProjectOrganization.class
 com/razorthink/application/management/MethodPrinter.class
 com/razorthink/application/beans/CommandPojo.class
 com/razorthink/application/beans/MethodInfo.class
+com/razorthink/application/constants/HtmlConstants.class
 com/razorthink/application/utils/LocalDirectoryCreation.class
 com/razorthink/application/service/CommandsService.class
 com/razorthink/application/beans/CommitDetails.class

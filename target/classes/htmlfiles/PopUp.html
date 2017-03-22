@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="../styles/CommandTest.css"/>
+<link rel="stylesheet" type="text/css" href="../styles/styles.css"/>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="../jsfiles/popup.js"></script>
+    <script type="text/javascript" src="../jsfiles/CheckoutLogout.js"></script>
 </head>
 <body>
 
-    <!--  <div class="popupContent">
-         <span class="message"> </span>
-         <div class="contentText">
-             <span class="author"> author</span>
-             <span class="date"> author</span>
-             <span class="time"> author</span>
-         </div>
-     </div> -->
 <div class="mainWrapper">
 
     <div class="wrapper">
@@ -24,28 +18,20 @@
                 <h2 align="center" class="popupHeaderTextpage"> </h2>
             </div>
         </div>
+
         <div id="summary"></div>
-        <a id="selectMethod"  onmouseover="showFilePathPath()"  onMouseOut="hide();" href="#"  class="method"></a>
+        <a id="selectMethod"    onMouseOut="hide();" href="#"  class="method"></a>
         <div id="methodName text" class="linemethod"></div>
         <div class="linemethod2"></div>
-        <div class="linemethod1"> <span class="flaticon-error closeIcon">Back</span></div>
+
+        <div class="linemethod1">
+            <a href="#" class="flaticon-error closeIcon">Back</a>
+            <a href="#" class="checkout">Check Out</a>
+            <a href="#" class="logout">Log Out</a>
+        </div>
         <div id="text" class="hoverText"></div>
-        <!--<table style='margin-left: auto; margin-right: auto'>-->
-        <!--<tr class="tableRow">-->
-        <!--<td class="tableColumn">-->
-        <!--<a id="selectMethod" href="#"  class="method"></a>-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--<div class="linemethod1"></div>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</table>-->
-
     </div>
-    <!--<div class="linewrapper">-->
-    <!--<div class="linemethod"></div>-->
-    <!--</div>-->
-
+    <div class="loader"></div>
 </div>
 
 </body>
