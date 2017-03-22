@@ -34,7 +34,9 @@
 <script>
  var x = localStorage.getItem("res");
  console.log(x);
-     document.getElementById("alltext").value+=x;
+ for(var key in x){
+     document.getElementById("alltext").value+=x[key];
+     }
 
 var y = localStorage.getItem("res1");
  console.log(y);

@@ -1,11 +1,12 @@
 
 $(document).ready(function(){
+
 var data = JSON.parse(localStorage.getItem('data'));
 console.log("ready", data)
     var header = "header";
      getCommandService(data);
      $("#selectMethod").on('click', function(d) {
-
+                             $(".loader").addClass("showClass");
                      console.log(d.target);
                      var txt = $(d.target).text();
                      console.log(txt);
@@ -66,8 +67,6 @@ function multiplyNode(node, count, deep, obj) {
             node.parentNode.insertBefore(copy, node)
             console.log(node);
         }
-//        $(".method").append(obj);
-//        $(".method").append(" ");
     }
  function getContent(d){
 
@@ -77,6 +76,9 @@ console.log(txt);
 var auth = {};
 console.log("Test");
    auth.methodName = txt;
+   console.log(txt);
+   console.log(localStorage.getItem(txt));
+   auth.filePath = localStorage.getItem(txt);
             $.ajax({
             url:"/rest/methodcontents",
             type: 'POST',
@@ -90,8 +92,9 @@ console.log("Test");
                 withCredentials: true
             },
             success: function(res){
+                console.log("First");
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                                         url:"/rest/methodcommit",
                                         type: 'POST',
@@ -106,8 +109,8 @@ console.log("Test");
                                         },
                                         success: function(res){
                                           console.log(res);
-                                          localStorage.setItem("res1",res);
-                                          location.href = "../htmlfiles/loginService.html";
+                                          localStorage.setItem("commit",res);
+                                          location.href = "../htmlfiles/Contents.html";
                                           insertContents(res);
 
                                           document.getElementById("commitText").value += res;
@@ -117,7 +120,7 @@ console.log("Test");
                                        console.log(errorres);
                                       }
                                     });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
          },
           error: function(errorres){
            console.log(errorres);
@@ -149,16 +152,24 @@ var errorres = [];
                                     console.log(result);
                                     for(let i =0;i<result.object.length;i=i+3){
                                                         console.log(result.object[i]);
-                                                         $(".method").append("<li>"+result.object[i]+"</li>");
+                                                         $(".method").append("<li>" + result.object[i]+"</li>");
                                                          $(".linemethod").append("(" + result.object[i+1]+")<br>");
-                                                    }
+                                                         localStorage.setItem(result.object[i],result.object[i+2]);
 
-                }
+                                               }
+                                                $( "li" ).hover(
+                                                         function() {
+                                                         $( this ).val( "Rakesh" );
+                                                       }, function() {
+                                             $( this ).find( "span:last" ).remove();
+                                    } );
+}
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
-                    for(let i =0;i<result.object.length;i++){
+                    for(let i =0;i<result.object.length;i=i+2){
                           console.log(result.object);
-                          $(".method").append("<li>"+result.object[i]+"</li>");
+                          $(".method").append("<li>" + result.object[i]+"</li>");
+                          localStorage.setItem(result.object[i],result.object[i+1]);
                     }
                 }
                 else if(data.command===("List all files")){
@@ -176,6 +187,7 @@ var errorres = [];
                         for(var j = 0; j < result.object[i].length; j=j+3){
                             $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
                             $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
+                            localStorage.setItem(result.object[i][j],result.object[i][j+2]);
 //                          console.log(result.object[i][j]);
                         }
                      }
@@ -221,17 +233,13 @@ var errorres = [];
                     $(".linemethod2").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
                     $(".linemethod2").append("<br>");
                 }
-//                multiplyNode(document.querySelector(".linemethod"), (result.object.length), true, result.object);
                 }
-//                for(var i=0; i<result.object.length;i++){
-//                $(".method").append(result.object);
-//                }
+
             },
             error: function(errorres){
                 console.log(errorres);
             }
         });
-        /*return errorres;*/
 }
 
 function getFileContent(d){
@@ -256,7 +264,7 @@ console.log("Test");
             },
             success: function(res){
               console.log(res);
-              localStorage.setItem("res",res);
+              localStorage.setItem("content",res);
               $.ajax({
                           url:"/rest/commit",
                           type: 'POST',
@@ -271,8 +279,8 @@ console.log("Test");
                           },
                           success: function(res1){
                             console.log(res1);
-                                localStorage.setItem("res1",res1);
-                            location.href = "../htmlfiles/loginService.html";
+                                localStorage.setItem("commit",res1);
+                            location.href = "../htmlfiles/Contents.html";
                             insertContents(res);
 
                             document.getElementById("commitText").value += res;
@@ -282,7 +290,7 @@ console.log("Test");
                          console.log(errorres);
                         }
                       });
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
 
 
          },
@@ -313,7 +321,7 @@ console.log("Test");
             success: function(res){
               console.log(res);
               localStorage.setItem("res1",res);
-              location.href = "../htmlfiles/loginService.html";
+              location.href = "../htmlfiles/Contents.html";
               insertContents(res);
 
               document.getElementById("commitText").value += res;
@@ -330,3 +338,24 @@ console.log("Test");
           }
         });
 }
+
+$(function(){
+
+    $('#selectMethod').mouseenter(function(d){
+    var hover = $(d.target).text();
+    var path = localStorage.getItem(hover);
+    if(path.indexOf('+') != -1){
+    path = path.substring(0,path.indexOf('+'));
+    document.getElementById("text").innerHTML=path;
+    }
+    else
+    document.getElementById("text").innerHTML=localStorage.getItem(hover);
+        //alert(hover);
+    });
+
+
+
+});
+function hide(){
+        document.getElementById("text").innerHTML="";
+    }

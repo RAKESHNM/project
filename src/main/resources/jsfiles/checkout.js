@@ -106,8 +106,13 @@ d.dir = (document.getElementById("dir").value);
             },
             success: function(res){
             console.log(res);
-            if(res!=="true"){
-                var temp = confirm("Repository already exist under \n"+ res + "\n\ndo you want to clone again ?")
+            if(res == "false"){
+            alert("Specified repositories does not exists");
+            location.href = "../htmlfiles/CheckoutService.html";
+            }
+
+           else if(res!=="true"){
+                var temp = confirm("Repository already exist under \n"+ res + "\n do you want to clone again ?")
                 if(temp == true){
                     $.ajax({
                                 url:"/rest/clone",

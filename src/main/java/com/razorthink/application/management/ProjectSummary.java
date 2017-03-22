@@ -21,10 +21,6 @@ public class ProjectSummary {
                 ProjectOrganization projectOrganization = new ProjectOrganization(model.getName(), model.getUrl());
                 BuildInformation buildInformation = new BuildInformation(model.getGroupId(), model.getArtifactId(),
                         model.getVersion(), model.getModelVersion());
-                //System.out.println("Group Id" + model.getGroupId());
-                //System.out.println("Artifact Id" + model.getArtifactId());
-                //System.out.println("Version" + model.getVersion());
-                //System.out.println("Model Version" + model.getModelVersion());
                 return new com.razorthink.application.beans.ProjectSummary(projectInformation, projectOrganization
                         , buildInformation);
             }

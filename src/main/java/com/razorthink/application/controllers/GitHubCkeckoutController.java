@@ -1,6 +1,7 @@
 package com.razorthink.application.controllers;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.constants.ValidNames;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.management.MethodFilePath;
@@ -12,13 +13,9 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +42,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<Project> projectList = new ApplicationStateUtils().loadProjects();
 
+  List<String>  branches = new ArrayList<>();
+
 
   public GitHubCkeckoutController() throws IOException {
   }
@@ -68,7 +67,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
       if( githubOperations.gitRemoteRepository(service) != null){
         request.getSession().setAttribute("user-det",project);
         //request.getSession().setAttribute("pass",login.getPassword());
-        return "Success";
+        return ValidNames.SUCCESS;
       }
     }
     catch(Exception e ){
@@ -126,10 +125,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
+    if(new GithubOperations().validateRepo(service,checkoutProject) )
+      return ValidNames.FALSE;
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    if(checkoutProject.getDir()==""){
-      System.out.println(System.getProperty("user.home"));
-      checkoutProject.setDir(System.getProperty("user.home"));
+    if(checkoutProject.getBranch().equals("Select Branch")){
+      checkoutProject.setBranch(Constants.MASTER_BRANCH);
     }
     int idx = checkoutProject.getBranch().lastIndexOf("/");
     if(idx>0){
@@ -153,7 +153,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
               project.getUsername(), project.getPassword());
       logger.info("Done");
     }
-    return "true";
+    return ValidNames.TRUE;
   }
 
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
@@ -163,6 +163,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
     client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
     RepositoryService service = new RepositoryService(client);
     project.setRemoteRepo(checkoutProject.getRemoteRepo());
+    if(checkoutProject.getBranch().equals("Select Branch")){
+      checkoutProject.setBranch(Constants.MASTER_BRANCH);
+    }
     int idx = checkoutProject.getBranch().lastIndexOf("/");
     if (idx > 0) {
       project.setBranch(checkoutProject.getBranch().substring(idx + 1));
@@ -170,15 +173,10 @@ public class GitHubCkeckoutController extends AbstractContrller {
     } else {
       project.setBranch(checkoutProject.getBranch());
     }
-      if(checkoutProject.getDir()==""){
-          System.out.println(System.getProperty("user.home"));
-          checkoutProject.setDir(System.getProperty("user.home"));
-      }
     project.setLocalDirectory(checkoutProject.getDir() + File.separator + project.getRemoteRepo() + "_" + project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
     File dir = new File(project.getLocalDirectory());
     if (dir.exists()) {
-      System.out.println("Exist");
       FileUtils.forceDelete(dir);
     }
       logger.info("Cloning  into . . .");
@@ -212,6 +210,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
     return null;
   }
 
+  @RequestMapping(value = Constants.LOG_OUT,method = RequestMethod.POST)
+  @ResponseBody()
+  public void logout(){
+    request.getSession().setAttribute("user-det",null);
+  }
 
   @RequestMapping(value = Constants.SHOW_METHOD_CONTENTS,method = RequestMethod.POST)
   @ResponseBody()
@@ -219,7 +222,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
     try{
       Project project = getProject();
-      return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName());
+      return  new DisplayMethodContent().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodDeclaration.getMethodName()
+              ,methodDeclaration.getFilePath());
 
     }catch (Exception e){}
     return  null;
@@ -254,6 +258,17 @@ public class GitHubCkeckoutController extends AbstractContrller {
     try{
       Project project = getProject();
       return new MethodFilePath().showMethodContent(githubOperations.gitListingFiles(project.getLocalDirectory()).get(0),methodName);
+    }
+    catch (Exception e){}
+    return null;
+  }
+
+  @RequestMapping(value = Constants.GET_MODULE,method = RequestMethod.GET)
+  @ResponseBody()
+  public List<String> getModuleNames() throws Exception {
+    try{
+        Project project = getProject();
+        return new GithubOperations().getModules(project.getLocalDirectory());
     }
     catch (Exception e){}
     return null;

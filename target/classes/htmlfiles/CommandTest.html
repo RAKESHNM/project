@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="../styles/CommandTest.css"/>
-<link rel="stylesheet" type="text/css" href="font/flaticons/flaticon.css"/>
+<link rel="stylesheet" type="text/css" href="../styles/styles.css"/>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../jsfiles/CommandTest.js">
-    </script>
+    <script type="text/javascript" src="../jsfiles/CommandTest.js"></script>
+    <script type="text/javascript" src="../jsfiles/CheckoutLogout.js"></script>
     <script>
 <!--console.log("text",res);-->
 </script>
@@ -19,15 +19,17 @@
         </div>
         <div class="module-wrapper">
             <div class="fieldWrapper">
-                <span class="label"> Module : </span>
-                <input type="text" id="module" class="inputField">
+                <span id= "label1" class="label"> Module : </span>
+                <select id="module"></select>
+                <!--<select id="module" class="inputField"><option>Loading . . .</option></select>-->
+                <!--<input type="text" id="module" class="inputField">-->
             </div>
             <div class="fieldWrapper">
-                <span class="label"> Directory : </span>
+                <span id= "label2" class="label"> Directory : </span>
                 <input type="text" id="directory" class="inputField">
             </div>
             <div class="fieldWrapper">
-                <span class="label"> File : </span>
+                <span id= "label3" class="label"> File : </span>
                 <input type="text" id="file" class="inputField">
             </div>
         </div>
@@ -45,42 +47,14 @@
         </div>
 
         <div class="buttonWrapper">
-            <button class="button">Submit</button>
+            <button id="popUpButton" class="button">Submit</button>
         </div>
     </div>
-    <div class="popup">
-        <div class="popupHeader">
-            <h2 class="popupHeaderText"> Code Analyser</h2>
-            <span class="flaticon-error closeIcon">X</span>
-        </div>
-        <!--  <div class="popupContent">
-             <span class="message"> </span>
-             <div class="contentText">
-                 <span class="author"> author</span>
-                 <span class="date"> author</span>
-                 <span class="time"> author</span>
-             </div>
-         </div> -->
-
-        <div class="wrapper">
-            <div id="summary"></div>
-            <div class="linemethod"></div>
-            <table style='margin-left: auto; margin-right: auto'>
-                <tr>
-                    <td>
-                        <a id="selectMethod" href="#"  class="method"></a>
-                    </td>
-                    <td>
-                        <div class="linemethod1"></div>
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-        <!--<div class="linewrapper">-->
-        <!--<div class="linemethod"></div>-->
-        <!--</div>-->
+    <div class="linemethod1">
+        <a href="#" class="checkout">Check Out</a>
+        <a href="#" class="logout">Log Out</a>
     </div>
+    <div class="loader"></div>
 </div>
 </body>
 </html>

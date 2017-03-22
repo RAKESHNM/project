@@ -3,6 +3,7 @@ package com.razorthink.application.management;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.stmt.Statement;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -13,16 +14,20 @@ import java.util.List;
  */
 public class JavaDocCommentsFinder {
 
+    public static int id = 0;
     static List<String> listOfMethods;
     FileInputStream in;
     CompilationUnit cu;
+   public static String currentFilePath;
 
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
+        id = 0;
         listOfMethods = new ArrayList<>();
         try
         {
             for( String filePath : list )
             {
+                currentFilePath = filePath;
                 in = new FileInputStream(filePath);
                 try
                 {
@@ -53,10 +58,24 @@ public class JavaDocCommentsFinder {
              * methods in this CompilationUnit, including inner class methods */
             if( n.getComment() == null && n.getJavaDoc() == null )
             {
+                List<Statement> list =  n.getBody().getStmts();
+                int count = 0;
+                for(Statement s : list){
+
+                    if(s.getComment() != null )
+                        count++;
+                        //listOfMethods.add(n.getName());
+                }
+                if(count == 0) {
+                    listOfMethods.add(id + " " + n.getName());
+                    listOfMethods.add(currentFilePath + "+" + n.getParameters());
+                    id++;
+                }
                 //System.out.println(n.getComment());
                 //System.out.println(n.getName());
-                listOfMethods.add(n.getName());
+
             }
+
             super.visit(n, arg);
         }
     }

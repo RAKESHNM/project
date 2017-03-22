@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="../styles/CommandService.css"/>
+<link rel="stylesheet" type="text/css" href="../styles/styles.css"/>
 <html xmlns="http://www.w3.org/1999/html">
 <html lang="en">
 <head>
@@ -12,7 +13,7 @@
 </script>
     <script type="text/javascript" src="../jsfiles/checkout.js"></script>
     <script type="text/javascript" src="../jsfiles/authentication.js"></script>
-    <script type="text/javascript" src="../jsfiles/Loader.js"></script>
+    <script type="text/javascript" src="../jsfiles/CheckoutLogout.js"></script>
 </head>
 <body>
 
@@ -23,14 +24,14 @@
         </div>
         <div class="fieldWrapper">
             <span class="label">Repositories : </span>
-            <select id="selectRepo" onclick="getSelectedValue()"><option>select</option></select>
+            <select id="selectRepo" onclick="getSelectedValue();myApp.showPleaseWait();"><option>Loading . . .</option></select>
         </div>
         <div class="module-wrapper">
         </div>
         <div class="lines-wrapper">
             <div class="fieldWrapper">
                 <span class="label">Branches : </span>
-                <select id="selectBranch"><option>select</option></select>
+                <select id="selectBranch"><option>Loading . . .</option></select>
             </div>
         </div>
         <div class="dir-wrapper">
@@ -40,9 +41,12 @@
             </div>
         </div>
         <div class="buttonWrapper">
-            <button class="button"  onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
+            <button id="checkoutbutton" class="button"  onclick="gitCheckout(); myApp.showPleaseWait();">Checkout</button>
         </div>
 
+    </div>
+    <div class="linemethod1">
+        <a href="#" class="logout">Log Out</a>
     </div>
     <div class="loader"></div>
 

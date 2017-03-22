@@ -44,7 +44,7 @@ public class ReadFile {
                 Path p = Paths.get(list);
                 String file = p.getFileName().toString();
                 if(file.equals(filename)){
-                    String filecontent = new ReadFile().readFile(list);
+                    String filecontent = "<pre>"+new ReadFile().readFile(list)+"</pre>";
                     return filecontent;
                 }
 
@@ -69,20 +69,5 @@ public class ReadFile {
             reader.close();
         }
     }
-
-//    public static void main(String[] args) throws Exception{
-//        ReadFile readFile = new ReadFile();
-//        String fileName = "/ref/head/master";
-//        int idx = fileName.replaceAll("//", "/").lastIndexOf("/");
-//
-
-//        if(idx>0){
-//            System.out.println(fileName.substring(idx+1));
-//        }
-//        else{
-//            System.out.println(fileName);
-//        }
-//        System.out.println(File.separator);
-//        readFile.readFile("/home/antolivish/StoreProjectsSampleProject/src/main/java/com/razorthink/countFiles/GithubOperations.java");
-    }
+}
 
