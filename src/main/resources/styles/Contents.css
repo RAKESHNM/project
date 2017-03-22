@@ -22,14 +22,15 @@
               overflow: auto;
 }
 .contentback {
-     padding: 0px 50px;
-    font-size: 20px;
-    /* height: 33px; */
-    line-height: 33px;
-    display: block;
-    text-align: center;
-    position: relative;
-    max-height: 500px;
-    overflow: auto;
-    padding-left: 1000px;
+    padding: -1px 50px;
+        font-size: 20px;
+        /* height: 33px; */
+        line-height: 33px;
+        display: block;
+        text-align: center;
+        position: relative;
+        max-height: 500px;
+        overflow: auto;
+        padding-left: 1154px;
+        padding-top: 49px;
 }

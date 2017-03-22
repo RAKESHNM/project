@@ -68,12 +68,12 @@ public class JavaDocCommentsFinder {
                 }
                 if(count == 0) {
                     listOfMethods.add(id + " " + n.getName());
+                    if(n.getParameters() != null)
                     listOfMethods.add(currentFilePath + "+" + n.getParameters());
+                    else
+                        listOfMethods.add(currentFilePath + "+" + "none");
                     id++;
                 }
-                //System.out.println(n.getComment());
-                //System.out.println(n.getName());
-
             }
 
             super.visit(n, arg);

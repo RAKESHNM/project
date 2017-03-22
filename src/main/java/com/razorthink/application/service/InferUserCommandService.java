@@ -126,11 +126,9 @@ public class InferUserCommandService {
                                 subList.add((file.length()/(1024*1024))+"MB");
                                 subList.add(files.get(i));
                         }
-
                     }
                     resultList.add(subList);
                 }
-
                 result.setObject(resultList);
                return result;
             }

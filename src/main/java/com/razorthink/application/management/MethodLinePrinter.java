@@ -62,7 +62,7 @@ public class MethodLinePrinter {
                     listOfMethods.add(returnFilePath + "+" + n.getParameters().toString());
 
             }
-            super.visit(n, arg);
+            //super.visit(n, arg);
         }
     }
 }

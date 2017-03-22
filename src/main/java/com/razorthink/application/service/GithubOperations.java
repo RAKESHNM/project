@@ -3,6 +3,7 @@ package com.razorthink.application.service;
 import com.google.common.collect.Lists;
 import com.razorthink.application.beans.CheckoutProject;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.constants.HtmlConstants;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -315,11 +316,16 @@ public class GithubOperations {
         return File;
     }
 
-    public List<String> getCommitsFromFile( String localRepoPath, String filename ) throws Exception
+    public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
     {
 
-        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
+//        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
+        filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
+        int idx = filepath.lastIndexOf("+");
+        if(idx>0) {
+            filepath = filepath.substring(0, idx);
+        }
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
@@ -327,13 +333,11 @@ public class GithubOperations {
         int count = 0;
         for( RevCommit commit : commits )
         {
-            //            System.out.println(commit.getAuthorIdent().getName());
-            //            System.out.println(commit.getFullMessage());
             Date date = new Date(commit.getCommitTime() * 1000L);
-            list.add((commit.getFullMessage() + " " + commit.getAuthorIdent().getName() + " committed on "
-                    + date.toString() + "\n"));
+            list.add((HtmlConstants.LINE_BREAK +HtmlConstants.LINE_BREAK +commit.getFullMessage()+HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + commit.getAuthorIdent().getName() + HtmlConstants.BOLD_END + " committed on "
+                    + date.toString()));
         }
-        System.out.println("Number of Commits :" + count);
+//        System.out.println("Number of Commits :" + count);
         return list;
     }
     public void slackMessage(){

@@ -1,4 +1,8 @@
 $(document).ready(function(){
+if(localStorage.getItem('autnentication')==="false"){
+           location.href ="../htmlfiles/index.html";
+     }
+
     $(".logout").on('click',function(d) {
         $.ajax({
                 url:"/rest/logout",
@@ -7,12 +11,13 @@ $(document).ready(function(){
                 headers: {
                            "content-type": "application/json"
                          },
-                data :JSON.stringify(d),
                 xhrFields: {
                              withCredentials: true
                            },
                 success: function(res){
                               location.href ="../htmlfiles/index.html";
+                                   localStorage.setItem('autnentication',"false");
+
                             }
         })
     localStorage.clear();

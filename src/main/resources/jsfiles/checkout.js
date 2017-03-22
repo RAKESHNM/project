@@ -72,9 +72,32 @@ function getBranches(repo){
 
         }
 $(document).ready(function(){
+     if(localStorage.getItem('autnentication')==="false"){
+           location.href ="../htmlfiles/index.html";
+     }
+     else{
      myFunctions();
      $("#selectBranch").empty();
      console.log("Call func");
+//     $(".logout").on('click',function(d) {
+//             $.ajax({
+//                     url:"/rest/logout",
+//                     type: 'POST',
+//                     crossDomain : true,
+//                     headers: {
+//                                "content-type": "application/json"
+//                              },
+//                     xhrFields: {
+//                                  withCredentials: true
+//                                },
+//                     success: function(res){
+//                                   location.href ="../htmlfiles/index.html";
+//                                 }
+//             })
+//         localStorage.clear();
+//                                 $('#selectRepo').empty();
+//         })
+}
 });
 function getSelectedValue(){
 var repo = (document.getElementById("selectRepo").value);
