@@ -35,6 +35,7 @@ public class JavaDocCommentsFinder {
                 }
                 catch( Exception e )
                 {
+                    System.out.println("Not Parsing" + filePath);
                     continue;
                 }
                 new MethodVisitor().visit(cu, null);
@@ -56,24 +57,32 @@ public class JavaDocCommentsFinder {
         {
             /* here you can access the attributes of the method. this method will be called for all
              * methods in this CompilationUnit, including inner class methods */
-            if( n.getComment() == null && n.getJavaDoc() == null )
-            {
-                List<Statement> list =  n.getBody().getStmts();
-                int count = 0;
-                for(Statement s : list){
+            if( n.getComment() == null && n.getJavaDoc() == null ) {
+                if (n.getBody() != null) {
+                    List<Statement> list = n.getBody().getStmts();
 
-                    if(s.getComment() != null )
-                        count++;
-                        //listOfMethods.add(n.getName());
-                }
-                if(count == 0) {
-                    listOfMethods.add(id + " " + n.getName());
-                    listOfMethods.add(currentFilePath + "+" + n.getParameters());
-                    id++;
-                }
-                //System.out.println(n.getComment());
-                //System.out.println(n.getName());
+                    int count = 0;
+                    if (list != null) {
+                        for (Statement s : list) {
 
+                            if (s.getComment() != null)
+                                count++;
+                            //listOfMethods.add(n.getName());
+                        }
+                    }
+
+                    if (count == 0) {
+                        listOfMethods.add(id + " " + n.getName());
+                        if (n.getParameters() != null)
+                            listOfMethods.add(currentFilePath + "+" + n.getParameters());
+                        else
+                            listOfMethods.add(currentFilePath + "+" + "none");
+                        id++;
+                    }
+                    //System.out.println(n.getComment());
+                    //System.out.println(n.getName());
+
+                }
             }
 
             super.visit(n, arg);
