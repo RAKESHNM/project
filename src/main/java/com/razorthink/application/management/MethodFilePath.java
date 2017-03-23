@@ -1,10 +1,15 @@
 package com.razorthink.application.management;
 
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
-
+//import japa.parser.JavaParser;
+//import japa.parser.ast.CompilationUnit;
+//import japa.parser.ast.body.MethodDeclaration;
+//import japa.parser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;

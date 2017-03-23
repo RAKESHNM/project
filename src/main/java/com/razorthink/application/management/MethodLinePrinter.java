@@ -1,7 +1,16 @@
 package com.razorthink.application.management;
-import japa.parser.JavaParser;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
+
+//import japa.parser.JavaParser;
+//import japa.parser.ast.CompilationUnit;
+///import japa.parser.ast.body.MethodDeclaration;
+//import japa.parser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +35,7 @@ public class MethodLinePrinter {
         noOfLines = lines;
         listOfMethods = new ArrayList<>();
         FileInputStream in;
-        japa.parser.ast.CompilationUnit cu;
+        CompilationUnit cu;
 
         try {
             for (String filePath : filePaths) {
@@ -50,16 +59,19 @@ public class MethodLinePrinter {
         @Override
         public void visit(MethodDeclaration n, Void arg) {
 
-            if((n.getEndLine() - n.getBeginLine())>=noOfLines) {
-
+            if((n.getEnd().get().line - n.getBegin().get().line)>=noOfLines) {
+                String param = null;
+                if(n.getParameters() != null || !n.getParameters().isEmpty())
+                    for(Parameter p : n.getParameters())
+                    param += p;
                // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
                 listOfMethods.add(id + " " + n.getName() );
                 id++;
-                listOfMethods.add( String.valueOf( n.getEndLine() - n.getBeginLine()));
+                listOfMethods.add( String.valueOf( n.getEnd().get().line - n.getBegin().get().line));
                 if(n.getParameters() == null || n.getParameters().isEmpty()  )
                     listOfMethods.add(returnFilePath + "+" + "none" );
                 else
-                    listOfMethods.add(returnFilePath + "+" + n.getParameters().toString());
+                    listOfMethods.add(returnFilePath + "+" + param);
 
             }
             super.visit(n, arg);

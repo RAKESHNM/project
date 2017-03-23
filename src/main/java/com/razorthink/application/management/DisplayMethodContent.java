@@ -1,12 +1,12 @@
 package com.razorthink.application.management;
 
-import com.razorthink.application.constants.HtmlConstants;
-import com.razorthink.application.constants.ValidNames;
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
-
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,11 @@ public class DisplayMethodContent  {
         listOfMethods = new ArrayList<>();
         FileInputStream in;
         CompilationUnit cu;
+        //filePaths.clear();
+        //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
 
             for (String filePath : filePaths) {
+
 
                 currentFilePath = filePath;
 
@@ -50,22 +53,56 @@ public class DisplayMethodContent  {
 
            @Override
            public void visit (MethodDeclaration n, Void arg){
+               if( n.getName().toString().equals(name.substring(name.indexOf(' ')+1)) ){
+                   String param = null;
+                   if(n.getParameters() != null || !n.getParameters().isEmpty())
+                       for(Parameter p : n.getParameters())
+                           param += p;
+                   if(n.getParameters() != null &&  !n.getParameters().isEmpty() ) {
+                       if ((currentFilePath + "+" + param).equals(classMethodFilePath)) {
+                           if (n.getComment().isPresent() && n.getBody().isPresent()) {
+                               returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>" +
+                                       "<b> Method Name: </b>" + n.getName() + "<br><br>"
+                                       + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                           }
+                           if (n.getComment().isPresent() && !n.getBody().isPresent()) {
 
-               if( n.getName().equals(name.substring(name.indexOf(' ')+1)) ){
-                   if(n.getParameters() != null) {
-                       if ((currentFilePath + "+" + n.getParameters()).equals(classMethodFilePath))
-                           returnValue = "<b> JavaDocs: </b>" + n.getComment() + "<br><br>" +
-                                   "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<b> Parameters: </b>" +
-                                   n.getParameters() + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
+                               returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>" +
+                                       "<b> Method Name: </b>" + n.getName() + "<br><br>"
+                                       + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
+                           }
+                           if (n.getBody().isPresent() && !n.getComment().isPresent()) {
+                               returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" +
+                                       "<b> Method Name: </b>" + n.getName() + "<br><br>"
+                                       + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                           }
+                           if (!n.getBody().isPresent() && !n.getComment().isPresent()) {
+                               returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" +
+                                       "<b> Method Name: </b>" + n.getName() + "<br><br>"
+                                       + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
+                           }
+                       }
                    }
-                   if(n.getParameters() == null){
-                       if((currentFilePath + "+" + "none").equals(classMethodFilePath))
-                           returnValue = "<b> JavaDocs: </b>" + n.getComment() + "<br><br>" +
-                                   "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<b> Parameters: </b>" +
-                                   n.getParameters() + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody() + "</pre>";
-                   }
+
+                   if (n.getParameters() == null || n.getParameters().isEmpty()) {
+                           if ((currentFilePath + "+" + "none").equals(classMethodFilePath)) {
+                               if( n.getBody().isPresent() && !n.getComment().isPresent())
+                               returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" +
+                                       "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                                if(n.getComment().isPresent() && !n.getBody().isPresent())
+                                   returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>" +
+                                           "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
+                               if(n.getBody().isPresent() && n.getComment().isPresent())
+                                   returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>" +
+                                           "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                               if(!n.getBody().isPresent() && !n.getComment().isPresent())
+                                   returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" +
+                                           "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
+
+                           }
+                       }
                }
-               id++;
+
                //returnValue = String.valueOf(n.getBody());
 
                super.visit(n, arg);

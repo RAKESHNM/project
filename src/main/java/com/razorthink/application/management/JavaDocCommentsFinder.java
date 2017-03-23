@@ -1,10 +1,17 @@
 package com.razorthink.application.management;
 
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.stmt.Statement;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
+//import japa.parser.JavaParser;
+//import japa.parser.ast.CompilationUnit;
+//import japa.parser.ast.body.MethodDeclaration;
+//import japa.parser.ast.stmt.Statement;
+//import japa.parser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +42,7 @@ public class JavaDocCommentsFinder {
                 }
                 catch( Exception e )
                 {
-                    System.out.println("Not Parsing" + filePath);
+                    System.out.println("Not Parsing " + filePath);
                     continue;
                 }
                 new MethodVisitor().visit(cu, null);
@@ -55,33 +62,31 @@ public class JavaDocCommentsFinder {
         @Override
         public void visit( MethodDeclaration n, Void arg )
         {
-            /* here you can access the attributes of the method. this method will be called for all
-             * methods in this CompilationUnit, including inner class methods */
-            if( n.getComment() == null && n.getJavaDoc() == null ) {
-                if (n.getBody() != null) {
-                    List<Statement> list = n.getBody().getStmts();
 
-                    int count = 0;
-                    if (list != null) {
-                        for (Statement s : list) {
-
-                            if (s.getComment() != null)
-                                count++;
-                            //listOfMethods.add(n.getName());
-                        }
+            int count = 0;
+            if(!n.getComment().isPresent() && n.getBody().isPresent()) {
+                String param = null;
+                if(n.getParameters() != null || !n.getParameters().isEmpty())
+                    for(Parameter p : n.getParameters())
+                        param += p;
+                count = 0;
+                NodeList<Statement> nodeList = (n.getBody().get().getStatements());
+                for(Statement s : nodeList){
+                    if(!s.getAllContainedComments().isEmpty()) {
+                        count++;
                     }
+                    if(s.getComment().isPresent()) {
+                        count++;
 
-                    if (count == 0) {
-                        listOfMethods.add(id + " " + n.getName());
-                        if (n.getParameters() != null)
-                            listOfMethods.add(currentFilePath + "+" + n.getParameters());
-                        else
-                            listOfMethods.add(currentFilePath + "+" + "none");
-                        id++;
                     }
-                    //System.out.println(n.getComment());
-                    //System.out.println(n.getName());
-
+                }
+                if (count == 0) {
+                    listOfMethods.add(id + " " + n.getName());
+                    if (n.getParameters() != null)
+                        listOfMethods.add(currentFilePath + "+" + param);
+                    else
+                        listOfMethods.add(currentFilePath + "+" + "none");
+                    id++;
                 }
             }
 

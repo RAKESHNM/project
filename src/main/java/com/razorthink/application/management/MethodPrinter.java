@@ -1,10 +1,14 @@
 package com.razorthink.application.management;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.exceptions.NullFilePathsListException;
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
+//import japa.parser.JavaParser;
+//import japa.parser.ast.CompilationUnit;
+//import japa.parser.ast.body.MethodDeclaration;
+//import japa.parser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.JavaParser;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +52,7 @@ public class MethodPrinter {
         static int i = 0;
         @Override
         public void visit(MethodDeclaration n, Void arg) {
-            /* here you can access the attributes of the method.
-             this method will be called for all methods in this
-             CompilationUnit, including inner class methods */
-            //System.out.println(n.getName());
-            listOfMethods.add("<b>"+i+". "+n.getName()+"</b> ");
-            i++;
-            listOfMethods.add(filePathReturn);
+            n.getName();
             super.visit(n, arg);
         }
     }
