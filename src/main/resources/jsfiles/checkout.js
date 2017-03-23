@@ -111,6 +111,7 @@ console.log(document.getElementById("selectBranch").value);
 
 function gitCheckout(){
 /*alert('Please wait . . . checking out');*/
+document.getElementById('logout').disabled=true;
 document.getElementById('checkoutbutton').disabled=true;
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);
@@ -166,6 +167,7 @@ d.dir = (document.getElementById("dir").value);
           error: function(errorres){
            console.log(errorres);
            document.getElementById('checkoutbutton').disabled=false;
+           document.getElementById('logout').disabled=false ;
           }
         });
 

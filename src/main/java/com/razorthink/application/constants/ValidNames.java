@@ -14,5 +14,6 @@ public class ValidNames {
     public static final String BRANCH_HEADS = "refs/heads/";
     public static final String BRANCH_TAGS = "refs/tags/";
     public static final String TAGS = "tags/";
+    public static final char File_SEPERATOR = '/';
 
 }

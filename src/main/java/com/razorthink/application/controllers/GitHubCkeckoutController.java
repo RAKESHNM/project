@@ -5,6 +5,7 @@ import com.razorthink.application.constants.ValidNames;
 import com.razorthink.application.exceptions.InvalidCreadentialException;
 import com.razorthink.application.management.DisplayMethodContent;
 import com.razorthink.application.management.MethodFilePath;
+import com.razorthink.application.management.ValidatingInputs;
 import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.service.ReadFile;
@@ -139,11 +140,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
     else{
       project.setBranch(checkoutProject.getBranch());
     }
+    checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
     project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
     File dir = new File(project.getLocalDirectory());
     if (dir.exists()) {
-      System.out.println("Exist");
       return project.getLocalDirectory();
     }
     else {
@@ -172,6 +173,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     } else {
       project.setBranch(checkoutProject.getBranch());
     }
+    checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
     project.setLocalDirectory(checkoutProject.getDir() + File.separator + project.getRemoteRepo() + "_" + project.getBranch() + File.separator);
     project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
     File dir = new File(project.getLocalDirectory());
@@ -196,16 +198,12 @@ public class GitHubCkeckoutController extends AbstractContrller {
   @RequestMapping(value = Constants.INPUTS_FROM_USER,method = RequestMethod.POST)
   @ResponseBody
   public Result getUserInput(@RequestBody CommandPojo commandPojo) throws Exception {
-
-      
-
     try {
       Project project = getProject();
 
       return new InferUserCommandService().getUserInput(commandPojo, project);
 
     }catch (Exception e){}
-
     return null;
   }
 
