@@ -51,23 +51,19 @@ public class InferUserCommandService {
         else {
 
             if (commandPojo.getSubModule() != null) {
-                if (commandPojo.getDirectory() != null) {
                     if (commandPojo.getFile() != null){
-                        FileList.get(0).add(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getDirectory() + commandPojo.getFile());
+                        List<String> temp = new ArrayList<>();
+                        temp.add(project.getLocalDirectory() + commandPojo.getSubModule()  + commandPojo.getFile());
+                        FileList.add(temp);
+//                        FileList.get(0).add(project.getLocalDirectory() + commandPojo.getSubModule()  + commandPojo.getFile());
                         commandPojo1.setFileList(FileList.get(0));}
-                    else
-                        FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getFile());
-                        commandPojo1.setFileList(FileList.get(0));
-
-                } else {
-                    FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
-                    commandPojo1.setFileList(FileList.get(0));
-
+                    else{
+                        FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
+                        commandPojo1.setFileList(FileList.get(0));}
                 }
-            } else {
+            else {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
                 commandPojo1.setFileList(FileList.get(0));
-
             }
 
 //            if (commandPojo.getCommand().equalsIgnoreCase("//List all methods"))

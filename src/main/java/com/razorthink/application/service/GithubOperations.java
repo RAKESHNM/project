@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.razorthink.application.beans.CheckoutProject;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.constants.HtmlConstants;
+import com.razorthink.application.constants.ValidNames;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -65,7 +66,6 @@ public class GithubOperations {
         {
             if( repo.getName().equals(localrepo) )
             {
-                //                String REMOTE_URL = "https://github.com/" + Username + "/" + repo.getName() + ".git";
                 Collection<Ref> refs = Git.lsRemoteRepository().setHeads(true).setTags(true).setRemote(REMOTE_URL)
                         .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username, Password)).call();
 
@@ -74,10 +74,22 @@ public class GithubOperations {
                     System.out.println(ref.getName());
                     list.add(ref.getName());
                 }
+                list = filterBranch(list);
                 return list;
             }
         }
         return null;
+    }
+
+    public List<String> filterBranch(List<String> branch){
+        List<String> list = new ArrayList<>();
+        for(String temp : branch){
+            temp = temp.replace(ValidNames.BRANCH_HEADS,"");
+            temp = temp.replace(ValidNames.BRANCH_TAGS,"tags/");
+            System.out.println(temp);
+            list.add(temp);
+        }
+        return list;
     }
 
     public List<String> getModules(String path){
@@ -212,15 +224,10 @@ public class GithubOperations {
         {
             count++;
             Date date = new Date(commit.getCommitTime() * 1000L);
-            System.out.println(commit.getAuthorIdent().getName());
-            System.out.println(date.toString());
-            System.out.println(commit.getFullMessage());
             commitList.add(commit.getFullMessage());
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
             System.out.println(commit.getFullMessage().length());
-            //           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
-            //            commitList.add(date.toString());
         }
         System.out.println("Total commits : " + count);
         git.close();

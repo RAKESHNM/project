@@ -169,7 +169,6 @@ public class GitHubCkeckoutController extends AbstractContrller {
     int idx = checkoutProject.getBranch().lastIndexOf("/");
     if (idx > 0) {
       project.setBranch(checkoutProject.getBranch().substring(idx + 1));
-      System.out.println(project.getBranch());
     } else {
       project.setBranch(checkoutProject.getBranch());
     }

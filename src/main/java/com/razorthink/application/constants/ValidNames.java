@@ -11,5 +11,8 @@ public class ValidNames {
     public static final String SUCCESS = "Success";
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+    public static final String BRANCH_HEADS = "refs/heads/";
+    public static final String BRANCH_TAGS = "refs/tags/";
+    public static final String TAGS = "tags/";
 
 }
