@@ -30,9 +30,8 @@ public class DisplayMethodContent  {
         listOfMethods = new ArrayList<>();
         FileInputStream in;
         CompilationUnit cu;
-        //filePaths.clear();
-        //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
-
+//        filePaths.clear();
+//        filePaths.add("/home/antolivish/FinalTest/bigbrain_master/refinement/bigbrain-job-executor/src/main/java/com/razorthink/bigbrain/refine/jobexecutor/config/SwaggerConfig.java");
             for (String filePath : filePaths) {
 
 
@@ -42,7 +41,9 @@ public class DisplayMethodContent  {
 
                 try {
                     cu = JavaParser.parse(in);
-                }catch (Exception e){continue;}
+                }catch (Exception e){
+                    e.printStackTrace();
+                    continue;}
 
                 new MethodVisitor().visit(cu, null);
             }

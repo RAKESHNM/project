@@ -148,10 +148,6 @@ public class GithubOperations {
         fileList.add(jsFiles);
         fileList.add(cssFiles);
         fileList.add(htmlFiles);
-        System.out.println("\nCount :" + count);
-        System.out.println(fileList.get(0));
-        System.out.println(fileList.get(1));
-        System.out.println(fileList.get(2));
         return fileList;
     }
 
@@ -325,7 +321,7 @@ public class GithubOperations {
 
     public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
     {
-
+        System.out.println("filepath Commit before : "+ filepath);
 //        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
         filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
@@ -336,6 +332,8 @@ public class GithubOperations {
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
+        System.out.println("Filepath Commit replaced: " + filepath);
+        System.out.println("local repo path : "+localRepoPath);
         Iterable<RevCommit> commits = git.log().addPath(filepath).call();
         int count = 0;
         for( RevCommit commit : commits )

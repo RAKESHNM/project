@@ -20,7 +20,10 @@ public class ValidatingInputs {
         if(directory.charAt(0)!= ValidNames.File_SEPERATOR && directory.length()>1){
             directory = File.separator.concat(directory);
         }
-        System.out.println(directory);
+        if (directory.charAt(directory.length()-1)==ValidNames.File_SEPERATOR && directory.length()>1){
+            directory = directory.substring(0,directory.length()-1);
+        }
         return directory;
     }
+
 }

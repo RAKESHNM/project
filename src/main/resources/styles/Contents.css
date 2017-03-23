@@ -4,21 +4,20 @@
 }
 #contents, #commits {
     border: 1px solid black;
-    float: left;
-    min-height: 600px;
-    color: black;
+        float: left;
+        min-height: 540px;
+        color: black;
 }
 #contents {
-      width: 750px;
-
-        background-color: white;
-        max-height: 600px;
-            overflow: auto;
+      width: 715px;
+          background-color: white;
+          max-height: 540px;
+          overflow: auto;
 }
 #commits {
    width: 250px;
           background-color: white;
-          max-height: 600px;
+          max-height: 540px;
               overflow: auto;
 }
 .contentback {
@@ -32,5 +31,5 @@
         max-height: 500px;
         overflow: auto;
         padding-left: 1154px;
-        padding-top: 49px;
+        padding-top: 60px;
 }
