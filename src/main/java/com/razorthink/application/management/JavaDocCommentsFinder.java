@@ -82,7 +82,7 @@ public class JavaDocCommentsFinder {
                 }
                 if (count == 0) {
                     listOfMethods.add(id + " " + n.getName());
-                    if (n.getParameters() != null)
+                    if (n.getParameters() != null && !n.getParameters().isEmpty())
                         listOfMethods.add(currentFilePath + "+" + param);
                     else
                         listOfMethods.add(currentFilePath + "+" + "none");
