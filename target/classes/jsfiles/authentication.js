@@ -1,4 +1,6 @@
-﻿function display(form){
+﻿
+
+function display(form){
     document.getElementById('buttonid').disabled = true;
     var inpObj = form.username.value;
     var inpObj2 = form.password.value;
@@ -29,6 +31,7 @@
      success:function(data2){
      if(data2 == 'Success'){
      location.href = "../htmlfiles/CheckoutService.html";
+     localStorage.setItem('autnentication',"true");
      }
      },
 

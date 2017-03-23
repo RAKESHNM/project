@@ -72,9 +72,32 @@ function getBranches(repo){
 
         }
 $(document).ready(function(){
+     if(localStorage.getItem('autnentication')==="false"){
+           location.href ="../htmlfiles/index.html";
+     }
+     else{
      myFunctions();
      $("#selectBranch").empty();
      console.log("Call func");
+//     $(".logout").on('click',function(d) {
+//             $.ajax({
+//                     url:"/rest/logout",
+//                     type: 'POST',
+//                     crossDomain : true,
+//                     headers: {
+//                                "content-type": "application/json"
+//                              },
+//                     xhrFields: {
+//                                  withCredentials: true
+//                                },
+//                     success: function(res){
+//                                   location.href ="../htmlfiles/index.html";
+//                                 }
+//             })
+//         localStorage.clear();
+//                                 $('#selectRepo').empty();
+//         })
+}
 });
 function getSelectedValue(){
 var repo = (document.getElementById("selectRepo").value);
@@ -88,6 +111,7 @@ console.log(document.getElementById("selectBranch").value);
 
 function gitCheckout(){
 /*alert('Please wait . . . checking out');*/
+document.getElementById('logout').disabled=true;
 document.getElementById('checkoutbutton').disabled=true;
 var d = {};
 d.branch = (document.getElementById("selectBranch").value);
@@ -143,6 +167,7 @@ d.dir = (document.getElementById("dir").value);
           error: function(errorres){
            console.log(errorres);
            document.getElementById('checkoutbutton').disabled=false;
+           document.getElementById('logout').disabled=false ;
           }
         });
 
