@@ -30,7 +30,7 @@ public class DisplayMethodContent  {
         FileInputStream in;
         CompilationUnit cu;
         //filePaths.clear();
-        //filePaths.add("/home/rakesh/bigbrain_master/refinement/bigbrain-job-executor/src/main/java/com/razorthink/bigbrain/refine/jobexecutor/config/SwaggerConfig.java");
+        //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
 
             for (String filePath : filePaths) {
 

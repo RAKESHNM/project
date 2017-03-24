@@ -74,7 +74,7 @@ public class MethodLinePrinter {
                     listOfMethods.add(returnFilePath + "+" + param);
 
             }
-            super.visit(n, arg);
+            //super.visit(n, arg);
         }
     }
 }

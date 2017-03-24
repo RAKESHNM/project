@@ -212,6 +212,8 @@ form{
   animation: spin 2s linear infinite;
   display:none;
    position: absolute;
+   left: 594px;
+       top: 241px;
 }
 
 .showClass{
@@ -260,16 +262,16 @@ display: inline-block;
 }
 .checkout{
 display: inline-block;
-                        width: 284px;
-                        /* height: 100%; */
-                        float: right;
-                        text-align: center;
-                        line-height: 50px;
-                        cursor: pointer;
-                        position: fixed;
-                        right: 30px;
-                        top: 10px;
-                             border-bottom:0px solid #444;
+    width: 100px;
+    /* height: 100%; */
+    float: right;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    position: fixed;
+    right: 159px;
+    top: 10px;
+    border-bottom: 0px solid #444;
 
 }
 .closeIcon{
@@ -282,7 +284,7 @@ display: inline-block;
     cursor: pointer;
     position: fixed;
     right: 30px;
-    top: 50px;
+    top: 75px;
     border-bottom: 0px solid #444;
 }
 

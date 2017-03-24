@@ -3,6 +3,8 @@ package com.razorthink.application.service;
 import com.google.common.collect.Lists;
 import com.razorthink.application.beans.CheckoutProject;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.constants.HtmlConstants;
+import com.razorthink.application.constants.ValidNames;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -64,7 +66,6 @@ public class GithubOperations {
         {
             if( repo.getName().equals(localrepo) )
             {
-                //                String REMOTE_URL = "https://github.com/" + Username + "/" + repo.getName() + ".git";
                 Collection<Ref> refs = Git.lsRemoteRepository().setHeads(true).setTags(true).setRemote(REMOTE_URL)
                         .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username, Password)).call();
 
@@ -73,10 +74,22 @@ public class GithubOperations {
                     System.out.println(ref.getName());
                     list.add(ref.getName());
                 }
+                list = filterBranch(list);
                 return list;
             }
         }
         return null;
+    }
+
+    public List<String> filterBranch(List<String> branch){
+        List<String> list = new ArrayList<>();
+        for(String temp : branch){
+            temp = temp.replace(ValidNames.BRANCH_HEADS,"");
+            temp = temp.replace(ValidNames.BRANCH_TAGS,"tags/");
+            System.out.println(temp);
+            list.add(temp);
+        }
+        return list;
     }
 
     public List<String> getModules(String path){
@@ -135,10 +148,6 @@ public class GithubOperations {
         fileList.add(jsFiles);
         fileList.add(cssFiles);
         fileList.add(htmlFiles);
-        System.out.println("\nCount :" + count);
-        System.out.println(fileList.get(0));
-        System.out.println(fileList.get(1));
-        System.out.println(fileList.get(2));
         return fileList;
     }
 
@@ -211,15 +220,10 @@ public class GithubOperations {
         {
             count++;
             Date date = new Date(commit.getCommitTime() * 1000L);
-            System.out.println(commit.getAuthorIdent().getName());
-            System.out.println(date.toString());
-            System.out.println(commit.getFullMessage());
             commitList.add(commit.getFullMessage());
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
             System.out.println(commit.getFullMessage().length());
-            //           commitList.add(commit.getAuthorIdent().getName() + " committed on " + date.toString() + "\n");
-            //            commitList.add(date.toString());
         }
         System.out.println("Total commits : " + count);
         git.close();
@@ -315,25 +319,30 @@ public class GithubOperations {
         return File;
     }
 
-    public List<String> getCommitsFromFile( String localRepoPath, String filename ) throws Exception
+    public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
     {
-
-        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
+        System.out.println("filepath Commit before : "+ filepath);
+//        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
+        filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
+        int idx = filepath.lastIndexOf("+");
+        if(idx>0) {
+            filepath = filepath.substring(0, idx);
+        }
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
+        System.out.println("Filepath Commit replaced: " + filepath);
+        System.out.println("local repo path : "+localRepoPath);
         Iterable<RevCommit> commits = git.log().addPath(filepath).call();
         int count = 0;
         for( RevCommit commit : commits )
         {
-            //            System.out.println(commit.getAuthorIdent().getName());
-            //            System.out.println(commit.getFullMessage());
             Date date = new Date(commit.getCommitTime() * 1000L);
-            list.add((commit.getFullMessage() + " " + commit.getAuthorIdent().getName() + " committed on "
-                    + date.toString() + "\n"));
+            list.add((HtmlConstants.LINE_BREAK +HtmlConstants.LINE_BREAK +commit.getFullMessage()+HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + commit.getAuthorIdent().getName() + HtmlConstants.BOLD_END + " committed on "
+                    + date.toString()));
         }
-        System.out.println("Number of Commits :" + count);
+//        System.out.println("Number of Commits :" + count);
         return list;
     }
     public void slackMessage(){

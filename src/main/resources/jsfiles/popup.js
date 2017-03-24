@@ -1,10 +1,14 @@
 
 $(document).ready(function(){
-
+if(localStorage.getItem('autnentication')==="false"){
+           location.href ="../htmlfiles/index.html";
+     }
+     else{
 var data = JSON.parse(localStorage.getItem('data'));
 console.log("ready", data)
     var header = "header";
      getCommandService(data);
+
      $("#selectMethod").on('click', function(d) {
                              $(".loader").addClass("showClass");
                      console.log(d.target);
@@ -24,7 +28,7 @@ console.log("ready", data)
                 location.href = "../htmlfiles/CommandTest.html";
                 $(".popupHeaderTextpage").empty();
                 $(".linemethod").empty();
-                $(".linemethod2").empty()
+                $(".linemethod2").empty();
                 $(".method").empty();
     //            history.go(-1);
     //            $(".wrapper").empty();
@@ -54,6 +58,7 @@ console.log("ready", data)
            $(".message").append("Message To Be Displayed");
 
     //    getCommandService();
+    }
     });
 
 
@@ -76,9 +81,9 @@ console.log(txt);
 var auth = {};
 console.log("Test");
    auth.methodName = txt;
-   console.log(txt);
-   console.log(localStorage.getItem(txt));
    auth.filePath = localStorage.getItem(txt);
+      console.log(auth.filePath);
+//   console.log(localStorage.getItem(txt));
             $.ajax({
             url:"/rest/methodcontents",
             type: 'POST',
@@ -95,40 +100,43 @@ console.log("Test");
                 console.log("First");
               console.log(res);
               localStorage.setItem("content",res);
-              $.ajax({
-                                        url:"/rest/methodcommit",
-                                        type: 'POST',
-                                         crossDomain : true,
-                                          headers: {
-                                             "content-type": "application/json"
-                                             },
-                                         data :JSON.stringify(auth.methodName),
-                                        dataType: 'json',
-                                        xhrFields: {
-                                            withCredentials: true
-                                        },
-                                        success: function(res){
-                                          console.log(res);
-                                          localStorage.setItem("commit",res);
-                                          location.href = "../htmlfiles/Contents.html";
-                                          insertContents(res);
+             $.ajax({
+                                       url:"/rest/commit",
+                                       type: 'POST',
+                                        crossDomain : true,
+                                         headers: {
+                                            "content-type": "application/json"
+                                            },
+                                        data :JSON.stringify(auth.filePath),
+                                       dataType: 'json',
+                                       xhrFields: {
+                                           withCredentials: true
+                                       },
+                                       success: function(res1){
+                                         console.log("Test2 : ",res1);
+                                             localStorage.setItem("commit",res1);
+                                         location.href = "../htmlfiles/Contents.html";
+                                         insertContents(res);
+             //                            document.getElementById("commitText").value += res;
 
-                                          document.getElementById("commitText").value += res;
+                                    },
+                                     error: function(errorres){
+                                      console.log(errorres);
+                                     }
+                                   });
 
-                                     },
-                                      error: function(errorres){
-                                       console.log(errorres);
-                                      }
-                                    });
-              location.href = "../htmlfiles/Contents.html";
-         },
+
+
+                      },
           error: function(errorres){
            console.log(errorres);
           }
         });
+                 $(".loader").remove();
 
   }
 function getCommandService(data){
+                                $(".loader").addClass("showClass");
 console.log("here", data)
 var result;
 var errorres = [];
@@ -175,20 +183,12 @@ var errorres = [];
                 else if(data.command===("List all files")){
                         $(".popupHeaderTextpage").append("List all files")
                 console.log(result.object);
-//                for(var i = 0;i<result.object.length;i++){
-//                for(var j=0;i<result.object[i].length;j++){
-//                console.log("result.object.length",result.object.length)
-//                console.log(result.object[i]);
-//                console.log("rsult.object[i].length",result.object[i].length);
-//                $(".method").append("<li>"+ result.object[i].[j]  + "</li>");
-//}
-//                $(".linemethod1").append("<br>");
+
                     for(var i = 0; i < result.object.length; i++){
                         for(var j = 0; j < result.object[i].length; j=j+3){
                             $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
                             $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
                             localStorage.setItem(result.object[i][j],result.object[i][j+2]);
-//                          console.log(result.object[i][j]);
                         }
                      }
 
@@ -234,7 +234,7 @@ var errorres = [];
                     $(".linemethod2").append("<br>");
                 }
                 }
-
+                 $(".loader").remove();
             },
             error: function(errorres){
                 console.log(errorres);
@@ -248,6 +248,7 @@ console.log(txt);
 var auth = {};
 console.log("Test");
    auth.methodName = txt;
+   auth.filePath = localStorage.getItem(txt);
    console.log(auth.methodName);
    console.log(auth.methodcontents);
             $.ajax({
@@ -263,7 +264,7 @@ console.log("Test");
                 withCredentials: true
             },
             success: function(res){
-              console.log(res);
+              console.log("Test : ",res);
               localStorage.setItem("content",res);
               $.ajax({
                           url:"/rest/commit",
@@ -272,25 +273,25 @@ console.log("Test");
                             headers: {
                                "content-type": "application/json"
                                },
-                           data :JSON.stringify(auth.methodName),
+                           data :JSON.stringify(auth.filePath),
                           dataType: 'json',
                           xhrFields: {
                               withCredentials: true
                           },
                           success: function(res1){
-                            console.log(res1);
+                            console.log("Test2 : ",res1);
                                 localStorage.setItem("commit",res1);
                             location.href = "../htmlfiles/Contents.html";
                             insertContents(res);
-
-                            document.getElementById("commitText").value += res;
+                             location.href = "../htmlfiles/Contents.html";
+//                            document.getElementById("commitText").value += res;
 
                        },
                         error: function(errorres){
                          console.log(errorres);
                         }
                       });
-              location.href = "../htmlfiles/Contents.html";
+
 
 
          },
@@ -298,6 +299,8 @@ console.log("Test");
            console.log(errorres);
           }
         });
+                         $(".loader").remove();
+
 }
 function getCommit(d){
 var txt = $(d).text();

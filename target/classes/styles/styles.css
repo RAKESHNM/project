@@ -212,6 +212,8 @@ form{
   animation: spin 2s linear infinite;
   display:none;
    position: absolute;
+   left: 594px;
+       top: 241px;
 }
 
 .showClass{

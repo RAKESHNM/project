@@ -4,6 +4,7 @@ import com.razorthink.application.beans.Project;
 import com.razorthink.application.beans.Result;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.management.DisplayMethodContent;
+import com.razorthink.application.management.ValidatingInputs;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
 
 import java.io.File;
@@ -24,11 +25,9 @@ public class InferUserCommandService {
     List<String> CommitList = new ArrayList<>();
     CommandPojo commandPojo1 = new CommandPojo();
     public Result getUserInput(CommandPojo commandPojo, Project project) throws Exception {
-
+        commandPojo = new ValidatingInputs().trimWhiteSpace(commandPojo);
         if(commandPojo.getSubModule().equals(Constants.SELECT_MODULE))
                commandPojo.setSubModule(null);
-        if(commandPojo.getDirectory().equals(""))
-             commandPojo.setDirectory(null);
         if(commandPojo.getFile().equals(""))
             commandPojo.setFile(null);
         if(commandPojo.getNoOfLines().equals(""))
@@ -53,16 +52,17 @@ public class InferUserCommandService {
             if (commandPojo.getSubModule() != null) {
                     if (commandPojo.getFile() != null){
                         List<String> temp = new ArrayList<>();
-                        temp.add(project.getLocalDirectory()+commandPojo.getSubModule()+commandPojo.getFile());
+                        temp.add(project.getLocalDirectory() + commandPojo.getSubModule()  + commandPojo.getFile());
                         FileList.add(temp);
+//                        FileList.get(0).add(project.getLocalDirectory() + commandPojo.getSubModule()  + commandPojo.getFile());
                         commandPojo1.setFileList(FileList.get(0));}
-                    else
+                    else{
                         FileList = githubOperations.gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
-                        commandPojo1.setFileList(FileList.get(0));
-            } else {
+                        commandPojo1.setFileList(FileList.get(0));}
+                }
+            else {
                 FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
                 commandPojo1.setFileList(FileList.get(0));
-
             }
 
 //            if (commandPojo.getCommand().equalsIgnoreCase("//List all methods"))
@@ -121,11 +121,9 @@ public class InferUserCommandService {
                                 subList.add((file.length()/(1024*1024))+"MB");
                                 subList.add(files.get(i));
                         }
-
                     }
                     resultList.add(subList);
                 }
-
                 result.setObject(resultList);
                return result;
             }

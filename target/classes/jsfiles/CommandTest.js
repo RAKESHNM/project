@@ -1,5 +1,10 @@
 var data = {};
 $(document).ready(function(){
+
+if(localStorage.getItem('autnentication')==="false"){
+           location.href ="../htmlfiles/index.html";
+     }
+     else{
     var header = "header";
 
    var options = ["Commit Details","Project Summary","List all files", "List all methods having lines greater than n", "List all methods without javadocs"];
@@ -70,6 +75,7 @@ $(document).ready(function(){
        })
 
        $(".message").append("Message To Be Displayed");
+}
 });
 
 function getModules(){

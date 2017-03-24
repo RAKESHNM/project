@@ -1,6 +1,7 @@
 com/razorthink/application/management/ProjectSummary.class
 com/razorthink/application/management/MethodLinePrinter$MethodVisitor.class
 com/razorthink/application/beans/Project.class
+com/razorthink/application/management/ValidatingInputs.class
 com/razorthink/application/management/MethodFilePath.class
 com/razorthink/application/utils/ApplicationStateUtils.class
 com/razorthink/application/beans/MethodDeclaration.class
