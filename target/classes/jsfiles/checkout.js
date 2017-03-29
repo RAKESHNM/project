@@ -1,191 +1,139 @@
 function myFunctions(){
-            $.ajax({
+
+    $.ajax({
             url:"/rest/repositories",
             type: 'GET',
-             crossDomain : true,
+            crossDomain : true,
             dataType: 'json',
             xhrFields: {
                 withCredentials: true
             },
             success: function(res){
-
-                console.log(res);
-                        $('#selectRepo').empty();
-                        var output = [];
-                        var selectRepo = 'Select Repository';
-                        output.push('<option >'+ selectRepo +'</option>');
-                        res.forEach(function(key){
-                            output.push('<option >'+ key +'</option>');
-                        })
-
-
-                        $('#selectRepo').html(output.join(''));
-                        console.log(document.getElementById("selectRepo").value);
-
-
-        },
-
-          error: function(errorres){
-           console.log(errorres);
-          }
-        });
-
-        }
+                $('#selectRepo').empty();
+                var output = [];
+                var selectRepo = 'Select Repository';
+                output.push('<option >'+ selectRepo +'</option>');
+                res.forEach(function(key){
+                   output.push('<option >'+ key +'</option>');
+                })
+                $('#selectRepo').html(output.join(''));
+            },
+            error: function(errorres){
+                console.log(errorres);
+            }
+    });
+}
 
 function getBranches(repo){
-            var auth = {};
-                auth.remoteRepo=repo;
-            $.ajax({
+
+    var auth = {};
+    auth.remoteRepo=repo;
+    $.ajax({
             url:"/rest/branch",
             type: 'POST',
-             crossDomain : true,
-              headers: {
-                 "content-type": "application/json"
-                 },
-             data :JSON.stringify(auth),
+            crossDomain : true,
+            headers: {
+                "content-type": "application/json"
+            },
+            data :JSON.stringify(auth),
             dataType: 'json',
             xhrFields: {
                 withCredentials: true
             },
             success: function(res){
+                $('#selectBranch').empty();
+                var output = [];
+                var selectBranch = 'Select Branch';
+                output.push('<option >'+ selectBranch +'</option>');
+                res.forEach(function(key){
+                   output.push('<option >'+ key +'</option>');
+                })
+                $('#selectBranch').html(output.join(''));
+            },
+            error: function(errorres){
+                console.log(errorres);
+            }
+    });
+}
 
-                console.log(res);
-                        $('#selectBranch').empty();
-                        var output = [];
-                        var selectBranch = 'Select Branch';
-                         output.push('<option >'+ selectBranch +'</option>');
-                        res.forEach(function(key){
-                            output.push('<option >'+ key +'</option>');
-                        })
-
-
-                        $('#selectBranch').html(output.join(''));
-                       // console.log(document.getElementById("selectBranch").value);
-
-
-        },
-
-          error: function(errorres){
-           console.log(errorres);
-          }
-        });
-
-        }
 $(document).ready(function(){
+
      if(localStorage.getItem('autnentication')==="false"){
            location.href ="../htmlfiles/index.html";
      }
      else{
-     myFunctions();
-     $("#selectBranch").empty();
-     console.log("Call func");
-//     $(".logout").on('click',function(d) {
-//             $.ajax({
-//                     url:"/rest/logout",
-//                     type: 'POST',
-//                     crossDomain : true,
-//                     headers: {
-//                                "content-type": "application/json"
-//                              },
-//                     xhrFields: {
-//                                  withCredentials: true
-//                                },
-//                     success: function(res){
-//                                   location.href ="../htmlfiles/index.html";
-//                                 }
-//             })
-//         localStorage.clear();
-//                                 $('#selectRepo').empty();
-//         })
-}
+         myFunctions();
+         $("#selectBranch").empty();
+     }
 });
-function getSelectedValue(){
-var repo = (document.getElementById("selectRepo").value);
-console.log(repo);
-$("#selectBranch").empty();
-$("#selectBranch").append($('<option>', {    value: 1,    text: 'Loading . . .'}));
-getBranches(repo);
-console.log(document.getElementById("selectBranch").value);
-}
 
+function getSelectedValue(){
+
+    var repo = (document.getElementById("selectRepo").value);
+    $("#selectBranch").empty();
+    $("#selectBranch").append($('<option>', {    value: 1,    text: 'Loading . . .'}));
+    getBranches(repo);
+}
 
 function gitCheckout(){
-/*alert('Please wait . . . checking out');*/
-document.getElementById('logout').disabled=true;
-document.getElementById('checkoutbutton').disabled=true;
-var d = {};
-d.branch = (document.getElementById("selectBranch").value);
-d.remoteRepo = (document.getElementById("selectRepo").value);
-d.dir = (document.getElementById("dir").value);
-  $.ajax({
+    document.getElementById('logout').disabled=true;
+    document.getElementById('checkoutbutton').disabled=true;
+    var d = {};
+    d.branch = (document.getElementById("selectBranch").value);
+    d.remoteRepo = (document.getElementById("selectRepo").value);
+    d.dir = (document.getElementById("dir").value);
+
+    $.ajax({
             url:"/rest/checkout",
             type: 'POST',
-             crossDomain : true,
-              headers: {
-                 "content-type": "application/json"
-                 },
-             data :JSON.stringify(d),
+            crossDomain : true,
+            headers: {
+                "content-type": "application/json"
+            },
+            data :JSON.stringify(d),
             xhrFields: {
                 withCredentials: true
             },
             success: function(res){
-            console.log(res);
-            if(res == "false"){
-            alert("Specified repositories does not exists");
-            location.href = "../htmlfiles/CheckoutService.html";
-            }
+                if(res == "false"){
+                   alert("Specified repositories does not exists");
+                    location.href = "../htmlfiles/CheckoutService.html";
+                }
+                else if(res!=="true"){
+                    var temp = confirm("Repository already exist under \n"+ res + "\n do you want to clone again ?")
+                    if(temp == true){
 
-           else if(res!=="true"){
-                var temp = confirm("Repository already exist under \n"+ res + "\n do you want to clone again ?")
-                if(temp == true){
-                    $.ajax({
+                        $.ajax({
                                 url:"/rest/clone",
                                 type: 'POST',
-                                 crossDomain : true,
-                                  headers: {
-                                     "content-type": "application/json"
-                                     },
-                                 data :JSON.stringify(d),
+                                crossDomain : true,
+                                headers: {
+                                    "content-type": "application/json"
+                                },
+                                data :JSON.stringify(d),
                                 xhrFields: {
                                     withCredentials: true
                                 },
                                 success: function(res){
                                     location.href = "../htmlfiles/CommandTest.html";
                                 }
-                    })
+                        })
+                    }
+                    else{
+                        location.href = "../htmlfiles/CommandTest.html";
+                    }
                 }
                 else{
                     location.href = "../htmlfiles/CommandTest.html";
                 }
+            },
+            error: function(errorres){
+                console.log(errorres);
+                document.getElementById('checkoutbutton').disabled=false;
+                document.getElementById('logout').disabled=false ;
             }
-            else{
-            console.log("hi");
-           location.href = "../htmlfiles/CommandTest.html";
-           }
-              },
+    });
 
-          error: function(errorres){
-           console.log(errorres);
-           document.getElementById('checkoutbutton').disabled=false;
-           document.getElementById('logout').disabled=false ;
-          }
-        });
-
-        $(".loader").addClass("showClass");
-        $(".contentWrapper").addClass("shadowClass");
-
+    $(".loader").addClass("showClass");
+    $(".contentWrapper").addClass("shadowClass");
 }
-
-var myApp;
-myApp = myApp || (function () {
-    var pleaseWaitDiv = $('<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"><div class="modal-header"><h1>Processing...</h1></div><div class="modal-body"><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div></div></div>');
-    return {
-        showPleaseWait: function() {
-            pleaseWaitDiv.modal();
-        },
-        hidePleaseWait: function () {
-            pleaseWaitDiv.modal('hide');
-        },
-
-    };
-})();;

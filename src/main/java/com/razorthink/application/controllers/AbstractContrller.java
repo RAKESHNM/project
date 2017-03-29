@@ -14,10 +14,14 @@ public class AbstractContrller {
     @Autowired
     HttpServletRequest request;
 
+    /**
+     * creates a session for given user details(session based authentication)
+     * @return
+     * @throws Exception
+     */
     public Project getProject() throws Exception{
         Project project = (Project) request.getSession().getAttribute("user-det");
         if(project==null) throw new Exception("User Details not found");
         return project;
-
     }
 }

@@ -10,6 +10,7 @@ com/razorthink/application/service/impl/CommandsServiceImpl.class
 com/razorthink/application/beans/ProjectInformation.class
 com/razorthink/application/controllers/ProjectAnalyserController.class
 com/razorthink/application/management/JavaDocCommentsFinder$MethodVisitor.class
+com/razorthink/application/utils/ValidationUtils.class
 com/razorthink/application/constants/Constants.class
 com/razorthink/application/beans/Result.class
 com/razorthink/application/service/CheckoutService.class

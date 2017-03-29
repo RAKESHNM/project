@@ -10,6 +10,7 @@ import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.service.ReadFile;
 import com.razorthink.application.utils.ApplicationStateUtils;
+import com.razorthink.application.utils.ValidationUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -45,12 +46,14 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<String>  branches = new ArrayList<>();
 
+  HashMap<String,String>  userRepos = new HashMap<>();
 
   public GitHubCkeckoutController() throws IOException {
   }
 
   /**
-   * Controller for login service
+   * Creates a session for a given user and validates for existence of git user,if credentials are valid
+   * then it returns success else fail
    * @param login
    * @return
    * @throws InvalidCreadentialException
@@ -78,6 +81,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
   }
 
 
+  /**
+   * Listing all repos from the current user account
+   * @return
+   * @throws Exception
+   */
   //     @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.LIST_ALL_REPOSITORIES,method = RequestMethod.GET)
   @ResponseBody
@@ -126,35 +134,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    if(new GithubOperations().validateRepo(service,checkoutProject) )
-      return ValidNames.FALSE;
-    project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    if(checkoutProject.getBranch().equals("Select Branch")){
-      checkoutProject.setBranch(Constants.MASTER_BRANCH);
-    }
-    int idx = checkoutProject.getBranch().lastIndexOf("/");
-    if(idx>0){
-      project.setBranch(checkoutProject.getBranch().substring(idx+1));
-      System.out.println(project.getBranch());
-    }
-    else{
-      project.setBranch(checkoutProject.getBranch());
-    }
-    checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
-    project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
-    project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
-    File dir = new File(project.getLocalDirectory());
-    if (dir.exists()) {
-      return project.getLocalDirectory();
-    }
-    else {
-      logger.info("Cloning  into . . .");
-      githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-              project.getLocalDirectory(),
-              project.getUsername(), project.getPassword());
-      logger.info("Done");
-    }
-    return ValidNames.TRUE;
+    return  new ValidationUtils().validateCheckout(project,service,checkoutProject, userRepos);
   }
 
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
@@ -163,29 +143,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    project.setRemoteRepo(checkoutProject.getRemoteRepo());
-    if(checkoutProject.getBranch().equals("Select Branch")){
-      checkoutProject.setBranch(Constants.MASTER_BRANCH);
-    }
-    int idx = checkoutProject.getBranch().lastIndexOf("/");
-    if (idx > 0) {
-      project.setBranch(checkoutProject.getBranch().substring(idx + 1));
-    } else {
-      project.setBranch(checkoutProject.getBranch());
-    }
-    checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
-    project.setLocalDirectory(checkoutProject.getDir() + File.separator + project.getRemoteRepo() + "_" + project.getBranch() + File.separator);
-    project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
-    File dir = new File(project.getLocalDirectory());
-    if (dir.exists()) {
-      FileUtils.forceDelete(dir);
-    }
-      logger.info("Cloning  into . . .");
-      githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-              project.getLocalDirectory(),
-              project.getUsername(), project.getPassword());
-      logger.info("Done");
-    return "Done";
+    project =  new GithubOperations().gitCheckout(service,checkoutProject,project);
+    return new GithubOperations().deleteDirectory_Clone(service,checkoutProject,project);
   }
 
     /**
@@ -207,6 +166,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
     return null;
   }
 
+  /**
+   * Controller fot logout service and
+   */
   @RequestMapping(value = Constants.LOG_OUT,method = RequestMethod.POST)
   @ResponseBody()
   public void logout(){

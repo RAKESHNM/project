@@ -3,6 +3,7 @@
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/ApplicationStateUtils.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/LocalDirectoryCreation.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/service/InferUserCommandService.java
+/home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/utils/ValidationUtils.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/beans/MethodDeclaration.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/controllers/AbstractContrller.java
 /home/antolivish/BackUp/UIGithub/project/src/main/java/com/razorthink/application/management/MethodPrinter.java

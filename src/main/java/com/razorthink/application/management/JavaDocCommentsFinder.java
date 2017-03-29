@@ -27,6 +27,13 @@ public class JavaDocCommentsFinder {
     CompilationUnit cu;
    public static String currentFilePath;
 
+    /**
+     *
+     * @param list
+     * @return
+     * @throws Exception
+     */
+
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
         id = 0;
         listOfMethods = new ArrayList<>();
@@ -34,6 +41,10 @@ public class JavaDocCommentsFinder {
         {
             for( String filePath : list )
             {
+                /**
+                 * creates an input stream for all file paths of list and then parses each java file using
+                 * javaParser and then calls MethodVisitor node for all the methods in that java file
+                 */
                 currentFilePath = filePath;
                 in = new FileInputStream(filePath);
                 try
@@ -42,9 +53,9 @@ public class JavaDocCommentsFinder {
                 }
                 catch( Exception e )
                 {
-                    System.out.println("Not Parsing " + filePath);
                     continue;
                 }
+                //visits all the methods in a class
                 new MethodVisitor().visit(cu, null);
             }
         }
@@ -62,6 +73,10 @@ public class JavaDocCommentsFinder {
         @Override
         public void visit( MethodDeclaration n, Void arg )
         {
+            /**
+             * checks if a method level comment is not null and method body is present,then checks for each
+             * statement in a method body whether it is a comment,if is then it will not list that method
+             */
 
             int count = 0;
             if(!n.getComment().isPresent() && n.getBody().isPresent()) {
