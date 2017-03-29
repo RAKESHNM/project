@@ -1,5 +1,6 @@
 package com.razorthink.application.management;
 
+import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -8,6 +9,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class DisplayMethodContent {
     private String classMethodFilePath;
     public static int id = 0;
 
-    public String showMethodContent( List<String> filePaths, String methodName, String methodFilePath ) throws Exception
+    public String showMethodContent( List<String> filePaths, String methodName, String methodFilePath ) throws FileNotFoundException
     {
         /**
          * Loop through each files, parse it and extract all the methods till method name matches with given method
@@ -45,14 +47,7 @@ public class DisplayMethodContent {
 
             in = new FileInputStream(filePath);
 
-            try
-            {
-                cu = JavaParser.parse(in);
-            }
-            catch( Exception e )
-            {
-                continue;
-            }
+            cu = JavaParser.parse(in);
 
             new MethodVisitor().visit(cu, null);
         }

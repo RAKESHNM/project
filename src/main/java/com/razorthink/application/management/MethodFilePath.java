@@ -11,6 +11,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MethodFilePath {
     private  String name;
     private String returnValue = null;
     static String filePath = null;
-    public String showMethodContent(List<String> filePaths, String methodName) throws Exception {
+    public String showMethodContent(List<String> filePaths, String methodName) throws FileNotFoundException {
 
         /**
          * creates an input stream for all file paths of list and then parses each java file using

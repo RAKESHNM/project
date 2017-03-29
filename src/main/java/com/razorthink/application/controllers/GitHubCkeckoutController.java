@@ -102,7 +102,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 //    @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.LIST_BRANCH,method = RequestMethod.POST)
   @ResponseBody
-  public List<String> listbranch(@RequestBody Branch branch) {
+  public List<String> listbranch(@RequestBody Branch branch) throws Exception{
     try {
       Project project = getProject();
       client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());

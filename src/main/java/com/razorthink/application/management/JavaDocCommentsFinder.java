@@ -13,6 +13,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class JavaDocCommentsFinder {
      * @throws Exception
      */
 
-    public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
+    public List<String> getJavaDocCommentedMethods(List<String> list) throws FileNotFoundException {
         id = 0;
         listOfMethods = new ArrayList<>();
         try
@@ -47,14 +48,7 @@ public class JavaDocCommentsFinder {
                  */
                 currentFilePath = filePath;
                 in = new FileInputStream(filePath);
-                try
-                {
-                    cu = JavaParser.parse(in);
-                }
-                catch( Exception e )
-                {
-                    continue;
-                }
+                cu = JavaParser.parse(in);
                 //visits all the methods in a class
                 new MethodVisitor().visit(cu, null);
             }
