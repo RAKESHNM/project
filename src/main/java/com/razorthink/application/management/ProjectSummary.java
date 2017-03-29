@@ -13,6 +13,13 @@ import java.util.List;
  * Created by rakesh on 27/2/17.
  */
 public class ProjectSummary {
+    /**
+     *
+     * @param filePaths
+     * @return
+     * @throws IOException
+     * @throws XmlPullParserException
+     */
     public com.razorthink.application.beans.ProjectSummary projectSummary(String filePaths) throws IOException, XmlPullParserException {
         if (filePaths != null) {
                 MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();

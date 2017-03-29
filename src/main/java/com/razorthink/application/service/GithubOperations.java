@@ -15,43 +15,49 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by antolivish on 25/2/17.
  */
 public class GithubOperations {
 
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(GithubOperations.class);
+
     ReadFile readFile = new ReadFile();
 
     //Getting remote repositories
-    public List<String> gitRemoteRepository( RepositoryService service ) throws Exception
+    public List<String> gitRemoteRepository( RepositoryService service ) throws IOException
     {
         List<String> list = new ArrayList<>();
         System.out.println("\nRemote Repository");
         System.out.println("-----------------------");
-        for( Repository repo : service.getRepositories() )
-        {
-            System.out.println(repo.getName());
-            list.add(repo.getName());
-        }
+        try {
+            for (Repository repo : service.getRepositories()) {
+                System.out.println(repo.getName());
+                list.add(repo.getName());
+            }
+        }catch (IOException io){logger.info(io.getMessage(),io);}
         return list;
     }
 
-    public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws Exception
+    public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws IOException
     {
         String Remote_URL = "";
         System.out.println(remoteRepo);
-        for( Repository repo : service.getRepositories() )
-        {
-            if( repo.getName().equals(remoteRepo) )
-            {
-                String URL = repo.getHtmlUrl();
-                return URL;
+        try {
+            for (Repository repo : service.getRepositories()) {
+                if (repo.getName().equals(remoteRepo)) {
+                    String URL = repo.getHtmlUrl();
+                    return URL;
+                }
             }
-        }
+        }catch (IOException i){logger.info(i.getMessage(),i);}
         return Remote_URL;
     }
 
