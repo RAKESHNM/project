@@ -21,17 +21,26 @@ public class InferUserCommandService {
 
     CommandPojo commandPojo1 = new CommandPojo();
 
+    /**
+     * @param commandPojo
+     * @param project
+     * @return
+     * @throws Exception
+     */
     public Result getUserInput( CommandPojo commandPojo, Project project ) throws Exception
     {
         commandPojo = new ValidatingInputs().trimWhiteSpace(commandPojo);
         Result result = new Result();
         result.setProjectName(project.getRemoteRepo());
         result.setBranch(project.getBranch());
+        //if  user command is commit details
         if( commandPojo.getCommand().equalsIgnoreCase(Constants.COMMIT_DETAILS) )
         {
             result.setObject(githubOperations.gitCommitDetails(project.getLocalDirectory(), project.getBranch()));
             return result;
         }
+
+        //if user command is project summary
         else if( commandPojo.getCommand().equalsIgnoreCase(Constants.PROJECT_SUMMARY) )
         {
             String pomFilePath = project.getLocalDirectory() + "pom.xml";
@@ -45,6 +54,7 @@ public class InferUserCommandService {
             {
                 if( commandPojo.getFile() != null )
                 {
+                    //listing files according to given level of directories
                     List<String> temp = new ArrayList<>();
                     temp.add(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getFile());
                     FileList.add(temp);
@@ -90,6 +100,11 @@ public class InferUserCommandService {
         return null;
     }
 
+    /**
+     *
+     * @param size
+     * @return
+     */
     public List<List<String>> listAllFiles( double size )
     {
         List<List<String>> resultList = new ArrayList<>();
@@ -104,11 +119,14 @@ public class InferUserCommandService {
                 if( (file.length() / 1024) >= size )
                 {
                     subList.add(file.getName());
+                    //if file size is less than 1KB
                     if( file.length() < 1024 )
                         subList.add((double) (file.length()) + "bytes");
+                    //if file size is greater than 1KB
                     if( file.length() > 1024 && file.length() < 1048576 )
                         subList.add(String.valueOf(Math.round(((double) (file.length()) / 1024 * 100.0)) / 100.0)
                                 .concat("KB"));
+                    //if file size is greater than 1MB
                     if( file.length() > 1048576 )
                         subList.add((file.length() / (1024 * 1024)) + "MB");
                     subList.add(files.get(i));
@@ -119,7 +137,13 @@ public class InferUserCommandService {
         return resultList;
     }
 
-    public List<String> filterBeansAndReposJavaFiles(){
+    /**
+     * Exclude files from directories which are under beans and repositories
+     * 
+     * @return
+     */
+    public List<String> filterBeansAndReposJavaFiles()
+    {
 
         List<String> list = new ArrayList<>();
         String[] filter = { Constants.BEAN, Constants.BEANS, Constants.REPOSITORY, Constants.REPOSITORIES };
@@ -142,6 +166,7 @@ public class InferUserCommandService {
         }
         return list;
     }
+
     public boolean searchStr( String search, String what )
     {
         if( search.replaceAll(what, "_").equals(search) )

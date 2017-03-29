@@ -19,6 +19,12 @@ public class ApplicationStateUtils {
 
     List<Project> availableProjects = new ArrayList<>();
 
+
+    /**
+     * serialisation for storing checked out projects
+     * @param project
+     * @throws IOException
+     */
     public void storeProject(Project project) throws IOException {
         if(project != null)
         {
@@ -36,6 +42,12 @@ public class ApplicationStateUtils {
         }
     }
 
+    /**
+     * deserialisation  for retrieving all checked out projects
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public List<Project> loadProjects() throws FileNotFoundException, IOException {
         try {
             try (FileInputStream fileInputStream = new FileInputStream(Constants.LOCAL_DIRECTORY_PATH)) {

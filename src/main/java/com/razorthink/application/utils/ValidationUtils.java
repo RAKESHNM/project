@@ -30,13 +30,24 @@ public class ValidationUtils {
         return null;
     }
 
+    /**
+     *
+     * @param project
+     * @param service
+     * @param checkoutProject
+     * @param hm
+     * @return
+     * @throws Exception
+     */
     public String validateCheckout( Project project, RepositoryService service, CheckoutProject checkoutProject,
             HashMap hm ) throws Exception
     {
         GithubOperations githubOperations = new GithubOperations();
+        //check for whether given repository exists in users github account,if not return false
         if( new GithubOperations().validateRepo(service, checkoutProject) )
             return ValidNames.FALSE;
         project.setRemoteRepo(checkoutProject.getRemoteRepo());
+        //select default branch master
         if( checkoutProject.getBranch().equals("Select Branch") )
         {
             checkoutProject.setBranch(Constants.MASTER_BRANCH);

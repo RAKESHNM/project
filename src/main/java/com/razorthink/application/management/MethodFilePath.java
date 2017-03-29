@@ -24,6 +24,10 @@ public class MethodFilePath {
     static String filePath = null;
     public String showMethodContent(List<String> filePaths, String methodName) throws Exception {
 
+        /**
+         * creates an input stream for all file paths of list and then parses each java file using
+         * javaParser and then calls MethodVisitor node for all the methods in that java file
+         */
         name = methodName;
         listOfMethods = new ArrayList<>();
         FileInputStream in;
@@ -50,6 +54,9 @@ public class MethodFilePath {
         @Override
         public void visit (MethodDeclaration n, Void arg){
 
+            /**
+             * returns a file path of a given method
+             */
             if(n.getName().equals(name))
                 filePath = returnValue;
             super.visit(n, arg);
