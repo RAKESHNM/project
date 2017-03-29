@@ -63,7 +63,7 @@ public class GithubOperations {
     public List<String> gitRemoteBranches( RepositoryService service, String localrepo, String REMOTE_URL,
             String Username, String Password ) throws Exception
     {
-        logger.info("\nRemote Branches");
+        logger.info("Remote Branches");
         List<String> list = new ArrayList<>();
         logger.info("------------------------");
         for( Repository repo : service.getRepositories() )
