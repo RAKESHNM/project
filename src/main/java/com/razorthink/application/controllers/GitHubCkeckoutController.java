@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<String>  branches = new ArrayList<>();
 
-  HashMap<String,String>  userRepos = new HashMap<>();
+  HashMap<String,String> userRepos = new HashMap<>();
 
   public GitHubCkeckoutController() throws IOException {
   }
@@ -61,21 +62,16 @@ public class GitHubCkeckoutController extends AbstractContrller {
 //   @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.GITHUB_CREDENTIAL, method = RequestMethod.POST)
   @ResponseBody
-  public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException {
-    try{
-      Project project = new Project();
-      project.setUsername(login.getUserName());
-      project.setPassword(login.getPassword());
-      client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
-      RepositoryService service = new RepositoryService(client);
-      if( githubOperations.gitRemoteRepository(service) != null){
-        request.getSession().setAttribute("user-det",project);
-        //request.getSession().setAttribute("pass",login.getPassword());
-        return ValidNames.SUCCESS;
-      }
-    }
-    catch(Exception e ){
-      throw new InvalidCreadentialException(Constants.INVALID_CREDENTIAL);
+  public String credentialGitHub(@RequestBody Login login) throws InvalidCreadentialException,IOException {
+    Project project = new Project();
+    project.setUsername(login.getUserName());
+    project.setPassword(login.getPassword());
+    client = githubOperations.gitCredentials(login.getUserName(),login.getPassword());
+    RepositoryService service = new RepositoryService(client);
+    if( githubOperations.gitRemoteRepository(service) != null){
+      request.getSession().setAttribute("user-det",project);
+      //request.getSession().setAttribute("pass",login.getPassword());
+      return ValidNames.SUCCESS;
     }
     return null;
   }
@@ -96,7 +92,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     try {
       return  githubOperations.gitRemoteRepository(service);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.info(e.getMessage());
     }
     return null;
   }
@@ -109,7 +105,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 //    @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.LIST_BRANCH,method = RequestMethod.POST)
   @ResponseBody
-  public List<String> listbranch(@RequestBody Branch branch) throws Exception{
+  public List<String> listbranch(@RequestBody Branch branch) {
     try {
       Project project = getProject();
       client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
@@ -143,8 +139,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    project =  new GithubOperations().gitCheckout(service,checkoutProject,project);
-    return new GithubOperations().deleteDirectory_Clone(service,checkoutProject,project);
+    project =  new ValidationUtils().gitCheckout(service,checkoutProject,project);
+    return new ValidationUtils().deleteDirectory_Clone(service,checkoutProject,project);
   }
 
     /**

@@ -10,6 +10,11 @@ import java.io.File;
  * Created by antolivish on 23/3/17.
  */
 public class ValidatingInputs {
+    /**
+     * set module,submodule,no of lines and file size to default value is they are empty
+     * @param commandPojo
+     * @return
+     */
     public CommandPojo trimWhiteSpace(CommandPojo commandPojo){
         commandPojo.setFile(commandPojo.getFile().trim());
         commandPojo.setNoOfLines(commandPojo.getNoOfLines().trim());
@@ -24,6 +29,12 @@ public class ValidatingInputs {
             commandPojo.setFilesize("0");
         return commandPojo;
     }
+
+    /**
+     * validating directory path
+     * @param directory
+     * @return
+     */
     public String directoryValidation(String directory){
 
         if(directory.charAt(0)!= ValidNames.File_SEPERATOR && directory.length()>1){

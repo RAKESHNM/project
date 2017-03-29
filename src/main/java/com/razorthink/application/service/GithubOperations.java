@@ -18,44 +18,48 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by antolivish on 25/2/17.
  */
 public class GithubOperations {
-
+    
     ReadFile readFile = new ReadFile();
-    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GitHubCkeckoutController.class);
+    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GithubOperations.class);
 
     //Getting remote repositories
-    public List<String> gitRemoteRepository( RepositoryService service ) throws Exception
+    public List<String> gitRemoteRepository( RepositoryService service ) throws IOException
     {
         List<String> list = new ArrayList<>();
-        logger.info("\nRemote Repository");
+        logger.info("Remote Repository");
         logger.info("-----------------------");
-        for( Repository repo : service.getRepositories() )
-        {
-            logger.info(repo.getName());
-            list.add(repo.getName());
-        }
+        try {
+            for (Repository repo : service.getRepositories()) {
+                logger.info(repo.getName());
+                list.add(repo.getName());
+            }
+        }catch (IOException io){logger.info(io.getMessage(),io);}
         return list;
     }
 
-    public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws Exception
+    public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws IOException
     {
         String Remote_URL = "";
         logger.info(remoteRepo);
-        for( Repository repo : service.getRepositories() )
-        {
-            if( repo.getName().equals(remoteRepo) )
-            {
-                String URL = repo.getHtmlUrl();
-                return URL;
+        try {
+            for (Repository repo : service.getRepositories()) {
+                if (repo.getName().equals(remoteRepo)) {
+                    String URL = repo.getHtmlUrl();
+                    return URL;
+                }
             }
-        }
+        }catch (IOException i){logger.info(i.getMessage(),i);}
         return Remote_URL;
     }
 
@@ -265,57 +269,6 @@ public class GithubOperations {
     }
     public void slackMessage(){
 
-    }
-
-    public Project gitCheckout(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
-
-        GithubOperations githubOperations = new GithubOperations();
-
-        project.setRemoteRepo(checkoutProject.getRemoteRepo());
-        if(checkoutProject.getBranch().equals("Select Branch")){
-            checkoutProject.setBranch(Constants.MASTER_BRANCH);
-        }
-        int idx = checkoutProject.getBranch().lastIndexOf("/");
-        if(idx>0){
-            project.setBranch(checkoutProject.getBranch().substring(idx+1));
-        }
-        else{
-            project.setBranch(checkoutProject.getBranch());
-        }
-        checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
-        project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
-        project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
-        return project;
-    }
-
-    public String validatedClone(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
-        GithubOperations githubOperations = new GithubOperations();
-        File dir = new File(project.getLocalDirectory());
-        if (dir.exists()) {
-            return project.getLocalDirectory();
-        }
-        else {
-            logger.info("Cloning  into . . .");
-            githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-                    project.getLocalDirectory(),
-                    project.getUsername(), project.getPassword());
-            logger.info("Done");
-        }
-        return ValidNames.TRUE;
-    }
-
-    public String deleteDirectory_Clone(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
-        GithubOperations githubOperations = new GithubOperations();
-        File dir = new File(project.getLocalDirectory());
-        if (dir.exists()) {
-            FileUtils.forceDelete(dir);
-        }
-        logger.info("Cloning  into . . .");
-        githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
-                project.getLocalDirectory(),
-                project.getUsername(), project.getPassword());
-        logger.info("Done");
-        return "Done";
     }
 
     public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {

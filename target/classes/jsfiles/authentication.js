@@ -1,13 +1,16 @@
 ﻿function display(form){
+    $(".loader").addClass("showClass");
     document.getElementById('buttonid').disabled = true;
     var inpObj = form.username.value;
     var inpObj2 = form.password.value;
     if (inpObj == "") {
         alert("username should not be empty");
+        $(".loader").removeClass("showClass");
         document.getElementById('buttonid').disabled = false;
     }
     else if(inpObj2 == ""){
         alert("password should not be empty");
+        $(".loader").removeClass("showClass");
         document.getElementById('buttonid').disabled = false;
     }
     else {
@@ -35,9 +38,9 @@
                 if(data1.statusText == "Bad Gateway"){
                     alert("check your network connection");
                 }
+                $(".loader").removeClass("showClass");
             }
         });
-        $(".loader").addClass("showClass");
     }
 }
 
