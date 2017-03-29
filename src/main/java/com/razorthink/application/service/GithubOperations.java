@@ -2,9 +2,12 @@ package com.razorthink.application.service;
 
 import com.google.common.collect.Lists;
 import com.razorthink.application.beans.CheckoutProject;
+import com.razorthink.application.beans.Project;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.constants.HtmlConstants;
 import com.razorthink.application.constants.ValidNames;
+import com.razorthink.application.controllers.GitHubCkeckoutController;
+import com.razorthink.application.management.ValidatingInputs;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -25,16 +28,17 @@ import java.util.*;
 public class GithubOperations {
 
     ReadFile readFile = new ReadFile();
+    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GitHubCkeckoutController.class);
 
     //Getting remote repositories
     public List<String> gitRemoteRepository( RepositoryService service ) throws Exception
     {
         List<String> list = new ArrayList<>();
-        System.out.println("\nRemote Repository");
-        System.out.println("-----------------------");
+        logger.info("\nRemote Repository");
+        logger.info("-----------------------");
         for( Repository repo : service.getRepositories() )
         {
-            System.out.println(repo.getName());
+            logger.info(repo.getName());
             list.add(repo.getName());
         }
         return list;
@@ -43,7 +47,7 @@ public class GithubOperations {
     public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws Exception
     {
         String Remote_URL = "";
-        System.out.println(remoteRepo);
+        logger.info(remoteRepo);
         for( Repository repo : service.getRepositories() )
         {
             if( repo.getName().equals(remoteRepo) )
@@ -59,9 +63,9 @@ public class GithubOperations {
     public List<String> gitRemoteBranches( RepositoryService service, String localrepo, String REMOTE_URL,
             String Username, String Password ) throws Exception
     {
-        System.out.println("\nRemote Branches");
+        logger.info("\nRemote Branches");
         List<String> list = new ArrayList<>();
-        System.out.println("------------------------");
+        logger.info("------------------------");
         for( Repository repo : service.getRepositories() )
         {
             if( repo.getName().equals(localrepo) )
@@ -71,7 +75,7 @@ public class GithubOperations {
 
                 for( Ref ref : refs )
                 {
-                    System.out.println(ref.getName());
+                    logger.info(ref.getName());
                     list.add(ref.getName());
                 }
                 list = filterBranch(list);
@@ -86,7 +90,7 @@ public class GithubOperations {
         for(String temp : branch){
             temp = temp.replace(ValidNames.BRANCH_HEADS,"");
             temp = temp.replace(ValidNames.BRANCH_TAGS,"tags/");
-            System.out.println(temp);
+            logger.info(temp);
             list.add(temp);
         }
         return list;
@@ -118,8 +122,8 @@ public class GithubOperations {
     public List<List<String>> gitListingFiles( String localRepoPath ) throws Exception
     {
         int index = 1;
-        System.out.println("\nFile path list");
-        System.out.println("------------------------");
+        logger.info("\nFile path list");
+        logger.info("------------------------");
         List<String> javaFiles = new ArrayList<>();
         List<String> htmlFiles = new ArrayList<>();
         List<String> cssFiles = new ArrayList<>();
@@ -131,7 +135,7 @@ public class GithubOperations {
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for( File file : files )
         {
-            System.out.println("Index : " + index + " file: " + file.getCanonicalPath());
+//            logger.info("Index : " + index + " file: " + file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("java") )
                 javaFiles.add(file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("html") )
@@ -168,17 +172,14 @@ public class GithubOperations {
             count++;
             index++;
         }
-        System.out.println("\nCount :" + count);
         return POMList;
     }
 
     //Fetching File Content
     public void gitFetchContent( String path ) throws Exception
     {
-        System.out.println("\nFile Content");
-        System.out.println("------------------------");
+
         String FetchFile = readFile.readFile(path);
-        System.out.println(FetchFile);
     }
 
     //Cloning to local repository
@@ -204,7 +205,6 @@ public class GithubOperations {
         {
             count++;
         }
-        System.out.println("Number of Commits :" + count);
     }
 
     //get commit details
@@ -223,29 +223,9 @@ public class GithubOperations {
             commitList.add(commit.getFullMessage());
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
-            System.out.println(commit.getFullMessage().length());
         }
-        System.out.println("Total commits : " + count);
         git.close();
         return commitList;
-    }
-
-    //get Github Username
-    public String getUsername()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nUsername : ");
-        final String Username = scanner.nextLine();
-        return Username;
-    }
-
-    //get Github password
-    public String getPassword()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nPassword : ");
-        final String Password = scanner.nextLine();
-        return Password;
     }
 
     //Github Credentials
@@ -255,68 +235,6 @@ public class GithubOperations {
         GitHubClient client = new GitHubClient();
         client.setCredentials(Username, Password);
         return client;
-    }
-
-    //Get remote branch from User
-    public String branch()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nBranch : ");
-        final String Branch = scanner.nextLine();
-        if( Branch == null )
-        {
-            return "master";
-        }
-        return Branch;
-    }
-
-    //Select Remote Repo by user
-    public String gitRemoteRepoSelect()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nSelect Remote Repository : ");
-        final String remoteRepo = scanner.nextLine();
-        return remoteRepo;
-    }
-
-    public int getIndexOfFile()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nEnter Index of file to read : ");
-        final int Index = scanner.nextInt();
-        return Index;
-    }
-
-    public String getCommand()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nCommand : ");
-        final String Command = scanner.nextLine();
-        return Command;
-    }
-
-    public String getSubModule()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nSubModule : ");
-        final String SubModule = scanner.nextLine();
-        return SubModule;
-    }
-
-    public String getDirectory()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nDirectory : ");
-        final String Directory = scanner.nextLine();
-        return Directory;
-    }
-
-    public String getFile()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nFile : ");
-        final String File = scanner.nextLine();
-        return File;
     }
 
     public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
@@ -347,6 +265,57 @@ public class GithubOperations {
     }
     public void slackMessage(){
 
+    }
+
+    public Project gitCheckout(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
+
+        GithubOperations githubOperations = new GithubOperations();
+
+        project.setRemoteRepo(checkoutProject.getRemoteRepo());
+        if(checkoutProject.getBranch().equals("Select Branch")){
+            checkoutProject.setBranch(Constants.MASTER_BRANCH);
+        }
+        int idx = checkoutProject.getBranch().lastIndexOf("/");
+        if(idx>0){
+            project.setBranch(checkoutProject.getBranch().substring(idx+1));
+        }
+        else{
+            project.setBranch(checkoutProject.getBranch());
+        }
+        checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
+        project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
+        project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
+        return project;
+    }
+
+    public String validatedClone(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
+        GithubOperations githubOperations = new GithubOperations();
+        File dir = new File(project.getLocalDirectory());
+        if (dir.exists()) {
+            return project.getLocalDirectory();
+        }
+        else {
+            logger.info("Cloning  into . . .");
+            githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+                    project.getLocalDirectory(),
+                    project.getUsername(), project.getPassword());
+            logger.info("Done");
+        }
+        return ValidNames.TRUE;
+    }
+
+    public String deleteDirectory_Clone(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
+        GithubOperations githubOperations = new GithubOperations();
+        File dir = new File(project.getLocalDirectory());
+        if (dir.exists()) {
+            FileUtils.forceDelete(dir);
+        }
+        logger.info("Cloning  into . . .");
+        githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),
+                project.getLocalDirectory(),
+                project.getUsername(), project.getPassword());
+        logger.info("Done");
+        return "Done";
     }
 
     public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {
