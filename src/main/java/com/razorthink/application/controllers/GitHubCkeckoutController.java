@@ -10,6 +10,7 @@ import com.razorthink.application.service.GithubOperations;
 import com.razorthink.application.service.InferUserCommandService;
 import com.razorthink.application.service.ReadFile;
 import com.razorthink.application.utils.ApplicationStateUtils;
+import com.razorthink.application.utils.ValidationUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -45,12 +46,14 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<String>  branches = new ArrayList<>();
 
+  HashMap<String,String>  userRepos = new HashMap<>();
 
   public GitHubCkeckoutController() throws IOException {
   }
 
   /**
-   * Controller for login service
+   * Creates a session for a given user and validates for existence of git user,if credentials are valid
+   * then it returns success else fail
    * @param login
    * @return
    * @throws InvalidCreadentialException
@@ -78,6 +81,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
   }
 
 
+  /**
+   * Listing all repos from the current user account
+   * @return
+   * @throws Exception
+   */
   //     @CrossOrigin(origins = "http://localhost:63342")
   @RequestMapping(value = Constants.LIST_ALL_REPOSITORIES,method = RequestMethod.GET)
   @ResponseBody
@@ -126,10 +134,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(),project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    if(new GithubOperations().validateRepo(service,checkoutProject))
-      return ValidNames.FALSE;
-    project =  new GithubOperations().gitCheckout(service,checkoutProject,project);
-    return new GithubOperations().validatedClone(service,checkoutProject,project);
+    return  new ValidationUtils().validateCheckout(project,service,checkoutProject, userRepos);
   }
 
   @RequestMapping(value = Constants.CLONE,method = RequestMethod.POST)
@@ -161,6 +166,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
     return null;
   }
 
+  /**
+   * Controller fot logout service and
+   */
   @RequestMapping(value = Constants.LOG_OUT,method = RequestMethod.POST)
   @ResponseBody()
   public void logout(){

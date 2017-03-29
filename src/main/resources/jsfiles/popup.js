@@ -108,36 +108,47 @@ function getCommandService(data){
             success: function(res){
                 result = res
                 if(data.command===("List all methods having lines greater than n")){
-                        $(".popupHeaderTextpage").append("List all methods having lines greater than n")
-                        for(let i =0;i<result.object.length;i=i+3){
-                            $(".method").append("<li>" + result.object[i]+"</li>");
-                            $(".linemethod").append("(" + result.object[i+1]+")<br>");
-                            localStorage.setItem(result.object[i],result.object[i+2]);
-                        }
-                        $( "li" ).hover(
-                            function() {
-                                $( this ).val( "Rakesh" );
-                            },
-                            function() {
-                            $( this ).find( "span:last" ).remove();
-                        });
-                }
+                                    $(".popupHeaderTextpage").append("List all methods having lines greater than n")
+                                    console.log(result);
+                                    for(let i =0;i<result.object.length;i=i+3){
+                                                        console.log(result.object[i]);
+                                                        $(".method").append("<ul>" + "" +"</ul>");
+                                                         $(".method").append("<li>" + result.object[i]+"</li>");
+                                                         $(".linemethod").append("(" + result.object[i+1]+")<br>");
+                                                         localStorage.setItem(result.object[i],result.object[i+2]);
+
+                                               }
+                                                $( "li" ).hover(
+                                                         function() {
+                                                         $( this ).val( "Rakesh" );
+                                                       }, function() {
+                                             $( this ).find( "span:last" ).remove();
+                                    } );
+}
                 else if(data.command===("List all methods without javadocs")){
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
-                        for(let i =0;i<result.object.length;i=i+2){
-                            $(".method").append("<li>" + result.object[i]+"</li>");
-                            localStorage.setItem(result.object[i],result.object[i+1]);
-                        }
+                    for(let i =0;i<result.object.length;i=i+2){
+                          console.log(result.object);
+                           $(".method").append("<ul>" + "" +"</ul>");
+                          $(".method").append("<li>" + result.object[i]+"</li>");
+                          localStorage.setItem(result.object[i],result.object[i+1]);
+                    }
                 }
                 else if(data.command===("List all files")){
                         $(".popupHeaderTextpage").append("List all files")
-                        for(var i = 0; i < result.object.length; i++){
-                            for(var j = 0; j < result.object[i].length; j=j+3){
-                                $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
-                                $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
-                                localStorage.setItem(result.object[i][j],result.object[i][j+2]);
-                            }
+                console.log(result.object);
+
+                    for(var i = 0; i < result.object.length; i++){
+                        for(var j = 0; j < result.object[i].length; j=j+3){
+                         $(".method").append("<ul>" + "" +"</ul>");
+                            $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
+                            $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
+                            localStorage.setItem(result.object[i][j],result.object[i][j+2]);
                         }
+                     }
+
+
+//                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
                 }
                 else if(data.command===("Project Summary")){
                         $(".popupHeaderTextpage").append("Project Summary");

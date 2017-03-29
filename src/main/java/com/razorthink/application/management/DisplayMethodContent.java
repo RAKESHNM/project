@@ -18,15 +18,21 @@ import java.util.List;
 /**
  * Created by antolivish on 10/3/17.
  */
-public class DisplayMethodContent  {
-     List<String> listOfMethods;
-    private  String name;
+public class DisplayMethodContent {
+
+    List<String> listOfMethods;
+    private String name;
     private String returnValue = null;
     private String currentFilePath;
     private String classMethodFilePath;
     public static int id = 0;
 
-    public String showMethodContent(List<String> filePaths, String methodName, String methodFilePath) throws Exception {
+    public String showMethodContent( List<String> filePaths, String methodName, String methodFilePath ) throws Exception
+    {
+        /**
+         * Loop through each files, parse it and extract all the methods till method name matches with given method
+         * name and send contents,name ,parameters and java docs for a given method name.
+         */
         id = 0;
         classMethodFilePath = methodFilePath;
         name = methodName;
@@ -36,23 +42,28 @@ public class DisplayMethodContent  {
         //filePaths.clear();
         //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
 
-            for (String filePath : filePaths) {
+        for( String filePath : filePaths )
+        {
 
+            currentFilePath = filePath;
 
-                currentFilePath = filePath;
+            in = new FileInputStream(filePath);
 
-                 in = new FileInputStream(filePath);
-
-                try {
-                    cu = JavaParser.parse(in);
-                }catch (Exception e){continue;}
-
-                new MethodVisitor().visit(cu, null);
+            try
+            {
+                cu = JavaParser.parse(in);
             }
-         return returnValue;
+            catch( Exception e )
+            {
+                continue;
+            }
+
+            new MethodVisitor().visit(cu, null);
+        }
+        return returnValue;
     }
 
-    private  class MethodVisitor extends VoidVisitorAdapter<Void>  {
+    private class MethodVisitor extends VoidVisitorAdapter<Void> {
 
 
            @Override
@@ -103,14 +114,14 @@ public class DisplayMethodContent  {
                                    returnValue = HtmlConstants.BOLD_BEGIN + ValidNames.JAVADOC + HtmlConstants.BOLD_END + "none" + HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK +
                                            HtmlConstants.BOLD_BEGIN + ValidNames.METHOD_NAME + HtmlConstants.BOLD_END + n.getName() + HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + ValidNames.METHOD_LOGIC + HtmlConstants.BOLD_END + HtmlConstants.LINE_BREAK + HtmlConstants.PRE_BEGIN + "none" + HtmlConstants.PRE_END;
 
-                           }
-                       }
-               }
+                    }
+                }
+            }
 
                //returnValue = String.valueOf(n.getBody());
 
-               super.visit(n, arg);
-           }
+            super.visit(n, arg);
+        }
     }
 
 }
