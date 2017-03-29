@@ -29,9 +29,7 @@ import java.util.logging.Logger;
  * Created by antolivish on 25/2/17.
  */
 public class GithubOperations {
-
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(GithubOperations.class);
-
+    
     ReadFile readFile = new ReadFile();
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GithubOperations.class);
 
@@ -39,11 +37,11 @@ public class GithubOperations {
     public List<String> gitRemoteRepository( RepositoryService service ) throws IOException
     {
         List<String> list = new ArrayList<>();
-        System.out.println("\nRemote Repository");
-        System.out.println("-----------------------");
+        logger.info("Remote Repository");
+        logger.info("-----------------------");
         try {
             for (Repository repo : service.getRepositories()) {
-                System.out.println(repo.getName());
+                logger.info(repo.getName());
                 list.add(repo.getName());
             }
         }catch (IOException io){logger.info(io.getMessage(),io);}
@@ -53,7 +51,7 @@ public class GithubOperations {
     public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws IOException
     {
         String Remote_URL = "";
-        System.out.println(remoteRepo);
+        logger.info(remoteRepo);
         try {
             for (Repository repo : service.getRepositories()) {
                 if (repo.getName().equals(remoteRepo)) {
