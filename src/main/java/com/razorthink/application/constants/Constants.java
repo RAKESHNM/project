@@ -10,9 +10,7 @@ public class Constants {
     public static final String GITHUB_CREDENTIAL = "/credential";
     public static final String GITHUB_CHECKOUT_ROUTE = "/checkout";
     public static final String LOG_OUT = "/logout";
-  //  public static final String LIST_AVAILABLE_PROJECTS_ROUTE = "/projects";
     public static final String LIST_ALL_METHODS="/methods";
-    public static final String LIST_ALL_FILES="allfiles";
     public static final String NULL_FILE_PATHS_LIST = "file paths list should not be null";
     public static final String LIST_AVAILABLE_PROJECTS_ROUTE = "/projects";
     public static final String INPUTS_FROM_USER = "/inputs";
@@ -34,4 +32,9 @@ public class Constants {
     public static final String REPOSITORIES = "repositories";
     public static final String REPOSITORY = "repository";
     public static final String CONSTANTS = "constants";
+    public static final String LIST_ALL_METHODS_HAVING_LINES_GREATER_THEN_N = "List all methods having lines greater than n";
+    public static final String LIST_ALL_METHODS_WITHOUT_JAVADOCS = "List all methods without javadocs";
+    public static final String LIST_ALL_FILES = "List all files";
+    public static final String COMMIT_DETAILS = "Commit Details";
+    public static final String PROJECT_SUMMARY = "Project Summary";
 }

@@ -26,5 +26,4 @@ public class JavaDocLessFilepath {
         }
         return false;
     }
-
 }

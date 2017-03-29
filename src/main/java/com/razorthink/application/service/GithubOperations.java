@@ -131,7 +131,7 @@ public class GithubOperations {
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for( File file : files )
         {
-            System.out.println("Index : " + index + " file: " + file.getCanonicalPath());
+//            System.out.println("Index : " + index + " file: " + file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("java") )
                 javaFiles.add(file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("html") )

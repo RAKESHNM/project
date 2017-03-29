@@ -1,6 +1,7 @@
 package com.razorthink.application.management;
 
 import com.razorthink.application.beans.CommandPojo;
+import com.razorthink.application.constants.Constants;
 import com.razorthink.application.constants.ValidNames;
 
 import java.io.File;
@@ -13,6 +14,14 @@ public class ValidatingInputs {
         commandPojo.setFile(commandPojo.getFile().trim());
         commandPojo.setNoOfLines(commandPojo.getNoOfLines().trim());
         commandPojo.setFilesize(commandPojo.getFilesize().trim());
+        if( commandPojo.getSubModule().equals(Constants.SELECT_MODULE) )
+            commandPojo.setSubModule(null);
+        if( commandPojo.getFile().equals("") )
+            commandPojo.setFile(null);
+        if( commandPojo.getNoOfLines().equals("") )
+            commandPojo.setNoOfLines("0");
+        if( commandPojo.getFilesize().equals("") )
+            commandPojo.setFilesize("0");
         return commandPojo;
     }
     public String directoryValidation(String directory){
@@ -25,5 +34,7 @@ public class ValidatingInputs {
         }
         return directory;
     }
+
+
 
 }

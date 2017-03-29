@@ -31,6 +31,10 @@ public class MethodLinePrinter {
     public static int id = 0;
 
     public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
+        /**
+         * creates an input stream for all file paths of list and then parses each java file using
+         * javaParser and then calls MethodVisitor node for all the methods in that java file
+         */
         id = 0;
         noOfLines = lines;
         listOfMethods = new ArrayList<>();
@@ -56,6 +60,11 @@ public class MethodLinePrinter {
 
     private static class MethodVisitor extends VoidVisitorAdapter<Void> {
 
+        /**
+         * visit method visits each node of method declaration and
+         * @param n
+         * @param arg
+         */
         @Override
         public void visit(MethodDeclaration n, Void arg) {
 

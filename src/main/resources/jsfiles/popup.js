@@ -160,6 +160,7 @@ var errorres = [];
                                     console.log(result);
                                     for(let i =0;i<result.object.length;i=i+3){
                                                         console.log(result.object[i]);
+                                                        $(".method").append("<ul>" + "" +"</ul>");
                                                          $(".method").append("<li>" + result.object[i]+"</li>");
                                                          $(".linemethod").append("(" + result.object[i+1]+")<br>");
                                                          localStorage.setItem(result.object[i],result.object[i+2]);
@@ -176,6 +177,7 @@ var errorres = [];
                         $(".popupHeaderTextpage").append("List all methods without javadocs")
                     for(let i =0;i<result.object.length;i=i+2){
                           console.log(result.object);
+                           $(".method").append("<ul>" + "" +"</ul>");
                           $(".method").append("<li>" + result.object[i]+"</li>");
                           localStorage.setItem(result.object[i],result.object[i+1]);
                     }
@@ -186,6 +188,7 @@ var errorres = [];
 
                     for(var i = 0; i < result.object.length; i++){
                         for(var j = 0; j < result.object[i].length; j=j+3){
+                         $(".method").append("<ul>" + "" +"</ul>");
                             $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
                             $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
                             localStorage.setItem(result.object[i][j],result.object[i][j+2]);
