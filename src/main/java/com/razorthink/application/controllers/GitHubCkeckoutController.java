@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
   List<String>  branches = new ArrayList<>();
 
-  HashMap<String,String>  userRepos = new HashMap<>();
+  HashMap<String,String> userRepos = new HashMap<>();
 
   public GitHubCkeckoutController() throws IOException {
   }
@@ -143,8 +144,8 @@ public class GitHubCkeckoutController extends AbstractContrller {
     Project project = getProject();
     client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
     RepositoryService service = new RepositoryService(client);
-    project =  new GithubOperations().gitCheckout(service,checkoutProject,project);
-    return new GithubOperations().deleteDirectory_Clone(service,checkoutProject,project);
+    project =  new ValidationUtils().gitCheckout(service,checkoutProject,project);
+    return new ValidationUtils().deleteDirectory_Clone(service,checkoutProject,project);
   }
 
     /**

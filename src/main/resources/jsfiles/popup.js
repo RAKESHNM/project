@@ -70,20 +70,23 @@ function getContent(d){
                           },
                           success: function(res1){
                                console.log("Test2 : ",res1);
+                                   $(".loader").removeClass("showClass");
                                localStorage.setItem("commit",res1);
                                location.href = "../htmlfiles/Contents.html";
                                insertContents(res);
                           },
                           error: function(errorres){
                                 console.log(errorres);
+                                    $(".loader").removeClass("showClass");
                           }
                   });
             },
             error: function(errorres){
                   console.log(errorres);
+                      $(".loader").removeClass("showClass");
             }
     });
-    $(".loader").remove();
+
 }
 
 
@@ -113,67 +116,56 @@ function getCommandService(data){
                                     for(let i =0;i<result.object.length;i=i+3){
                                                         console.log(result.object[i]);
                                                         $(".method").append("<ul>" + "" +"</ul>");
-                                                         $(".method").append("<li>" + result.object[i]+"</li>");
-                                                         $(".linemethod").append("(" + result.object[i+1]+")<br>");
-                                                         localStorage.setItem(result.object[i],result.object[i+2]);
+                                                        $(".method").append("<li>" + result.object[i]+"</li>");
+                                                        $(".linemethod").append("(" + result.object[i+1]+")<br>");
+                                                        localStorage.setItem(result.object[i],result.object[i+2]);
 
-                                               }
-                                                $( "li" ).hover(
-                                                         function() {
-                                                         $( this ).val( "Rakesh" );
-                                                       }, function() {
-                                             $( this ).find( "span:last" ).remove();
-                                    } );
-}
+                                    }
+
+                }
                 else if(data.command===("List all methods without javadocs")){
-                        $(".popupHeaderTextpage").append("List all methods without javadocs")
-                    for(let i =0;i<result.object.length;i=i+2){
-                          console.log(result.object);
-                           $(".method").append("<ul>" + "" +"</ul>");
-                          $(".method").append("<li>" + result.object[i]+"</li>");
-                          localStorage.setItem(result.object[i],result.object[i+1]);
-                    }
+                                    $(".popupHeaderTextpage").append("List all methods without javadocs")
+                                    for(let i =0;i<result.object.length;i=i+2){
+                                                        $(".method").append("<ul>" + "" +"</ul>");
+                                                        $(".method").append("<li>" + result.object[i]+"</li>");
+                                                        localStorage.setItem(result.object[i],result.object[i+1]);
+                                    }
                 }
                 else if(data.command===("List all files")){
-                        $(".popupHeaderTextpage").append("List all files")
-                console.log(result.object);
-
-                    for(var i = 0; i < result.object.length; i++){
-                        for(var j = 0; j < result.object[i].length; j=j+3){
-                         $(".method").append("<ul>" + "" +"</ul>");
-                            $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
-                            $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
-                            localStorage.setItem(result.object[i][j],result.object[i][j+2]);
-                        }
-                     }
-
-
-//                multiplyNode(document.querySelector(".method"), (result.object.length), true, result.object);
+                                    $(".popupHeaderTextpage").append("List all files")
+                                    for(var i = 0; i < result.object.length; i++){
+                                               for(var j = 0; j < result.object[i].length; j=j+3){
+                                                        $(".method").append("<ul>" + "" +"</ul>");
+                                                        $(".method").append("<li class =listOfMethods>"+result.object[i][j]+"</li>");
+                                                        $(".linemethod").append("(" + result.object[i][j+1]+")<br>");
+                                                        localStorage.setItem(result.object[i][j],result.object[i][j+2]);
+                                               }
+                                    }
                 }
                 else if(data.command===("Project Summary")){
-                        $(".popupHeaderTextpage").append("Project Summary");
-                        var wrapper = $('#wrapper'), container;
-                        printValues(result);
-                        function printValues(obj) {
-                            for (var key in obj) {
-                                if (typeof obj[key] === "object") {
-                                    printValues(obj[key]);
-                                }
-                                else {
-                                    $(".linemethod2").append("<li>"+key + " : " +  obj[key] + "</li>");
-                                }
-                            }
-                        }
+                                    $(".popupHeaderTextpage").append("Project Summary");
+                                    var wrapper = $('#wrapper'), container;
+                                    printValues(result);
+                                    function printValues(obj) {
+                                               for (var key in obj) {
+                                                        if (typeof obj[key] === "object") {
+                                                            printValues(obj[key]);
+                                                        }
+                                                        else {
+                                                            $(".linemethod2").append("<li>"+key + " : " +  obj[key] + "</li>");
+                                                        }
+                                               }
+                                    }
                 }
                 else{
-                        $(".popupHeaderTextpage").append("Commit Details");
-                        for(let i =0;i<result.object.length;i=i+3){
-                            $(".linemethod2").append(result.object[i]+"<br>");
-                            $(".linemethod2").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
-                            $(".linemethod2").append("<br>");
-                        }
+                                    $(".popupHeaderTextpage").append("Commit Details");
+                                    for(let i =0;i<result.object.length;i=i+3){
+                                               $(".linemethod2").append(result.object[i]+"<br>");
+                                               $(".linemethod2").append("<font size=3><b>"+result.object[i+1]+"</b>"+" committed on "+result.object[i+2]+"</font><br>");
+                                               $(".linemethod2").append("<br>");
+                                    }
                 }
-            $(".loader").remove();
+                $(".loader").removeClass("showClass");
             },
             error: function(errorres){
                 console.log(errorres);
@@ -217,17 +209,19 @@ function getFileContent(d){
                             localStorage.setItem("commit",res1);
                             location.href = "../htmlfiles/Contents.html";
                             insertContents(res);
+                                $(".loader").removeClass("showClass");
                         },
                         error: function(errorres){
                             console.log(errorres);
+                                $(".loader").removeClass("showClass");
                         }
                 });
             },
             error: function(errorres){
                 console.log(errorres);
+                    $(".loader").removeClass("showClass");
             }
     });
-    $(".loader").remove();
 }
 
 function getCommit(d){
