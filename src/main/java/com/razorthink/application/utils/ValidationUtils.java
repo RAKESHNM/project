@@ -72,10 +72,10 @@ public class ValidationUtils {
         project.setGitUrl((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo()))
                 + Constants.DOT_GIT_EXTENSION);
         File dir = new File(project.getLocalDirectory());
-        if( dir.exists() )
-            return project.getLocalDirectory();
-        //if(getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory())!= null)
-        //  return getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory());
+        //if( dir.exists() )
+         //   return project.getLocalDirectory();
+        if(getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory())!= null)
+          return getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory());
         else
         {
             githubOperations.gitCloning(
