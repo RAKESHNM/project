@@ -36,7 +36,7 @@ public class ApplicationStateUtils {
                         System.out.println("Hi");
                     }
 
-                } catch (Exception e) {
+                } catch (IOException e) {
                 }
 
         }

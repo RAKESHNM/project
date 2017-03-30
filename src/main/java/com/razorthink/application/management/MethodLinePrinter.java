@@ -12,6 +12,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MethodLinePrinter {
 
     public static int id = 0;
 
-    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws Exception {
+    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws FileNotFoundException{
         /**
          * creates an input stream for all file paths of list and then parses each java file using
          * javaParser and then calls MethodVisitor node for all the methods in that java file
@@ -45,16 +46,13 @@ public class MethodLinePrinter {
             for (String filePath : filePaths) {
                 returnFilePath = filePath;
                 in = new FileInputStream(filePath);
-                try {
 
-                     cu = JavaParser.parse(in);
-
-                }catch (Exception e){continue;}
+                cu = JavaParser.parse(in);
 
                 new MethodVisitor().visit(cu, null);
             }
 
-        } catch ( Exception e ) {}
+        } catch ( FileNotFoundException e ) {}
         return listOfMethods;
     }
 

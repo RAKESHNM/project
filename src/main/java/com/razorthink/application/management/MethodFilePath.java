@@ -34,19 +34,17 @@ public class MethodFilePath {
         FileInputStream in;
         CompilationUnit cu;
 
-        for (String filePath : filePaths) {
+        try {
+            for (String filePath : filePaths) {
 
-            returnValue = filePath;
-            in = new FileInputStream(filePath);
+                returnValue = filePath;
+                in = new FileInputStream(filePath);
 
-            try {
                 cu = JavaParser.parse(in);
-            } catch (Exception e) {
-                continue;
-            }
 
-            new MethodFilePath.getFilePath().visit(cu, null);
-        }
+                new MethodFilePath.getFilePath().visit(cu, null);
+            }
+        }catch (FileNotFoundException e){}
         return filePath;
     }
     private  class getFilePath extends VoidVisitorAdapter<Void> {

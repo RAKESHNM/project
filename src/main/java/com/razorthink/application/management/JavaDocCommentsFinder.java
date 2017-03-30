@@ -53,7 +53,7 @@ public class JavaDocCommentsFinder {
                 new MethodVisitor().visit(cu, null);
             }
         }
-        catch( Exception e )
+        catch( FileNotFoundException e )
         {
         }
         return listOfMethods;

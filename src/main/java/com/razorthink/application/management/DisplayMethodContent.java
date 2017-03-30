@@ -40,17 +40,18 @@ public class DisplayMethodContent {
         //filePaths.clear();
         //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
 
-        for( String filePath : filePaths )
-        {
+        try {
+            for (String filePath : filePaths) {
 
-            currentFilePath = filePath;
+                currentFilePath = filePath;
 
-            in = new FileInputStream(filePath);
+                in = new FileInputStream(filePath);
 
-            cu = JavaParser.parse(in);
+                cu = JavaParser.parse(in);
 
-            new MethodVisitor().visit(cu, null);
-        }
+                new MethodVisitor().visit(cu, null);
+            }
+        }catch (FileNotFoundException e){}
         return returnValue;
     }
 
