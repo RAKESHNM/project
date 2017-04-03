@@ -6,7 +6,11 @@ import com.razorthink.application.beans.Result;
 import com.razorthink.application.constants.Constants;
 import com.razorthink.application.management.ValidatingInputs;
 import com.razorthink.application.service.impl.CommandsServiceImpl;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.eclipse.jgit.api.errors.GitAPIException;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +19,11 @@ import java.util.List;
  */
 public class InferUserCommandService {
 
-    GithubOperations githubOperations = new GithubOperations();
+   private  GithubOperations githubOperations = new GithubOperations();
 
-    List<List<String>> FileList = new ArrayList<>();
+    private List<List<String>> fileList = new ArrayList<>();
 
-    CommandPojo commandPojo1 = new CommandPojo();
+   private CommandPojo commandPojo1 = new CommandPojo();
 
     /**
      * @param commandPojo
@@ -27,7 +31,7 @@ public class InferUserCommandService {
      * @return
      * @throws Exception
      */
-    public Result getUserInput( CommandPojo commandPojo, Project project ) throws Exception
+    public Result getUserInput( CommandPojo commandPojo, Project project ) throws IOException,GitAPIException,XmlPullParserException
     {
         commandPojo = new ValidatingInputs().trimWhiteSpace(commandPojo);
         Result result = new Result();
@@ -57,26 +61,26 @@ public class InferUserCommandService {
                     //listing files according to given level of directories
                     List<String> temp = new ArrayList<>();
                     temp.add(project.getLocalDirectory() + commandPojo.getSubModule() + commandPojo.getFile());
-                    FileList.add(temp);
-                    commandPojo1.setFileList(FileList.get(0));
+                    fileList.add(temp);
+                    commandPojo1.setFileList(fileList.get(0));
                 }
                 else
                 {
-                    FileList = githubOperations
+                    fileList = githubOperations
                             .gitListingFiles(project.getLocalDirectory() + commandPojo.getSubModule());
-                    commandPojo1.setFileList(FileList.get(0));
+                    commandPojo1.setFileList(fileList.get(0));
                 }
             }
             else
             {
-                FileList = githubOperations.gitListingFiles(project.getLocalDirectory());
-                commandPojo1.setFileList(FileList.get(0));
+                fileList = githubOperations.gitListingFiles(project.getLocalDirectory());
+                commandPojo1.setFileList(fileList.get(0));
             }
             if( commandPojo.getCommand().equalsIgnoreCase(Constants.LIST_ALL_METHODS_HAVING_LINES_GREATER_THEN_N) )
             {
                 int lines = Integer.parseInt(commandPojo.getNoOfLines());
-                result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(FileList.get(0), lines));
-                commandPojo1.setFileList(FileList.get(0));
+                result.setObject(new CommandsServiceImpl().listAllMethodsOfNLines(fileList.get(0), lines));
+                commandPojo1.setFileList(fileList.get(0));
 
                 return result;
             }
@@ -105,10 +109,10 @@ public class InferUserCommandService {
      * @param size
      * @return
      */
-    public List<List<String>> listAllFiles( double size )
+    private List<List<String>> listAllFiles( double size )
     {
         List<List<String>> resultList = new ArrayList<>();
-        for( List<String> files : FileList )
+        for( List<String> files : fileList)
         {
 
             List<String> subList = new ArrayList<>();
@@ -142,12 +146,12 @@ public class InferUserCommandService {
      * 
      * @return
      */
-    public List<String> filterBeansAndReposJavaFiles()
+    private List<String> filterBeansAndReposJavaFiles()
     {
 
         List<String> list = new ArrayList<>();
         String[] filter = { Constants.BEAN, Constants.BEANS, Constants.REPOSITORY, Constants.REPOSITORIES };
-        for( String temp : FileList.get(0) )
+        for( String temp : fileList.get(0) )
         {
             int count = 0;
             for( int i = 0; i < filter.length; i++ )
@@ -159,7 +163,6 @@ public class InferUserCommandService {
                 if( count == filter.length )
                 {
                     list.add(temp);
-                    System.out.println(temp);
                 }
             }
 
@@ -167,13 +170,9 @@ public class InferUserCommandService {
         return list;
     }
 
-    public boolean searchStr( String search, String what )
+    private boolean searchStr( String search, String what )
     {
-        if( search.replaceAll(what, "_").equals(search) )
-        {
-            return true;
-        }
-        return false;
+        return ( search.replaceAll(what, "_").equals(search) );
     }
 
 }

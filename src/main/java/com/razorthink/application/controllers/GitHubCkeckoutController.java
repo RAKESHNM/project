@@ -32,23 +32,13 @@ public class GitHubCkeckoutController extends AbstractContrller {
     @Autowired
     Environment env;
 
-    //private Project project = new Project();
-
     private GithubOperations githubOperations = new GithubOperations();
 
     private GitHubClient client;
 
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GitHubCkeckoutController.class);
 
-    List<Project> projectList = new ApplicationStateUtils().loadProjects();
-
-    List<String> branches = new ArrayList<>();
-
-    HashMap<String, String> userRepos = new HashMap<>();
-
-    public GitHubCkeckoutController() throws IOException
-    {
-    }
+    private HashMap<String, String> userRepos = new HashMap<>();
 
     /**
      * Creates a session for a given user and validates for existence of git user,if credentials are
@@ -63,17 +53,25 @@ public class GitHubCkeckoutController extends AbstractContrller {
     @ResponseBody
     public String credentialGitHub( @RequestBody Login login ) throws InvalidCreadentialException, IOException
     {
-        Project project = new Project();
-        project.setUsername(login.getUserName());
-        project.setPassword(login.getPassword());
-        client = githubOperations.gitCredentials(login.getUserName(), login.getPassword());
-        RepositoryService service = new RepositoryService(client);
-        if( githubOperations.gitRemoteRepository(service) != null )
+        try
         {
-            request.getSession().setAttribute("user-det", project);
-            //request.getSession().setAttribute("pass",login.getPassword());
-            return ValidNames.SUCCESS;
+            Project project = new Project();
+            project.setUsername(login.getUserName());
+            project.setPassword(login.getPassword());
+            client = githubOperations.gitCredentials(login.getUserName(), login.getPassword());
+            RepositoryService service = new RepositoryService(client);
+            if( githubOperations.gitRemoteRepository(service) != null )
+            {
+                request.getSession().setAttribute("user-det", project);
+                return ValidNames.SUCCESS;
+            }
         }
+        catch( Exception e )
+        {
+            logger.error("invalid git hub credentials ", e);
+            throw new InvalidCreadentialException(Constants.INVALID_CREDENTIAL);
+        }
+
         return null;
     }
 
@@ -143,11 +141,11 @@ public class GitHubCkeckoutController extends AbstractContrller {
         client = githubOperations.gitCredentials(project.getUsername(), project.getPassword());
         RepositoryService service = new RepositoryService(client);
         project.setRemoteRepo(checkoutProject.getRemoteRepo());
-        if( checkoutProject.getBranch().equals("Select Branch") )
+        if( checkoutProject.getBranch().equals(Constants.SELECT_BRANCH) )
         {
             checkoutProject.setBranch(Constants.MASTER_BRANCH);
         }
-        int idx = checkoutProject.getBranch().lastIndexOf("/");
+        int idx = checkoutProject.getBranch().lastIndexOf('/');
         if( idx > 0 )
         {
             project.setBranch(checkoutProject.getBranch().substring(idx + 1));
@@ -176,7 +174,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
     }
 
     /**
-     * controller for  various command services
+     * controller for various command services
      * 
      * @param commandPojo
      * @return
@@ -203,9 +201,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
         request.getSession().setAttribute("user-det", null);
     }
 
-
     /**
-     *Controller for fetching method contents of requested method
+     * Controller for fetching method contents of requested method
+     * 
      * @param methodDeclaration
      * @return
      * @throws Exception
@@ -221,9 +219,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
                 methodDeclaration.getFilePath());
     }
 
-
     /**
      * Controller for fetching file contents of requested method
+     * 
      * @param filename
      * @return
      * @throws Exception
@@ -238,9 +236,9 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
     }
 
-
     /**
      * controller for fetching commit details
+     * 
      * @param filename
      * @return
      * @throws Exception
@@ -257,6 +255,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
     /**
      * controller for fetching commit details for a given method
+     * 
      * @param methodName
      * @return
      * @throws Exception
@@ -274,6 +273,7 @@ public class GitHubCkeckoutController extends AbstractContrller {
 
     /**
      * controller for getting all module in the project
+     * 
      * @return
      * @throws Exception
      */

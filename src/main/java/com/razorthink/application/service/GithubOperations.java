@@ -11,6 +11,7 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -29,75 +30,93 @@ public class GithubOperations {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(GithubOperations.class);
 
-    ReadFile readFile = new ReadFile();
-
-    //Getting remote repositories
+    /**
+     * Listing all repositories for a current user
+     * @param service
+     * @return
+     * @throws IOException
+     */
     public List<String> gitRemoteRepository( RepositoryService service ) throws IOException
     {
         List<String> list = new ArrayList<>();
-        System.out.println("\nRemote Repository");
-        System.out.println("-----------------------");
-        try {
             for (Repository repo : service.getRepositories()) {
-                System.out.println(repo.getName());
                 list.add(repo.getName());
             }
-        }catch (IOException io){logger.info(io.getMessage(),io);}
         return list;
     }
 
+
+    /**
+     * for  gits remote URL
+     * @param service
+     * @param remoteRepo
+     * @return
+     * @throws IOException
+     */
     public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws IOException
     {
-        String Remote_URL = "";
-        System.out.println(remoteRepo);
+        String remoteURL = "";
         try {
             for (Repository repo : service.getRepositories()) {
                 if (repo.getName().equals(remoteRepo)) {
-                    String URL = repo.getHtmlUrl();
-                    return URL;
+                    return repo.getHtmlUrl();
                 }
             }
         }catch (IOException i){logger.info(i.getMessage(),i);}
-        return Remote_URL;
+        return remoteURL;
     }
 
-    //Getting branches of specific repository
-    public List<String> gitRemoteBranches( RepositoryService service, String localrepo, String REMOTE_URL,
-            String Username, String Password ) throws Exception
-    {
-        System.out.println("\nRemote Branches");
+    /**
+     * getting branches of the specified remote repository
+     * @param service
+     * @param localrepo
+     * @param remoteUrl
+     * @param username
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    public List<String> gitRemoteBranches( RepositoryService service, String localrepo, String remoteUrl,
+            String username, String password ) throws IOException, GitAPIException {
         List<String> list = new ArrayList<>();
-        System.out.println("------------------------");
         for( Repository repo : service.getRepositories() )
         {
             if( repo.getName().equals(localrepo) )
             {
-                Collection<Ref> refs = Git.lsRemoteRepository().setHeads(true).setTags(true).setRemote(REMOTE_URL)
-                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username, Password)).call();
+                Collection<Ref> refs = Git.lsRemoteRepository().setHeads(true).setTags(true).setRemote(remoteUrl)
+                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password)).call();
 
                 for( Ref ref : refs )
                 {
-                    System.out.println(ref.getName());
                     list.add(ref.getName());
                 }
                 list = filterBranch(list);
                 return list;
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
-    public List<String> filterBranch(List<String> branch){
+    /**
+     * trim refs and tags from the branch remote branch names
+     * @param branch
+     * @return
+     */
+    public  List<String> filterBranch(List<String> branch){
         List<String> list = new ArrayList<>();
         for(String temp : branch){
             temp = temp.replace(ValidNames.BRANCH_HEADS,"");
             temp = temp.replace(ValidNames.BRANCH_TAGS,"tags/");
-            System.out.println(temp);
             list.add(temp);
         }
         return list;
     }
 
+    /**
+     * list all the modules for current project
+     * @param path
+     * @return
+     */
     public List<String> getModules(String path){
         List<String> list = new ArrayList<>();
         File file = new File(path);
@@ -116,39 +135,31 @@ public class GithubOperations {
     //Listing Files
 
     /**
-     *
+     *listing all the files
      * @param localRepoPath
      * @return
      * @throws Exception
      */
-    public List<List<String>> gitListingFiles( String localRepoPath ) throws Exception
+    public List<List<String>> gitListingFiles( String localRepoPath ) throws IOException
     {
-        int index = 1;
-        System.out.println("\nFile path list");
-        System.out.println("------------------------");
         List<String> javaFiles = new ArrayList<>();
         List<String> htmlFiles = new ArrayList<>();
         List<String> cssFiles = new ArrayList<>();
         List<String> jsFiles = new ArrayList<>();
-        int count = 0;
         List<List<String>> fileList = new ArrayList();
         File dir = new File(localRepoPath);
         String[] extensions = new String[] { "java", "py", "html", "css", "js" };
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for( File file : files )
         {
-//            System.out.println("Index : " + index + " file: " + file.getCanonicalPath());
-            if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("java") )
+            if( file.getName().substring(file.getName().lastIndexOf('.') + 1).equals(Constants.JAVA) )
                 javaFiles.add(file.getCanonicalPath());
-            if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("html") )
+            if( file.getName().substring(file.getName().lastIndexOf('.') + 1).equals(Constants.HTML) )
                 htmlFiles.add(file.getCanonicalPath());
-            if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("js") )
+            if( file.getName().substring(file.getName().lastIndexOf('.') + 1).equals(Constants.JS) )
                 jsFiles.add(file.getCanonicalPath());
-            if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("css") )
+            if( file.getName().substring(file.getName().lastIndexOf('.') + 1).equals(Constants.CSS) )
                 cssFiles.add(file.getCanonicalPath());
-
-            count++;
-            index++;
         }
         fileList.add(javaFiles);
         fileList.add(jsFiles);
@@ -157,50 +168,41 @@ public class GithubOperations {
         return fileList;
     }
 
-    public List<String> gitListPOMFiles( String localRepoPath ) throws Exception
+    public List<String> gitListPOMFiles( String localRepoPath ) throws IOException
     {
-        int index = 1;
-        //        System.out.println("\nFile path list");
-        //        System.out.println("------------------------");
-        int count = 0;
-        List<String> POMList = new ArrayList<String>();
+        List<String> pomlist = new ArrayList<String>();
         File dir = new File(localRepoPath);
         String[] extensions = new String[] { "xml" };
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for( File file : files )
         {
-            //            System.out.println("Index : "+index+" file: " + file.getCanonicalPath());
-            POMList.add(file.getCanonicalPath());
-            count++;
-            index++;
+            pomlist.add(file.getCanonicalPath());
         }
-        System.out.println("\nCount :" + count);
-        return POMList;
+        return pomlist;
     }
 
-    //Fetching File Content
-    public void gitFetchContent( String path ) throws Exception
-    {
-        System.out.println("\nFile Content");
-        System.out.println("------------------------");
-        String FetchFile = readFile.readFile(path);
-        System.out.println(FetchFile);
-    }
-
-    //Cloning to local repository
-    public void gitCloning( String Remote_URL, String branch, String localRepoPath, String Username, String Password )
-            throws Exception
+    /**
+     * cloning repository with a specifies branch into local machine(into specified path)
+     * @param remoteURL
+     * @param branch
+     * @param localRepoPath
+     * @param username
+     * @param password
+     * @throws Exception
+     */
+    public void gitCloning( String remoteURL, String branch, String localRepoPath, String username, String password )
+            throws IOException,GitAPIException
     {
         File dir = new File(localRepoPath);
         if( dir.exists() )
         {
             FileUtils.forceDelete(dir);
         }
-        Git git = Git.cloneRepository().setURI(Remote_URL).setDirectory(dir).setBranch(branch)
-                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(Username, Password)).call();
+         Git.cloneRepository().setURI(remoteURL).setDirectory(dir).setBranch(branch)
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password)).call();
     }
 
-    public void gitCommits( String localRepoPath ) throws Exception
+    public void gitCommits( String localRepoPath ) throws IOException,GitAPIException
     {
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
@@ -213,8 +215,14 @@ public class GithubOperations {
         System.out.println("Number of Commits :" + count);
     }
 
-    //get commit details
-    public List<String> gitCommitDetails( String localRepoPath, String branch ) throws Exception
+    /**
+     * getting commit details of a particular file or a method
+     * @param localRepoPath
+     * @param branch
+     * @return
+     * @throws Exception
+     */
+    public List<String> gitCommitDetails( String localRepoPath, String branch ) throws IOException,GitAPIException
     {
         List<String> commitList = new ArrayList<>();
         org.eclipse.jgit.lib.Repository dir = new FileRepository(localRepoPath + ".git");
@@ -229,106 +237,31 @@ public class GithubOperations {
             commitList.add(commit.getFullMessage());
             commitList.add(commit.getAuthorIdent().getName());
             commitList.add(date.toString());
-            System.out.println(commit.getFullMessage().length());
         }
-        System.out.println("Total commits : " + count);
         git.close();
         return commitList;
     }
 
-    //get Github Username
-    public String getUsername()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nUsername : ");
-        final String Username = scanner.nextLine();
-        return Username;
-    }
-
-    //get Github password
-    public String getPassword()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nPassword : ");
-        final String Password = scanner.nextLine();
-        return Password;
-    }
-
     //Github Credentials
-    public GitHubClient gitCredentials( String Username, String Password )
+    public GitHubClient gitCredentials( String username, String password )
     {
         //Passing credentials
         GitHubClient client = new GitHubClient();
-        client.setCredentials(Username, Password);
+        client.setCredentials(username, password);
         return client;
     }
 
-    //Get remote branch from User
-    public String branch()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nBranch : ");
-        final String Branch = scanner.nextLine();
-        if( Branch == null )
-        {
-            return "master";
-        }
-        return Branch;
-    }
 
-    //Select Remote Repo by user
-    public String gitRemoteRepoSelect()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nSelect Remote Repository : ");
-        final String remoteRepo = scanner.nextLine();
-        return remoteRepo;
-    }
 
-    public int getIndexOfFile()
+    /**
+     * listing commits for a particular file
+     * @param localRepoPath
+     * @param filepath
+     * @return
+     * @throws IOException,GitAPIException
+     */
+    public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws IOException,GitAPIException
     {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nEnter Index of file to read : ");
-        final int Index = scanner.nextInt();
-        return Index;
-    }
-
-    public String getCommand()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nCommand : ");
-        final String Command = scanner.nextLine();
-        return Command;
-    }
-
-    public String getSubModule()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nSubModule : ");
-        final String SubModule = scanner.nextLine();
-        return SubModule;
-    }
-
-    public String getDirectory()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nDirectory : ");
-        final String Directory = scanner.nextLine();
-        return Directory;
-    }
-
-    public String getFile()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nFile : ");
-        final String File = scanner.nextLine();
-        return File;
-    }
-
-    public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
-    {
-        System.out.println("filepath Commit before : "+ filepath);
-//        String filepath = new ReadFile().getFilepath(localRepoPath, filename);
         filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
         int idx = filepath.lastIndexOf("+");
@@ -338,8 +271,6 @@ public class GithubOperations {
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
         Git git = Git.open(dir);
-        System.out.println("Filepath Commit replaced: " + filepath);
-        System.out.println("local repo path : "+localRepoPath);
         Iterable<RevCommit> commits = git.log().addPath(filepath).call();
         int count = 0;
         for( RevCommit commit : commits )
@@ -348,14 +279,17 @@ public class GithubOperations {
             list.add((HtmlConstants.LINE_BREAK +HtmlConstants.LINE_BREAK +commit.getFullMessage()+HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + commit.getAuthorIdent().getName() + HtmlConstants.BOLD_END + " committed on "
                     + date.toString()));
         }
-//        System.out.println("Number of Commits :" + count);
         return list;
     }
-    public void slackMessage(){
 
-    }
-
-    public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {
+    /**
+     * check if repo name id valid and is exists ina
+     * @param service
+     * @param checkoutProject
+     * @return
+     * @throws IOException
+     */
+    public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws IOException {
         if(!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()))
             return true;
         else

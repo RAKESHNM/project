@@ -1,9 +1,5 @@
 package com.razorthink.application.management;
 
-//import japa.parser.JavaParser;
-//import japa.parser.ast.CompilationUnit;
-///import japa.parser.ast.body.MethodDeclaration;
-//import japa.parser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
@@ -23,15 +19,18 @@ import java.util.Map;
  */
 public class MethodLinePrinter {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DisplayMethodContent.class);
+
     static List<String> listOfMethods;
 
-    public static int noOfLines = 0;
+    static int noOfLines = 0;
 
-    public static String returnFilePath;
+    static String returnFilePath;
 
-    public static int id = 0;
+    private static int id = 0;
 
-    public List<String> noOfLinesInAMethod(List<String> filePaths, int lines) throws FileNotFoundException{
+    public static List<String> noOfLinesInAMethod( List<String> filePaths, int lines ) throws FileNotFoundException
+    {
         /**
          * creates an input stream for all file paths of list and then parses each java file using
          * javaParser and then calls MethodVisitor node for all the methods in that java file
@@ -42,8 +41,10 @@ public class MethodLinePrinter {
         FileInputStream in;
         CompilationUnit cu;
 
-        try {
-            for (String filePath : filePaths) {
+        try
+        {
+            for( String filePath : filePaths )
+            {
                 returnFilePath = filePath;
                 in = new FileInputStream(filePath);
 
@@ -52,7 +53,11 @@ public class MethodLinePrinter {
                 new MethodVisitor().visit(cu, null);
             }
 
-        } catch ( FileNotFoundException e ) {}
+        }
+        catch( FileNotFoundException e )
+        {
+            logger.error("error in creating file input stream", e);
+        }
         return listOfMethods;
     }
 
@@ -60,29 +65,31 @@ public class MethodLinePrinter {
 
         /**
          * visit method visits each node of method declaration and
+         * 
          * @param n
          * @param arg
          */
         @Override
-        public void visit(MethodDeclaration n, Void arg) {
-
-            if((n.getEnd().get().line - n.getBegin().get().line)>=noOfLines) {
-                String param = null;
-                if(n.getParameters() != null || !n.getParameters().isEmpty())
-                    for(Parameter p : n.getParameters())
-                    param += p;
-               // System.out.println("Method name: " + n.getName() + "No of lines: " + (n.getEndLine() - n.getBeginLine()));
-                listOfMethods.add(id + " " + n.getName() );
+        public void visit( MethodDeclaration n, Void arg )
+        {
+            if( (n.getEnd().orElse(null).line - n.getBegin().orElse(null).line) >= noOfLines )
+            {
+                StringBuilder param = new StringBuilder();
+                if( n.getParameters() != null || !n.getParameters().isEmpty() )
+                    for( Parameter p : n.getParameters() )
+                    {
+                        param.append(p);
+                    }
+                listOfMethods.add(id + " " + n.getName());
                 id++;
-                listOfMethods.add( String.valueOf( n.getEnd().get().line - n.getBegin().get().line));
-                if(n.getParameters() == null || n.getParameters().isEmpty()  )
-                    listOfMethods.add(returnFilePath + "+" + "none" );
+                listOfMethods.add(String.valueOf(n.getEnd().orElse(null).line - n.getBegin().orElse(null).line));
+                if( n.getParameters() == null || n.getParameters().isEmpty() )
+                    listOfMethods.add(returnFilePath + "+" + "none");
                 else
                     listOfMethods.add(returnFilePath + "+" + param);
 
             }
-            //super.visit(n, arg);
+
         }
     }
 }
-

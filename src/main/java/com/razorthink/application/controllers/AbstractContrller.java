@@ -22,7 +22,8 @@ public class AbstractContrller {
     public Project getProject() throws Exception{
         try {
             Project project = (Project) request.getSession().getAttribute("user-det");
-            if (project == null) throw new Exception("User Details not found");
+            if (project == null)
+                throw new Exception("User Details not found");
             return project;
         }catch (Exception e){}
         return null;

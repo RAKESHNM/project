@@ -21,12 +21,12 @@ public class ValidatingInputs {
         commandPojo.setFilesize(commandPojo.getFilesize().trim());
         if( commandPojo.getSubModule().equals(Constants.SELECT_MODULE) )
             commandPojo.setSubModule(null);
-        if( commandPojo.getFile().equals("") )
+        if( commandPojo.getFile().equals(Constants.EMPTY_STRING) )
             commandPojo.setFile(null);
-        if( commandPojo.getNoOfLines().equals("") )
-            commandPojo.setNoOfLines("0");
-        if( commandPojo.getFilesize().equals("") )
-            commandPojo.setFilesize("0");
+        if( commandPojo.getNoOfLines().equals(Constants.EMPTY_STRING) )
+            commandPojo.setNoOfLines(Constants.ZERO_STRING);
+        if( commandPojo.getFilesize().equals(Constants.EMPTY_STRING) )
+            commandPojo.setFilesize(Constants.ZERO_STRING);
         return commandPojo;
     }
 

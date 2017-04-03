@@ -11,15 +11,15 @@ com/razorthink/application/beans/ProjectInformation.class
 com/razorthink/application/controllers/ProjectAnalyserController.class
 com/razorthink/application/management/JavaDocCommentsFinder$MethodVisitor.class
 com/razorthink/application/constants/Constants.class
+com/razorthink/application/utils/ValidationUtils.class
 com/razorthink/application/beans/Result.class
 com/razorthink/application/service/CheckoutService.class
 com/razorthink/application/beans/BuildInformation.class
 com/razorthink/application/management/JavaDocCommentsFinder$1.class
 com/razorthink/application/controllers/GitHubCkeckoutController.class
+com/razorthink/application/management/MethodFilePath$GetFilePath.class
 com/razorthink/application/beans/ProjectList.class
 com/razorthink/application/beans/CheckoutProject.class
-com/razorthink/application/service/InferUserCheckoutService.class
-com/razorthink/application/utils/ResponseEntity.class
 com/razorthink/application/exceptions/NullFilePathsListException.class
 com/razorthink/application/management/JavaDocCommentsFinder.class
 com/razorthink/application/service/GithubOperations.class
@@ -28,7 +28,6 @@ com/razorthink/application/exceptions/InvalidCreadentialException.class
 com/razorthink/application/management/MethodLinePrinter.class
 com/razorthink/application/controllers/AbstractContrller.class
 com/razorthink/application/beans/ProjectSummary.class
-com/razorthink/application/management/MethodFilePath$getFilePath.class
 com/razorthink/application/beans/Login.class
 com/razorthink/application/constants/ValidNames.class
 com/razorthink/application/management/DisplayMethodContent$1.class
@@ -44,7 +43,6 @@ com/razorthink/application/beans/CommitDetails.class
 com/razorthink/application/management/MethodPrinter$1.class
 com/razorthink/application/service/InferUserCommandService.class
 com/razorthink/application/management/MethodFilePath$1.class
-com/razorthink/application/utils/JavaDocLessFilepath.class
 com/razorthink/application/management/MethodPrinter$MethodVisitor.class
 com/razorthink/application/service/ReadFile.class
 com/razorthink/application/management/DisplayMethodContent.class

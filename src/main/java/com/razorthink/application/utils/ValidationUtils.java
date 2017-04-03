@@ -7,23 +7,26 @@ import com.razorthink.application.constants.ValidNames;
 import com.razorthink.application.management.ValidatingInputs;
 import com.razorthink.application.service.GithubOperations;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.eclipse.jgit.api.errors.GitAPIException;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by rakesh on 24/3/17.
  */
 public class ValidationUtils {
 
-    public String getRepoPath( HashMap hm, String localDirectoryName, String directoryFilePath )
+    public String getRepoPath(Map hm, String localDirectoryName, String directoryFilePath )
     {
+            if (hm.containsKey(localDirectoryName))
+                return (String) hm.get(localDirectoryName);
+            else
+                hm.put(localDirectoryName, directoryFilePath);
 
-        if( hm.containsKey(localDirectoryName) )
-            return (String) hm.get(localDirectoryName);
-        else
-            hm.put(localDirectoryName, directoryFilePath);
-
-        return null;
+            return null;
     }
 
     /**
@@ -33,10 +36,10 @@ public class ValidationUtils {
      * @param checkoutProject
      * @param hm
      * @return
-     * @throws Exception
+     * @throws IOException,GitAPIException
      */
     public String validateCheckout( Project project, RepositoryService service, CheckoutProject checkoutProject,
-            HashMap hm ) throws Exception
+            Map hm ) throws IOException,GitAPIException
     {
         GithubOperations githubOperations = new GithubOperations();
         //check for whether given repository exists in users github account,if not return false
@@ -44,15 +47,14 @@ public class ValidationUtils {
             return ValidNames.FALSE;
         project.setRemoteRepo(checkoutProject.getRemoteRepo());
         //select default branch master
-        if( checkoutProject.getBranch().equals("Select Branch") )
+        if( checkoutProject.getBranch().equals(Constants.SELECT_BRANCH) )
         {
             checkoutProject.setBranch(Constants.MASTER_BRANCH);
         }
-        int idx = checkoutProject.getBranch().lastIndexOf("/");
+        int idx = checkoutProject.getBranch().lastIndexOf('.');
         if( idx > 0 )
         {
             project.setBranch(checkoutProject.getBranch().substring(idx + 1));
-            System.out.println(project.getBranch());
         }
         else
         {
@@ -66,8 +68,6 @@ public class ValidationUtils {
         File dir = new File(project.getLocalDirectory());
         if( dir.exists() )
             return project.getLocalDirectory();
-        //if(getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory())!= null)
-        //  return getRepoPath(hm,project.getRemoteRepo()+"_"+project.getBranch(),project.getLocalDirectory());
         else
         {
             githubOperations.gitCloning(

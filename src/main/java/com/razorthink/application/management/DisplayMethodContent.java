@@ -1,13 +1,12 @@
 package com.razorthink.application.management;
 
-import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.razorthink.application.controllers.GitHubCkeckoutController;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,15 +17,17 @@ import java.util.List;
  */
 public class DisplayMethodContent {
 
-    List<String> listOfMethods;
+
     private String name;
     private String returnValue = null;
     private String currentFilePath;
     private String classMethodFilePath;
-    public static int id = 0;
+    public static int id;
 
     public String showMethodContent( List<String> filePaths, String methodName, String methodFilePath ) throws FileNotFoundException
     {
+        final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(DisplayMethodContent.class);
+
         /**
          * Loop through each files, parse it and extract all the methods till method name matches with given method
          * name and send contents,name ,parameters and java docs for a given method name.
@@ -34,7 +35,6 @@ public class DisplayMethodContent {
         id = 0;
         classMethodFilePath = methodFilePath;
         name = methodName;
-        listOfMethods = new ArrayList<>();
         FileInputStream in;
         CompilationUnit cu;
         //filePaths.clear();
@@ -51,7 +51,7 @@ public class DisplayMethodContent {
 
                 new MethodVisitor().visit(cu, null);
             }
-        }catch (FileNotFoundException e){}
+        }catch (FileNotFoundException e){logger.error("error in creating file input stream",e);}
         return returnValue;
     }
 
@@ -66,24 +66,22 @@ public class DisplayMethodContent {
              */
             if( n.getName().toString().equals(name.substring(name.indexOf(' ') + 1)) )
             {
-                String param = null;
+                StringBuilder param = new StringBuilder();
                 if( n.getParameters() != null || !n.getParameters().isEmpty() )
                     for( Parameter p : n.getParameters() )
-                        param += p;
-                if( n.getParameters() != null && !n.getParameters().isEmpty() )
+                        param.append(p);
+                if( (n.getParameters() != null && !n.getParameters().isEmpty()) && (currentFilePath + "+" + param).equals(classMethodFilePath) )
                 {
-                    if( (currentFilePath + "+" + param).equals(classMethodFilePath) )
-                    {
                         if( n.getComment().isPresent() && n.getBody().isPresent() )
                         {
-                            returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>"
+                            returnValue = "<b> JavaDocs: </b>" + n.getComment().orElse(null) + "<br><br>"
                                     + "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>"
-                                    + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                                    + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().orElse(null) + "</pre>";
                         }
                         if( n.getComment().isPresent() && !n.getBody().isPresent() )
                         {
 
-                            returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>"
+                            returnValue = "<b> JavaDocs: </b>" + n.getComment().orElse(null) + "<br><br>"
                                     + "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>"
                                     + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
                         }
@@ -91,7 +89,7 @@ public class DisplayMethodContent {
                         {
                             returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" + "<b> Method Name: </b>"
                                     + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>"
-                                    + "<pre>" + n.getBody().get() + "</pre>";
+                                    + "<pre>" + n.getBody().orElse(null) + "</pre>";
                         }
                         if( !n.getBody().isPresent() && !n.getComment().isPresent() )
                         {
@@ -99,36 +97,32 @@ public class DisplayMethodContent {
                                     + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>"
                                     + "<pre>" + "none" + "</pre>";
                         }
-                    }
+
                 }
 
-                if( n.getParameters() == null || n.getParameters().isEmpty() )
+                if( (n.getParameters() == null || n.getParameters().isEmpty()) && (currentFilePath + "+" + "none").equals(classMethodFilePath))
                 {
-                    if( (currentFilePath + "+" + "none").equals(classMethodFilePath) )
-                    {
+
                         if( n.getBody().isPresent() && !n.getComment().isPresent() )
                             returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" + "<b> Method Name: </b>"
                                     + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>"
-                                    + "<pre>" + n.getBody().get() + "</pre>";
+                                    + "<pre>" + n.getBody().orElse(null) + "</pre>";
                         if( n.getComment().isPresent() && !n.getBody().isPresent() )
-                            returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>"
+                            returnValue = "<b> JavaDocs: </b>" + n.getComment().orElse(null) + "<br><br>"
                                     + "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>"
                                     + "<b> Method Logic: </b>" + "<br>" + "<pre>" + "none" + "</pre>";
                         if( n.getBody().isPresent() && n.getComment().isPresent() )
-                            returnValue = "<b> JavaDocs: </b>" + n.getComment().get() + "<br><br>"
+                            returnValue = "<b> JavaDocs: </b>" + n.getComment().orElse(null) + "<br><br>"
                                     + "<b> Method Name: </b>" + n.getName() + "<br><br>" + "<br><br>"
-                                    + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().get() + "</pre>";
+                                    + "<b> Method Logic: </b>" + "<br>" + "<pre>" + n.getBody().orElse(null) + "</pre>";
                         if( !n.getBody().isPresent() && !n.getComment().isPresent() )
                             returnValue = "<b> JavaDocs: </b>" + "none" + "<br><br>" + "<b> Method Name: </b>"
                                     + n.getName() + "<br><br>" + "<br><br>" + "<b> Method Logic: </b>" + "<br>"
                                     + "<pre>" + "none" + "</pre>";
 
-                    }
+
                 }
             }
-
-            //returnValue = String.valueOf(n.getBody());
-
             super.visit(n, arg);
         }
     }

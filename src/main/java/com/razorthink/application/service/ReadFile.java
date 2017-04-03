@@ -13,13 +13,11 @@ import java.util.List;
  */
 public class ReadFile {
     private String filecontent;
-    public String getFilepath(String localRepoPath, String filename) throws Exception {
+    public String getFilepath(String localRepoPath, String filename) throws IOException{
         filename = filename.substring(1, filename.length()-1);
         GithubOperations githubOperations = new GithubOperations();
-        List<List<String>> Filelist = new ArrayList<>();
-        Filelist = githubOperations.gitListingFiles(localRepoPath);
-        for(int i=0;i<Filelist.size();i++){
-            for(String list : Filelist.get(i)){
+        for(int i=0;i<githubOperations.gitListingFiles(localRepoPath).size();i++){
+            for(String list : githubOperations.gitListingFiles(localRepoPath).get(i)){
                 Path p = Paths.get(list);
                 String file = p.getFileName().toString();
                 if(file.equals(filename)){
@@ -34,18 +32,15 @@ public class ReadFile {
         }
         return null;
     }
-    public String extractingFilepath(String localRepoPath, String filename) throws Exception {
+    public String extractingFilepath(String localRepoPath, String filename) throws IOException{
         filename = filename.substring(1, filename.length()-1);
         GithubOperations githubOperations = new GithubOperations();
-        List<List<String>> Filelist = new ArrayList<>();
-        Filelist = githubOperations.gitListingFiles(localRepoPath);
-        for(int i=0;i<Filelist.size();i++){
-            for(String list : Filelist.get(i)){
+        for(int i=0;i< githubOperations.gitListingFiles(localRepoPath).size();i++){
+            for(String list : githubOperations.gitListingFiles(localRepoPath).get(i)){
                 Path p = Paths.get(list);
                 String file = p.getFileName().toString();
                 if(file.equals(filename)){
-                    String filecontent = "<pre>"+new ReadFile().readFile(list)+"</pre>";
-                    return filecontent;
+                     return "<pre>"+new ReadFile().readFile(list)+"</pre>";
                 }
 
             }
@@ -56,16 +51,16 @@ public class ReadFile {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String         line = null;
         StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
-
+        String ls = System.getProperty("line.separator");
         try {
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
                 stringBuilder.append(ls);
             }
 
             return stringBuilder.toString();
-        } finally {
+        }
+         finally {
             reader.close();
         }
     }

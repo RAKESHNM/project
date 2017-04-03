@@ -6,8 +6,8 @@
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/management/JavaDocCommentsFinder.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/management/DisplayMethodContent.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/exceptions/InvalidCreadentialException.java
+/home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/utils/ValidationUtils.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/beans/ProjectOrganization.java
-/home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/utils/ResponseEntity.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/beans/Result.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/controllers/GitHubCkeckoutController.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/management/MethodPrinter.java
@@ -35,7 +35,6 @@
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/exceptions/NullFilePathsListException.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/beans/ProjectSummary.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/beans/MethodDeclaration.java
-/home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/utils/JavaDocLessFilepath.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/service/CheckoutService.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/constants/Constants.java
 /home/rakesh/IdeaProjects/codereviever/project/src/main/java/com/razorthink/application/utils/ApplicationStateUtils.java
