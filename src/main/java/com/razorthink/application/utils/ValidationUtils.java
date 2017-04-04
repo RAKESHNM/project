@@ -19,9 +19,16 @@ public class ValidationUtils {
 
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ValidationUtils.class);
 
+    /**
+     * validating whether repository already cloned.
+     * @param hm
+     * @param localDirectoryName
+     * @param directoryFilePath
+     * @return
+     */
     public String getRepoPath( HashMap hm, String localDirectoryName, String directoryFilePath )
     {
-
+        //check if repository exists,if true returns path where it is already cloned else store repo name as value and file path as key
         if( hm.containsKey(localDirectoryName) )
             return (String) hm.get(localDirectoryName);
         else
@@ -31,7 +38,7 @@ public class ValidationUtils {
     }
 
     /**
-     *
+     *validating if user repository already cloned
      * @param project
      * @param service
      * @param checkoutProject
@@ -87,6 +94,14 @@ public class ValidationUtils {
         return ValidNames.TRUE;
     }
 
+    /**
+     * validating if user repository already cloned
+     * @param service
+     * @param checkoutProject
+     * @param project
+     * @return
+     * @throws Exception
+     */
     public Project gitCheckout(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
 
         GithubOperations githubOperations = new GithubOperations();

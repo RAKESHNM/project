@@ -22,6 +22,7 @@ public class InferUserCommandService {
     CommandPojo commandPojo1 = new CommandPojo();
 
     /**
+     * depending on command execute respective service
      * @param commandPojo
      * @param project
      * @return
@@ -101,7 +102,7 @@ public class InferUserCommandService {
     }
 
     /**
-     *
+     *list all files depending on its size
      * @param size
      * @return
      */

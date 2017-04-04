@@ -12,6 +12,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,16 +46,14 @@ public class MethodLinePrinter {
             for (String filePath : filePaths) {
                 returnFilePath = filePath;
                 in = new FileInputStream(filePath);
-                try {
+
 
                      cu = JavaParser.parse(in);
-
-                }catch (Exception e){continue;}
 
                 new MethodVisitor().visit(cu, null);
             }
 
-        } catch ( Exception e ) {}
+        } catch ( IOException e ) {}
         return listOfMethods;
     }
 

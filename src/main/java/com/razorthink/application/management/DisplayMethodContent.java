@@ -12,6 +12,7 @@ import com.razorthink.application.constants.ValidNames;
 
 import javax.validation.Valid;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,32 +43,24 @@ public class DisplayMethodContent {
         //filePaths.clear();
         //filePaths.add("/home/rakesh/bigbrain_master/designer/commons/src/main/java/com/razorthink/bigbrain/designer/commons/domain/ModelRun.java");
 
-        for( String filePath : filePaths )
-        {
-
-            currentFilePath = filePath;
-
-            in = new FileInputStream(filePath);
-
-            try
-            {
+        try {
+            for (String filePath : filePaths) {
+                currentFilePath = filePath;
+                in = new FileInputStream(filePath);
                 cu = JavaParser.parse(in);
+                new MethodVisitor().visit(cu, null);
             }
-            catch( Exception e )
-            {
-                continue;
-            }
-
-            new MethodVisitor().visit(cu, null);
-        }
+        }catch (IOException io){}
         return returnValue;
     }
 
     private class MethodVisitor extends VoidVisitorAdapter<Void> {
-
-
-           @Override
+        @Override
            public void visit (MethodDeclaration n, Void arg){
+            /**
+             * if the method name matches with the given method name then send contents,parameters,javadocs of that method
+             * according to which is null assign null value
+             */
                if( n.getName().toString().equals(name.substring(name.indexOf(' ')+1)) ){
                    String param = null;
                    if(n.getParameters() != null || !n.getParameters().isEmpty())
@@ -117,10 +110,7 @@ public class DisplayMethodContent {
                     }
                 }
             }
-
-               //returnValue = String.valueOf(n.getBody());
-
-            super.visit(n, arg);
+               super.visit(n, arg);
         }
     }
 

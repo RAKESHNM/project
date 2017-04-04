@@ -13,6 +13,7 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class JavaDocCommentsFinder {
      */
 
     public List<String> getJavaDocCommentedMethods(List<String> list) throws Exception {
-        id = 0;
+        id = 1;
         listOfMethods = new ArrayList<>();
         try
         {
@@ -47,19 +48,13 @@ public class JavaDocCommentsFinder {
                  */
                 currentFilePath = filePath;
                 in = new FileInputStream(filePath);
-                try
-                {
+
                     cu = JavaParser.parse(in);
-                }
-                catch( Exception e )
-                {
-                    continue;
-                }
-                //visits all the methods in a class
+                    //visits all the methods in a class
                 new MethodVisitor().visit(cu, null);
             }
         }
-        catch( Exception e )
+        catch( IOException e )
         {
         }
         return listOfMethods;

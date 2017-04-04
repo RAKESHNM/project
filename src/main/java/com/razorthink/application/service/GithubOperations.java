@@ -33,21 +33,32 @@ public class GithubOperations {
     ReadFile readFile = new ReadFile();
     private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(GithubOperations.class);
 
-    //Getting remote repositories
+    /**
+     * listing all repositories of a  current user
+     * @param service
+     * @return
+     * @throws IOException
+     */
     public List<String> gitRemoteRepository( RepositoryService service ) throws IOException
     {
         List<String> list = new ArrayList<>();
         logger.info("Remote Repository");
         logger.info("-----------------------");
-        try {
+
             for (Repository repo : service.getRepositories()) {
                 logger.info(repo.getName());
                 list.add(repo.getName());
             }
-        }catch (IOException io){logger.info(io.getMessage(),io);}
-        return list;
+            return list;
     }
 
+    /**
+     * for gits remote URL
+     * @param service
+     * @param remoteRepo
+     * @return
+     * @throws IOException
+     */
     public String gitRemote_URL( RepositoryService service, String remoteRepo ) throws IOException
     {
         String Remote_URL = "";
@@ -63,7 +74,16 @@ public class GithubOperations {
         return Remote_URL;
     }
 
-    //Getting branches of specific repository
+    /**
+     * getting branches of the specifies remote repository
+     * @param service
+     * @param localrepo
+     * @param REMOTE_URL
+     * @param Username
+     * @param Password
+     * @return
+     * @throws Exception
+     */
     public List<String> gitRemoteBranches( RepositoryService service, String localrepo, String REMOTE_URL,
             String Username, String Password ) throws Exception
     {
@@ -89,6 +109,11 @@ public class GithubOperations {
         return null;
     }
 
+    /**
+     * trim refs and tags from the remote branch names
+     * @param branch
+     * @return
+     */
     public List<String> filterBranch(List<String> branch){
         List<String> list = new ArrayList<>();
         for(String temp : branch){
@@ -100,6 +125,11 @@ public class GithubOperations {
         return list;
     }
 
+    /**
+     * list all the modules for current project
+     * @param path
+     * @return
+     */
     public List<String> getModules(String path){
         List<String> list = new ArrayList<>();
         File file = new File(path);
@@ -118,7 +148,7 @@ public class GithubOperations {
     //Listing Files
 
     /**
-     *
+     *listing all the files
      * @param localRepoPath
      * @return
      * @throws Exception
@@ -139,6 +169,7 @@ public class GithubOperations {
         List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         for( File file : files )
         {
+            //four separate lists for java,html,css and js files
 //            logger.info("Index : " + index + " file: " + file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("java") )
                 javaFiles.add(file.getCanonicalPath());
@@ -148,7 +179,6 @@ public class GithubOperations {
                 jsFiles.add(file.getCanonicalPath());
             if( file.getName().substring(file.getName().lastIndexOf(".") + 1).equals("css") )
                 cssFiles.add(file.getCanonicalPath());
-
             count++;
             index++;
         }
@@ -186,7 +216,15 @@ public class GithubOperations {
         String FetchFile = readFile.readFile(path);
     }
 
-    //Cloning to local repository
+    /**
+     * cloning repository with  a specified branch into local machine
+     * @param Remote_URL
+     * @param branch
+     * @param localRepoPath
+     * @param Username
+     * @param Password
+     * @throws Exception
+     */
     public void gitCloning( String Remote_URL, String branch, String localRepoPath, String Username, String Password )
             throws Exception
     {
@@ -211,7 +249,13 @@ public class GithubOperations {
         }
     }
 
-    //get commit details
+    /**
+     * getting commit details of a particular file or a method
+     * @param localRepoPath
+     * @param branch
+     * @return
+     * @throws Exception
+     */
     public List<String> gitCommitDetails( String localRepoPath, String branch ) throws Exception
     {
         List<String> commitList = new ArrayList<>();
@@ -232,7 +276,12 @@ public class GithubOperations {
         return commitList;
     }
 
-    //Github Credentials
+    /**
+     * setter for a github credentials
+     * @param Username
+     * @param Password
+     * @return
+     */
     public GitHubClient gitCredentials( String Username, String Password )
     {
         //Passing credentials
@@ -241,6 +290,13 @@ public class GithubOperations {
         return client;
     }
 
+    /**
+     * listing commits on a particular file
+     * @param localRepoPath
+     * @param filepath
+     * @return
+     * @throws Exception
+     */
     public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws Exception
     {
         System.out.println("filepath Commit before : "+ filepath);
@@ -271,6 +327,13 @@ public class GithubOperations {
 
     }
 
+    /**
+     * validating for given repo names in users repos list
+     * @param service
+     * @param checkoutProject
+     * @return
+     * @throws Exception
+     */
     public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws Exception {
         if(!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()))
             return true;
