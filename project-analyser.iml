@@ -137,6 +137,8 @@
     <orderEntry type="library" name="Maven: org.swinglabs:swingx:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.jhlabs:filters:2.0.235" level="project" />
     <orderEntry type="library" name="Maven: org.swinglabs:swing-worker:1.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.4" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: net.gpedro.integrations.slack:slack-webhook:1.2.1" level="project" />
   </component>
 </module>

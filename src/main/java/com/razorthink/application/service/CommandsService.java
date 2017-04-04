@@ -3,6 +3,7 @@ package com.razorthink.application.service;
 import com.razorthink.application.management.ProjectSummary;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,11 @@ import java.util.Map;
  */
 public interface CommandsService {
 
-     List<String> listAllMethods(List<String> filePaths) throws Exception;
+     List<String> listAllMethods(List<String> filePaths) throws FileNotFoundException;
 
-     List<String> listAllMethodsOfNLines(List<String> filePaths, int lines) throws Exception;
+     List<String> listAllMethodsOfNLines(List<String> filePaths, int lines) throws FileNotFoundException;
 
      com.razorthink.application.beans.ProjectSummary getProjectSummary(String fileath) throws IOException, XmlPullParserException;
 
-     List<String> getAllMethodsWithJavaDocsComment(List<String> filePaths) throws Exception;
+     List<String> getAllMethodsWithJavaDocsComment(List<String> filePaths) throws FileNotFoundException;
 }

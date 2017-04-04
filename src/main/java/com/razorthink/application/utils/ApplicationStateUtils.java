@@ -1,6 +1,7 @@
 package com.razorthink.application.utils;
 import com.razorthink.application.beans.*;
 import com.razorthink.application.constants.Constants;
+import com.razorthink.application.controllers.GitHubCkeckoutController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import java.io.*;
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +19,9 @@ public class ApplicationStateUtils {
     @Autowired
     private Environment env;
 
-    List<Project> availableProjects = new ArrayList<>();
+   private  List<Project> availableProjects = new ArrayList<>();
+
+    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ApplicationStateUtils.class);
 
 
     /**
@@ -33,10 +37,10 @@ public class ApplicationStateUtils {
                     try (FileOutputStream fileOutputStream = new FileOutputStream(project.getLocalDirectory())) {
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                         objectOutputStream.writeObject(availableProjects);
-                        System.out.println("Hi");
                     }
 
-                } catch (Exception e) {
+                } catch (IOException e) {
+                    logger.info("unable to store information of current projects",e);
                 }
 
         }
@@ -48,7 +52,7 @@ public class ApplicationStateUtils {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public List<Project> loadProjects() throws FileNotFoundException, IOException {
+    public List<Project> loadProjects() throws  IOException {
         try {
             try (FileInputStream fileInputStream = new FileInputStream(Constants.LOCAL_DIRECTORY_PATH)) {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -56,7 +60,8 @@ public class ApplicationStateUtils {
             }
 
         } catch (Exception e) {
+            logger.info("failed to load projects",e);
         }
-        return null;
+        return Collections.emptyList();
     }
 }
