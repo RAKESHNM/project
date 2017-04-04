@@ -262,6 +262,7 @@ public class GithubOperations {
      */
     public List<String> getCommitsFromFile( String localRepoPath, String filepathinput )
     {
+        System.out.println("filepath Commit before : "+ filepathinput);
         String filepath = filepathinput;
         filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
@@ -273,6 +274,8 @@ public class GithubOperations {
         File dir = new File(localRepoPath);
         try {
             Git git = Git.open(dir);
+            System.out.println("Filepath Commit replaced: " + filepath);
+            System.out.println("local repo path : "+localRepoPath);
             Iterable<RevCommit> commits = git.log().addPath(filepath).call();
             for (RevCommit commit : commits) {
                 Date date = new Date(commit.getCommitTime() * 1000L);
