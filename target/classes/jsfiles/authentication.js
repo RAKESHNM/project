@@ -1,4 +1,4 @@
-﻿
+
 function display(form){
     $(".loader").addClass("showClass");
     document.getElementById('buttonid').disabled = true;
