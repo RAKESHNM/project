@@ -34,7 +34,7 @@ public class JavaDocCommentsFinder {
     {
         CompilationUnit cu;
         FileInputStream in;
-        id = 0;
+        id = 1;
         listOfMethods = new ArrayList<>();
         try
         {

@@ -256,30 +256,38 @@ public class GithubOperations {
     /**
      * listing commits for a particular file
      * @param localRepoPath
-     * @param filepath
+     * @param filepathinput
      * @return
      * @throws IOException,GitAPIException
      */
-    public List<String> getCommitsFromFile( String localRepoPath, String filepath ) throws IOException,GitAPIException
+    public List<String> getCommitsFromFile( String localRepoPath, String filepathinput )
     {
+        String filepath = filepathinput;
         filepath = filepath.substring(1, filepath.length()-1);
         filepath = filepath.replace(localRepoPath, "");
-        int idx = filepath.lastIndexOf("+");
+        int idx = filepath.lastIndexOf('+');
         if(idx>0) {
             filepath = filepath.substring(0, idx);
         }
         List<String> list = new ArrayList<>();
         File dir = new File(localRepoPath);
-        Git git = Git.open(dir);
-        Iterable<RevCommit> commits = git.log().addPath(filepath).call();
-        int count = 0;
-        for( RevCommit commit : commits )
-        {
-            Date date = new Date(commit.getCommitTime() * 1000L);
-            list.add((HtmlConstants.LINE_BREAK +HtmlConstants.LINE_BREAK +commit.getFullMessage()+HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + commit.getAuthorIdent().getName() + HtmlConstants.BOLD_END + " committed on "
-                    + date.toString()));
+        try {
+            Git git = Git.open(dir);
+            Iterable<RevCommit> commits = git.log().addPath(filepath).call();
+            for (RevCommit commit : commits) {
+                Date date = new Date(commit.getCommitTime() * 1000L);
+                list.add(HtmlConstants.LINE_BREAK + HtmlConstants.LINE_BREAK + commit.getFullMessage() + HtmlConstants.LINE_BREAK + HtmlConstants.BOLD_BEGIN + commit.getAuthorIdent().getName() + HtmlConstants.BOLD_END + " committed on "
+                        + date.toString());
+            }
+            return list;
         }
-        return list;
+        catch (IOException io){
+            logger.info("IOException error",io);
+        }
+        catch (GitAPIException ge){
+            logger.info("GitAPIException",ge);
+        }
+        return Collections.emptyList();
     }
 
     /**
@@ -290,9 +298,7 @@ public class GithubOperations {
      * @throws IOException
      */
     public boolean validateRepo(RepositoryService service, CheckoutProject checkoutProject) throws IOException {
-        if(!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()))
-            return true;
-        else
-            return false;
+        return  (!new GithubOperations().gitRemoteRepository(service).contains(checkoutProject.getRemoteRepo()));
+
     }
 }

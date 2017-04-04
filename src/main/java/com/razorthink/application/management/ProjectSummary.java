@@ -20,17 +20,28 @@ public class ProjectSummary {
      * @return
      * @throws IOException
      * @throws XmlPullParserException
+     *
      */
-    public com.razorthink.application.beans.ProjectSummary projectSummary(String filePaths) throws IOException, XmlPullParserException {
+
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ProjectSummary.class);
+    public com.razorthink.application.beans.ProjectSummary projectSummary(String filePaths)  {
         if (filePaths != null) {
+
                 MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
-                Model model = mavenXpp3Reader.read(new FileInputStream(filePaths));
-                ProjectInformation projectInformation = new ProjectInformation(model.getName(), model.getDescription());
-                ProjectOrganization projectOrganization = new ProjectOrganization(model.getName(), model.getUrl());
-                BuildInformation buildInformation = new BuildInformation(model.getGroupId(), model.getArtifactId(),
-                        model.getVersion(), model.getModelVersion());
-                return new com.razorthink.application.beans.ProjectSummary(projectInformation, projectOrganization
-                        , buildInformation);
+                try {
+                    Model model = mavenXpp3Reader.read(new FileInputStream(filePaths));
+                    ProjectInformation projectInformation = new ProjectInformation(model.getName(), model.getDescription());
+                    ProjectOrganization projectOrganization = new ProjectOrganization(model.getName(), model.getUrl());
+                    BuildInformation buildInformation = new BuildInformation(model.getGroupId(), model.getArtifactId(),
+                            model.getVersion(), model.getModelVersion());
+                    return new com.razorthink.application.beans.ProjectSummary(projectInformation, projectOrganization
+                            , buildInformation);
+                }catch (IOException e){
+                    logger.info("Cannot create a input stream",e);
+
+                }catch (XmlPullParserException x){
+                    logger.info("Parse error",x);
+                }
             }
 
         return null;

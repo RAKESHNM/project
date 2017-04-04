@@ -35,7 +35,7 @@ public class MethodLinePrinter {
          * creates an input stream for all file paths of list and then parses each java file using
          * javaParser and then calls MethodVisitor node for all the methods in that java file
          */
-        id = 0;
+        id = 1;
         noOfLines = lines;
         listOfMethods = new ArrayList<>();
         FileInputStream in;

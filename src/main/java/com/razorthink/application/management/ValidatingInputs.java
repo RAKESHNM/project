@@ -36,14 +36,14 @@ public class ValidatingInputs {
      * @return
      */
     public String directoryValidation(String directory){
-
-        if(directory.charAt(0)!= ValidNames.File_SEPERATOR && directory.length()>1){
-            directory = File.separator.concat(directory);
+        String dir = directory;
+        if(dir.charAt(0)!= ValidNames.File_SEPERATOR && dir.length()>1){
+            dir = File.separator.concat(dir);
         }
-        if (directory.charAt(directory.length()-1)==ValidNames.File_SEPERATOR && directory.length()>1){
-            directory = directory.substring(0,directory.length()-1);
+        if (dir.charAt(dir.length()-1)==ValidNames.File_SEPERATOR && dir.length()>1){
+            dir = dir.substring(0,dir.length()-1);
         }
-        return directory;
+        return dir;
     }
 
 

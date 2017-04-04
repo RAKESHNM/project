@@ -6,6 +6,8 @@ import com.razorthink.application.constants.Constants;
 import com.razorthink.application.constants.ValidNames;
 import com.razorthink.application.management.ValidatingInputs;
 import com.razorthink.application.service.GithubOperations;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.spi.LoggerFactory;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
@@ -13,11 +15,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by rakesh on 24/3/17.
  */
 public class ValidationUtils {
+
+    private final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ValidationUtils.class);
 
     public String getRepoPath(Map hm, String localDirectoryName, String directoryFilePath )
     {
@@ -51,7 +56,7 @@ public class ValidationUtils {
         {
             checkoutProject.setBranch(Constants.MASTER_BRANCH);
         }
-        int idx = checkoutProject.getBranch().lastIndexOf('.');
+        int idx = checkoutProject.getBranch().lastIndexOf('/');
         if( idx > 0 )
         {
             project.setBranch(checkoutProject.getBranch().substring(idx + 1));
@@ -77,5 +82,45 @@ public class ValidationUtils {
                     project.getPassword());
         }
         return ValidNames.TRUE;
+    }
+    /**
+     *  validating if user repository already cloned
+     *  @param service
+     *  @param checkoutProject
+     *  @param project
+     *  @return
+     *  @throws Exception
+     */
+        public Project gitCheckout(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
+            GithubOperations githubOperations = new GithubOperations();
+            project.setRemoteRepo(checkoutProject.getRemoteRepo());
+            if(checkoutProject.getBranch().equals("Select Branch")){
+                checkoutProject.setBranch(Constants.MASTER_BRANCH);
+            }
+            int idx = checkoutProject.getBranch().lastIndexOf("/");
+            if(idx>0){
+                project.setBranch(checkoutProject.getBranch().substring(idx+1));
+            }
+            else{
+                project.setBranch(checkoutProject.getBranch());
+            }
+            if(checkoutProject.getDir().equals(""))    {
+                checkoutProject.setDir(Constants.LOCAL_DIRECTORY_PATH);
+            }
+            checkoutProject.setDir(new ValidatingInputs().directoryValidation(checkoutProject.getDir()));
+            project.setLocalDirectory(checkoutProject.getDir()+ File.separator + project.getRemoteRepo()+"_"+project.getBranch() + File.separator);
+            project.setGitUrl((githubOperations.gitRemote_URL(service,checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION);
+            return project;
+        }
+
+        public String deleteDirectory_Clone(RepositoryService service, CheckoutProject checkoutProject, Project project) throws Exception{
+            GithubOperations githubOperations = new GithubOperations();
+            File dir = new File(project.getLocalDirectory());
+            if (dir.exists()) {
+                FileUtils.forceDelete(dir);
+            }
+            githubOperations.gitCloning((githubOperations.gitRemote_URL(service, checkoutProject.getRemoteRepo())) + Constants.DOT_GIT_EXTENSION, checkoutProject.getBranch(),project.getLocalDirectory(), project.getUsername(), project.getPassword());
+            logger.info("Done");
+            return "Done";
     }
 }
