@@ -139,6 +139,7 @@
     height: 33px;
     line-height: 33px;
     display: inline-block;
+    list-style-type:none;
 }
 .method:first-of-type{
 }
@@ -150,7 +151,6 @@
     line-height: 53px;
     display: inline-block;
     text-align:justify;
-
 }
 .linemethod:first-of-type{
 }

@@ -21,12 +21,12 @@ public class ValidatingInputs {
         commandPojo.setFilesize(commandPojo.getFilesize().trim());
         if( commandPojo.getSubModule().equals(Constants.SELECT_MODULE) )
             commandPojo.setSubModule(null);
-        if( commandPojo.getFile().equals("") )
+        if( commandPojo.getFile().equals(Constants.EMPTY_STRING) )
             commandPojo.setFile(null);
-        if( commandPojo.getNoOfLines().equals("") )
-            commandPojo.setNoOfLines("0");
-        if( commandPojo.getFilesize().equals("") )
-            commandPojo.setFilesize("0");
+        if( commandPojo.getNoOfLines().equals(Constants.EMPTY_STRING) )
+            commandPojo.setNoOfLines(Constants.ZERO_STRING);
+        if( commandPojo.getFilesize().equals(Constants.EMPTY_STRING) )
+            commandPojo.setFilesize(Constants.ZERO_STRING);
         return commandPojo;
     }
 
@@ -36,14 +36,14 @@ public class ValidatingInputs {
      * @return
      */
     public String directoryValidation(String directory){
-
-        if(directory.charAt(0)!= ValidNames.File_SEPERATOR && directory.length()>1){
-            directory = File.separator.concat(directory);
+        String dir = directory;
+        if(dir.charAt(0)!= ValidNames.File_SEPERATOR && dir.length()>1){
+            dir = File.separator.concat(dir);
         }
-        if (directory.charAt(directory.length()-1)==ValidNames.File_SEPERATOR && directory.length()>1){
-            directory = directory.substring(0,directory.length()-1);
+        if (dir.charAt(dir.length()-1)==ValidNames.File_SEPERATOR && dir.length()>1){
+            dir = dir.substring(0,dir.length()-1);
         }
-        return directory;
+        return dir;
     }
 
 

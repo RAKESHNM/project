@@ -35,6 +35,7 @@ $(document).ready(function(){
 });
 
 function getContent(d){
+                        $(".loader").addClass("showClass");
 
     var txt = $(d).text();
     var auth = {};
@@ -110,6 +111,7 @@ function getCommandService(data){
             },
             success: function(res){
                 result = res
+                $(".loader").addClass("showClass");
                 if(data.command===("List all methods having lines greater than n")){
                                     $(".popupHeaderTextpage").append("List all methods having lines greater than n")
                                     console.log(result);
@@ -174,6 +176,8 @@ function getCommandService(data){
 }
 
 function getFileContent(d){
+                    $(".loader").addClass("showClass");
+
     var txt = $(d).text();
     var auth = {};
     auth.methodName = txt;

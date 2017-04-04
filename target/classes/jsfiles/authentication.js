@@ -1,4 +1,5 @@
-﻿function display(form){
+
+function display(form){
     $(".loader").addClass("showClass");
     document.getElementById('buttonid').disabled = true;
     var inpObj = form.username.value;
@@ -43,4 +44,5 @@
         });
     }
 }
+
 

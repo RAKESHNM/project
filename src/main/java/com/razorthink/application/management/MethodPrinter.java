@@ -4,6 +4,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.JavaParser;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class MethodPrinter {
     static List<String> listOfMethods;
     static String filePathReturn;
-    public List<String>  listAllMethods(List<String> list) throws Exception {
+    public List<String>  listAllMethods(List<String> list) throws FileNotFoundException {
 
         listOfMethods = new ArrayList<>();
         FileInputStream in;
